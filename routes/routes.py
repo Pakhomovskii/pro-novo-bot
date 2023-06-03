@@ -3,28 +3,28 @@ class StartEndRoutes:
      start_route) \
         = range(2)
 
-
-class UserAnswerRoutes1:
-    user_budget_answer1 \
-        = range(1)
-
-
-class UserAnswerRoutes2:
-    user_budget_answer2 \
-        = range(1)
-
-
-class AnswerRoutes1:
-    (second_back,
-     first_keyboard,
-     aplay_answer) = range(3)
-
-
-class AnswerRoutes2:
-    (third_back,
-     second_keyboard,
-     aplay_answer2) = range(3)
-
+#
+# class UserAnswerRoutes1:
+#     user_budget_answer1 \
+#         = range(1)
+#
+#
+# class UserAnswerRoutes2:
+#     user_budget_answer2 \
+#         = range(1)
+#
+#
+# class AnswerRoutes1:
+#     (second_back,
+#      first_keyboard,
+#      aplay_answer) = range(3)
+#
+#
+# class AnswerRoutes2:
+#     (third_back,
+#      second_keyboard,
+#      aplay_answer2) = range(3)
+#
 
 class Routes:
     (brand,
@@ -40,8 +40,9 @@ class Routes:
      tax,
      delete,
      back,
+     aplay
      ) \
-        = range(13)
+        = range(14)
 
 # TODO Think about Enum in this case
 # from enum import Enum

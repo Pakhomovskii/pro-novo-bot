@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 from keyboards.keyboards import Keyboard
 import logging
 
-from routes.routes import Routes, StartEndRoutes, UserAnswerRoutes1, UserAnswerRoutes2
+from routes.routes import Routes, StartEndRoutes
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -110,7 +110,7 @@ async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD)
     await query.edit_message_text(text="BUDGET", reply_markup=reply_markup)
 
-    return UserAnswerRoutes1.user_budget_answer1
+    return StartEndRoutes.end_route
 
 
 async def send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -148,18 +148,18 @@ async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
 #     await query.edit_message_text(text="BUDGET_ANSWER", reply_markup=reply_markup)
 #     return StartEndRoutes.end_route
 
-
-async def user_budget_answer1(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING1)
-    await query.edit_message_text(text="BUDGET1", reply_markup=reply_markup)
-    return UserAnswerRoutes2.user_budget_answer2
-
-
-async def user_budget_answer2(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING2)
-    await query.edit_message_text(text="BUDGET2", reply_markup=reply_markup)
-    return UserAnswerRoutes1.user_budget_answer1
+#
+# async def user_budget_answer1(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     query = update.callback_query
+#     await query.answer()
+#     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING1)
+#     await query.edit_message_text(text="BUDGET1", reply_markup=reply_markup)
+#     return UserAnswerRoutes2.user_budget_answer2
+#
+#
+# async def user_budget_answer2(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     query = update.callback_query
+#     await query.answer()
+#     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING2)
+#     await query.edit_message_text(text="BUDGET2", reply_markup=reply_markup)
+#     return UserAnswerRoutes1.user_budget_answer1
