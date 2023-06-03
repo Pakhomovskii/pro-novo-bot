@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 from keyboards.keyboards import Keyboard
 import logging
 
-from routes.routes import Routes, StartEndRoutes
+from routes.routes import Routes, StartEndRoutes, UserAnswerRoutes
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -31,12 +31,12 @@ async def start_over(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Star
     return StartEndRoutes.start_route
 
 
-async def brend(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+async def brand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     """Show new choice of buttons"""
     query = update.callback_query
     await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.BREND_KEYBOARD)
-    await query.edit_message_text(text="BREND", reply_markup=reply_markup)
+    reply_markup = InlineKeyboardMarkup(Keyboard.BRAND_KEYBOARD)
+    await query.edit_message_text(text="BRAND", reply_markup=reply_markup)
     return StartEndRoutes.end_route
 
 
@@ -103,12 +103,12 @@ async def fuel_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Start
     return StartEndRoutes.end_route
 
 
-async def buget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     """Show new choice of buttons"""
     query = update.callback_query
     await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.BUGET_KEYBOARD)
-    await query.edit_message_text(text="BUGET", reply_markup=reply_markup)
+    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD)
+    await query.edit_message_text(text="BUDGET", reply_markup=reply_markup)
     return StartEndRoutes.end_route
 
 
@@ -116,7 +116,7 @@ async def send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRo
     """Show new choice of buttons"""
     query = update.callback_query
     await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
+    reply_markup = InlineKeyboardMarkup(Keyboard.SEND)
     await query.edit_message_text(
         text="SENDED", reply_markup=reply_markup  # поставить ограничение
     )
@@ -127,9 +127,36 @@ async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRou
     """Show new choice of buttons"""
     query = update.callback_query
     await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
+    reply_markup = InlineKeyboardMarkup(Keyboard.TAX)
     await query.edit_message_text(text="TAX", reply_markup=reply_markup)
-    return StartEndRoutes.start_route
+    return StartEndRoutes.end_route
+
+async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    """Show new choice of buttons"""
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(Keyboard.DELETE)
+    await query.edit_message_text(text="DELETE", reply_markup=reply_markup)
+    return StartEndRoutes.end_route
+
+async def user_budget_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    us_id = update.message.chat_id
+    user_answer_before_split = update.message.text.isdigit()
+    if user_answer_before_split:
+        await context.bot.send_message(chat_id=update.effective_chat.id,
+                                       text=f"Budget, '{user_answer_before_split}',was added")
+        return StartEndRoutes.end_route
+    else:
+        await context.bot.send_message(chat_id=update.effective_chat.id,
+                                       text='Неверный ввод!')
+        return UserAnswerRoutes.user_budget_answer
+
+
+
+
+    pass
+
 
 
 # async def end(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

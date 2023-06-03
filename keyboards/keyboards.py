@@ -1,12 +1,12 @@
 from telegram import InlineKeyboardButton
-from routes.routes import Routes
+from routes.routes import Routes, UserAnswerRoutes
 
 
 class Keyboard:
     MAIN_KEYBOARD = [
         [
-            InlineKeyboardButton("Марка", callback_data=str(Routes.brend)),
-            # InlineKeyboardButton("Модель", callback_data=str(Routes.model)),
+            InlineKeyboardButton("Марка", callback_data=str(Routes.brand)),
+            InlineKeyboardButton("Модель", callback_data=str(Routes.model)),
         ],
         [
             InlineKeyboardButton("Авто под ПТС", callback_data=str(Routes.pts)),
@@ -20,14 +20,18 @@ class Keyboard:
             InlineKeyboardButton("Год", callback_data=str(Routes.year)),
             InlineKeyboardButton("Тип топлива", callback_data=str(Routes.fuel_type)),
         ],
-        [InlineKeyboardButton("Бюджет", callback_data=str(Routes.buget))],
+        [InlineKeyboardButton("Бюджет", callback_data=str(Routes.budget))],
+
+          [InlineKeyboardButton("Обнулить конструктор", callback_data=str(Routes.delete))
+         ],
+
         [
             InlineKeyboardButton("Отправить авто для подбора", callback_data=str(Routes.send)),
-            InlineKeyboardButton("Рассчитать налог", callback_data=str(Routes.tax)),
+            InlineKeyboardButton("Расчет полной стоимости", callback_data=str(Routes.tax)),
         ],
      ]
 
-    BREND_KEYBOARD = [
+    BRAND_KEYBOARD = [
         [
             InlineKeyboardButton("Мазда", callback_data=str(Routes.back)),
             InlineKeyboardButton("Лада", callback_data=str(Routes.back)),
@@ -94,9 +98,29 @@ class Keyboard:
         ]
     ]
 
-    BUGET_KEYBOARD = [
+    BUDGET_KEYBOARD = [
         [
             InlineKeyboardButton("200000", callback_data=str(Routes.back)),
+            InlineKeyboardButton("Ввести вручную", callback_data=str(UserAnswerRoutes.user_budget_answer)),
+            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+        ]
+    ]
+
+    SEND = [
+        [
+            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+        ]
+    ]
+
+    TAX = [
+        [
+            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+        ]
+    ]
+
+    DELETE = [
+        [
+            InlineKeyboardButton("Обнулить конструктор", callback_data=str(Routes.back)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]

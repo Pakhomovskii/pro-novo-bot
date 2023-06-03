@@ -4,8 +4,13 @@ class StartEndRoutes:
         = range(2)
 
 
+class UserAnswerRoutes:
+    user_budget_answer \
+        = range(1)
+
+
 class Routes:
-    (brend,
+    (brand,
      model,
      pts,
      body_type,
@@ -13,11 +18,12 @@ class Routes:
      engine_capacity,
      year,
      fuel_type,
-     buget,
+     budget,
      send,
      tax,
+     delete,
      back) \
-        = range(12)
+        = range(13)
 
 # TODO Think about Enum in this case
 # from enum import Enum
@@ -29,7 +35,7 @@ class Routes:
 #
 #
 # class Routes(Enum):
-#     brend = None
+#     brand = None
 #     model = None
 #     pts = None
 #     body_type = None
@@ -37,7 +43,7 @@ class Routes:
 #     engine_capacity = None
 #     year = None
 #     fuel_type = None
-#     buget = None
+#     budget = None
 #     send = None
 #     tax = None
 #     back = None

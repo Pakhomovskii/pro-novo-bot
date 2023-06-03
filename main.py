@@ -1,17 +1,15 @@
 import os
-
 from dotenv import load_dotenv
-
 from handlers.handlers import (
 
- brend, \
-    model, pts, body_type, drive, engine_capacity, yeah, fuel_type, buget, send,
- tax, \
-    start_over, start
+    brand, \
+    model, pts, body_type, drive, engine_capacity, yeah, fuel_type, budget, send,
+    tax, \
+    start_over, start, delete
 )
 
 from telegram import __version__ as TG_VER
-from routes.routes import Routes, StartEndRoutes
+from routes.routes import Routes, StartEndRoutes, UserAnswerRoutes
 
 from telegram.ext import (
     Application,
@@ -44,7 +42,7 @@ def main() -> None:
         entry_points=[CommandHandler("start", start)],
         states={
             StartEndRoutes.start_route: [
-                CallbackQueryHandler(brend, pattern="^" + str(Routes.brend) + "$"),
+                CallbackQueryHandler(brand, pattern="^" + str(Routes.brand) + "$"),
                 CallbackQueryHandler(model, pattern="^" + str(Routes.model) + "$"),
                 CallbackQueryHandler(pts, pattern="^" + str(Routes.pts) + "$"),
                 CallbackQueryHandler(body_type, pattern="^" + str(Routes.body_type) + "$"),
@@ -54,12 +52,16 @@ def main() -> None:
                 ),
                 CallbackQueryHandler(yeah, pattern="^" + str(Routes.year) + "$"),
                 CallbackQueryHandler(fuel_type, pattern="^" + str(Routes.fuel_type) + "$"),
-                CallbackQueryHandler(buget, pattern="^" + str(Routes.buget) + "$"),
+                CallbackQueryHandler(budget, pattern="^" + str(Routes.budget) + "$"),
+                CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
                 CallbackQueryHandler(send, pattern="^" + str(Routes.send) + "$"),
                 CallbackQueryHandler(tax, pattern="^" + str(Routes.tax) + "$"),
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+                # CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
             ],
             StartEndRoutes.end_route: [
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+            ],
+            UserAnswerRoutes.user_budget_answer: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
             ],
         },
