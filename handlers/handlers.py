@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 from keyboards.keyboards import Keyboard
 import logging
 
-from routes.routes import Routes, StartEndRoutes, UserAnswerRoutes
+from routes.routes import Routes, StartEndRoutes, UserAnswerRoutes1, UserAnswerRoutes2
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -109,7 +109,8 @@ async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
     await query.answer()
     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD)
     await query.edit_message_text(text="BUDGET", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+
+    return UserAnswerRoutes1.user_budget_answer1
 
 
 async def send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -139,31 +140,26 @@ async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
     await query.edit_message_text(text="DELETE", reply_markup=reply_markup)
     return StartEndRoutes.end_route
 
-async def user_budget_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    us_id = update.message.chat_id
-    user_answer_before_split = update.message.text.isdigit()
-    if user_answer_before_split:
-        await context.bot.send_message(chat_id=update.effective_chat.id,
-                                       text=f"Budget, '{user_answer_before_split}',was added")
-        return StartEndRoutes.end_route
-    else:
-        await context.bot.send_message(chat_id=update.effective_chat.id,
-                                       text='Неверный ввод!')
-        return UserAnswerRoutes.user_budget_answer
-
-
-
-
-    pass
-
-
-
-# async def end(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-#     """Returns `ConversationHandler.END`, which tells the
-#     ConversationHandler that the conversation is over.
-#     """
+# async def user_budget(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     query = update.callback_query
 #     await query.answer()
-#     await query.edit_message_text(text="See you next time!")
-#     return ConversationHandler.END
+#     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD)
+#     await query.edit_message_text(text="BUDGET_ANSWER", reply_markup=reply_markup)
+#     return StartEndRoutes.end_route
+
+
+async def user_budget_answer1(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING1)
+    await query.edit_message_text(text="BUDGET1", reply_markup=reply_markup)
+    return UserAnswerRoutes2.user_budget_answer2
+
+
+async def user_budget_answer2(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING2)
+    await query.edit_message_text(text="BUDGET2", reply_markup=reply_markup)
+    return UserAnswerRoutes1.user_budget_answer1

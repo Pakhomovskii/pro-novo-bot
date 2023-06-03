@@ -5,11 +5,11 @@ from handlers.handlers import (
     brand, \
     model, pts, body_type, drive, engine_capacity, yeah, fuel_type, budget, send,
     tax, \
-    start_over, start, delete
+    start_over, start, delete, user_budget_answer1, user_budget_answer2
 )
 
 from telegram import __version__ as TG_VER
-from routes.routes import Routes, StartEndRoutes, UserAnswerRoutes
+from routes.routes import Routes, StartEndRoutes, UserAnswerRoutes1, UserAnswerRoutes2, AnswerRoutes1, AnswerRoutes2
 
 from telegram.ext import (
     Application,
@@ -56,13 +56,24 @@ def main() -> None:
                 CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
                 CallbackQueryHandler(send, pattern="^" + str(Routes.send) + "$"),
                 CallbackQueryHandler(tax, pattern="^" + str(Routes.tax) + "$"),
-                # CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+                # CallbackQueryHandler(user_budget_answer1, pattern="^" + str(Routes.first_keyboard) + "$"),
+                # CallbackQueryHandler(start_over, pattern="^" + str(Routes.second_back) + "$"),
+                # CallbackQueryHandler(user_budget_answer2, pattern="^" + str(Routes.second_keyboard) + "$"),
+                # CallbackQueryHandler(start_over, pattern="^" + str(Routes.third_back) + "$"),
+
+
             ],
             StartEndRoutes.end_route: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
             ],
-            UserAnswerRoutes.user_budget_answer: [
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+            UserAnswerRoutes1.user_budget_answer1: [
+                CallbackQueryHandler(user_budget_answer2, pattern="^" + str(AnswerRoutes1.first_keyboard) + "$"),
+                # CallbackQueryHandler(start_over, pattern="^" + str(Routes.second_back) + "$"),
+            ],
+            UserAnswerRoutes2.user_budget_answer2: [
+                CallbackQueryHandler(user_budget_answer1, pattern="^" + str(AnswerRoutes2.second_keyboard) + "$"),
+                # CallbackQueryHandler(start_over, pattern="^" + str(Routes.third_back) + "$"),
             ],
         },
         fallbacks=[CommandHandler("start", start)],

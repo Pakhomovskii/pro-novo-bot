@@ -1,5 +1,5 @@
 from telegram import InlineKeyboardButton
-from routes.routes import Routes, UserAnswerRoutes
+from routes.routes import *
 
 
 class Keyboard:
@@ -101,7 +101,7 @@ class Keyboard:
     BUDGET_KEYBOARD = [
         [
             InlineKeyboardButton("200000", callback_data=str(Routes.back)),
-            InlineKeyboardButton("Ввести вручную", callback_data=str(UserAnswerRoutes.user_budget_answer)),
+            InlineKeyboardButton("Ввести вручную", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]
@@ -120,7 +120,68 @@ class Keyboard:
 
     DELETE = [
         [
-            InlineKeyboardButton("Обнулить конструктор", callback_data=str(Routes.back)),
+            InlineKeyboardButton("Обнулить конструктор", callback_data=str(Routes.delete)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]
+
+    BUDGET_KEYBOARD_TYPING1 = [
+        [
+            InlineKeyboardButton("1", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+            InlineKeyboardButton("2", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+            InlineKeyboardButton("3", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+
+        ],
+        # [
+        #     InlineKeyboardButton("4", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+        #     InlineKeyboardButton("5", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+        #     InlineKeyboardButton("6", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+        #
+        # ],
+        # [
+        #     InlineKeyboardButton("7", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+        #     InlineKeyboardButton("8", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+        #     InlineKeyboardButton("9", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+        #
+        # ],
+        # [
+        #     InlineKeyboardButton("0", callback_data=str(UserAnswerRoutes2.user_budget_answer2)),
+        # ],
+
+        # [
+        #     InlineKeyboardButton("Применить", callback_data=str(Routes.second_back)),
+        #     InlineKeyboardButton("<---Назад", callback_data=str(Routes.second_back)),
+        # ]
+    ]
+
+    BUDGET_KEYBOARD_TYPING2 = [
+        [
+            InlineKeyboardButton("1", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+            InlineKeyboardButton("2", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+            InlineKeyboardButton("3", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        ]
+        #
+        # ],
+        # [
+        #     InlineKeyboardButton("4", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        #     InlineKeyboardButton("5", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        #     InlineKeyboardButton("6", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        #
+        # ],
+        # [
+        #     InlineKeyboardButton("7", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        #     InlineKeyboardButton("8", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        #     InlineKeyboardButton("9", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        #
+        # ],
+        # [
+        #     InlineKeyboardButton("0", callback_data=str(UserAnswerRoutes1.user_budget_answer1)),
+        # ],
+
+        # [
+        #     InlineKeyboardButton("Применить", callback_data=str(Routes.third_back)),
+        #     InlineKeyboardButton("<---Назад", callback_data=str(Routes.third_back)),
+        # ]
+    ]
+
+
