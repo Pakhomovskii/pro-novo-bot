@@ -1,11 +1,12 @@
 import os
+import subprocess
 from dotenv import load_dotenv
 from handlers.handlers import (
 
     brand, \
     model, pts, body_type, drive, engine_capacity, yeah, fuel_type, budget, send,
     tax, \
-    start_over, start, delete
+    start_over, start, delete, update_user_order
 )
 
 from telegram import __version__ as TG_VER
@@ -36,6 +37,11 @@ if __version_info__ < (20, 0, 0, "alpha", 1):
 
 def main() -> None:
     """Run the bot."""
+
+    with open('database/init-database.py', 'r') as file:
+        script_code = file.read()
+        exec(script_code)
+
     application = Application.builder().token(TOKEN).build()
 
     conv_handler = ConversationHandler(
@@ -68,6 +74,8 @@ def main() -> None:
             ],
             StartEndRoutes.end_route: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+                CallbackQueryHandler(update_user_order, pattern="^" + str(Routes.update_user_order) + "$"),
+
             ],
             # UserAnswerRoutes1.user_budget_answer1: [
             #     CallbackQueryHandler(user_budget_answer2, pattern="^" + str(AnswerRoutes1.first_keyboard) + "$"),

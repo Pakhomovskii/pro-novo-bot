@@ -33,7 +33,7 @@ class Keyboard:
 
     BRAND_KEYBOARD = [
         [
-            InlineKeyboardButton("Мазда", callback_data=str(Routes.back)),
+            InlineKeyboardButton("Мазда", callback_data=str("Мазда")),
             InlineKeyboardButton("Лада", callback_data=str(Routes.back)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
