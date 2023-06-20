@@ -1,12 +1,8 @@
-from typing import Callable
-
 from telegram import Update, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 
 from database.database import create_user, update_user_order
 from keyboards.keyboards import Keyboard
-import logging
-
 from routes.routes import StartEndRoutes
 
 
@@ -43,7 +39,7 @@ async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
     await query.edit_message_text(
-        text="Start handler, Choose a route again", reply_markup=reply_markup
+        text="Start handler, Choose a route again!", reply_markup=reply_markup
     )
     return StartEndRoutes.start_route
 
