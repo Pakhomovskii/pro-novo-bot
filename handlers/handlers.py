@@ -35,37 +35,27 @@ async def start_over(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Star
     )
     return StartEndRoutes.start_route
 
+async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show new choice of buttons"""
+    user_chat_id = update.callback_query.from_user.id
+    await update_user_order(brend="Mazda", user_chat_id=user_chat_id)
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
+    await query.edit_message_text(
+        text="Start handler, Choose a route again", reply_markup=reply_markup
+    )
+    return StartEndRoutes.start_route
 
 async def brand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes: # USE INLIIIIINE MARKAP
     """Show new choice of buttons"""
-    # user_chat_id = update.update_id
 
-    # query = update.callback_query
-    # data = query.data
-    # print(f"data{type(data)}")
-    # if data:
-        # Redirect to the end route or perform any desired action
-        # query.answer("You reached the end!")
-    #     # return StartEndRoutes.end_route
-    # await query.answer()
-    # print("OOOOOOOOOOOOOOOOOOOO")
-    # await update_user_order(brend=data, user_chat_id=user_chat_id)
-    # print("AAAAAAAAAAAAAAAAa")
-    # if data == 'Мазда':
-    #     return StartEndRoutes.end_route
-
-    reply_markup = InlineKeyboardMarkup(Keyboard.BRAND_KEYBOARD)
-    # await query.edit_message_text(text="BRAND", reply_markup=reply_markup)
-    await update.callback_query.message.edit_text("Please choose:", reply_markup=reply_markup)
-    # await update.message.reply_text("Please choose:", reply_markup=reply_markup)
-
-    # await query.answer()
-    print("BBBBBBBBBBBBBBBBBB")
     query = update.callback_query
-    data = query.data
-    print("oooo")
-    if data=="Мазда":
-        return StartEndRoutes.end_route
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(Keyboard.BRAND_KEYBOARD)
+    await query.edit_message_text(
+        text="BRAND", reply_markup=reply_markup
+    )
     return StartEndRoutes.end_route
 
 
@@ -170,13 +160,8 @@ async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
     await query.edit_message_text(text="DELETE", reply_markup=reply_markup)
     return StartEndRoutes.end_route
 
-# async def update_user_order(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-#     """Show new choice of buttons"""
-#     query = update.callback_query
-#     await query.answer()
-#     reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
-#     await query.edit_message_text(text="UPDATE", reply_markup=reply_markup)
-#     return StartEndRoutes.end_route
+
+
 
 # async def user_budget(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     query = update.callback_query

@@ -40,10 +40,11 @@ class Routes:
      tax,
      delete,
      back,
-     aplay,
-     update_user_order
+     start_over,
+     update_user_order,
+     mazda
      ) \
-        = range(15)
+        = range(16)
 
 # TODO Think about Enum in this case
 # from enum import Enum

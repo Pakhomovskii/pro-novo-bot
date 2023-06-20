@@ -6,7 +6,7 @@ from handlers.handlers import (
     brand, \
     model, pts, body_type, drive, engine_capacity, yeah, fuel_type, budget, send,
     tax, \
-    start_over, start, delete, update_user_order
+    start_over, start, delete, update_user_order, mazda
 )
 
 from telegram import __version__ as TG_VER
@@ -62,7 +62,8 @@ def main() -> None:
                 CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
                 CallbackQueryHandler(send, pattern="^" + str(Routes.send) + "$"),
                 CallbackQueryHandler(tax, pattern="^" + str(Routes.tax) + "$"),
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.aplay) + "$"),
+                # CallbackQueryHandler(start_over, pattern="^" + str(Routes.start_over) + "$"),
+
                 # CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
                 # CallbackQueryHandler(user_budget_answer1, pattern="^" + str(Routes.first_keyboard) + "$"),
@@ -74,7 +75,9 @@ def main() -> None:
             ],
             StartEndRoutes.end_route: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-                CallbackQueryHandler(update_user_order, pattern="^" + str(Routes.update_user_order) + "$"),
+                CallbackQueryHandler(mazda, pattern="^" + str(Routes.mazda) + "$"),
+
+                # CallbackQueryHandler(update_user_order, pattern="^" + str(Routes.update_user_order) + "$"),
 
             ],
             # UserAnswerRoutes1.user_budget_answer1: [
