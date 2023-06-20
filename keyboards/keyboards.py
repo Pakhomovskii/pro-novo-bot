@@ -1,4 +1,6 @@
 from telegram import InlineKeyboardButton
+
+from handlers.handlers import update_user_order
 from routes.routes import *
 
 
@@ -33,7 +35,7 @@ class Keyboard:
 
     BRAND_KEYBOARD = [
         [
-            InlineKeyboardButton("Мазда", callback_data=str("Мазда")),
+            InlineKeyboardButton("Мазда", callback_data=Routes.mazda),
             InlineKeyboardButton("Лада", callback_data=str(Routes.back)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
