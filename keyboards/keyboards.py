@@ -1,6 +1,5 @@
 from telegram import InlineKeyboardButton
 
-from handlers.handlers import update_user_order
 from routes.routes import *
 
 
@@ -35,8 +34,8 @@ class Keyboard:
 
     BRAND_KEYBOARD = [
         [
-            InlineKeyboardButton("Мазда", callback_data=Routes.mazda),
-            InlineKeyboardButton("Лада", callback_data=str(Routes.back)),
+            InlineKeyboardButton("Мазда", callback_data=str(RoutesBrand.mazda)),
+            InlineKeyboardButton("Субару", callback_data=str(RoutesBrand.subaru)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]
@@ -105,7 +104,35 @@ class Keyboard:
             InlineKeyboardButton("1", callback_data=str("1")),
             InlineKeyboardButton("2", callback_data=str("3")),
             InlineKeyboardButton("3", callback_data=str("2")),
-            ],
+        ],
+        [
+            InlineKeyboardButton("4", callback_data=str("4")),
+            InlineKeyboardButton("5", callback_data=str("5")),
+            InlineKeyboardButton("6", callback_data=str("6")),
+        ],
+        [
+            InlineKeyboardButton("7", callback_data=str("7")),
+            InlineKeyboardButton("8", callback_data=str("8")),
+            InlineKeyboardButton("9", callback_data=str("9")),
+        ],
+        [
+            InlineKeyboardButton("0", callback_data=str("0")),
+        ],
+        [
+            InlineKeyboardButton("Применить", callback_data=str(Routes.back)),
+        ],
+
+        [
+            InlineKeyboardButton("Отмена", callback_data=str(Routes.back)),
+        ]
+    ]
+
+    BUDGET_KEYBOARD2 = [
+        [
+            InlineKeyboardButton("1", callback_data=str("1")),
+            InlineKeyboardButton("2", callback_data=str("3")),
+            InlineKeyboardButton("3", callback_data=str("2")),
+        ],
         [
             InlineKeyboardButton("4", callback_data=str("4")),
             InlineKeyboardButton("5", callback_data=str("5")),

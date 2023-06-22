@@ -1,7 +1,9 @@
-from telegram import Update, InlineKeyboardMarkup
+from typing import List
+
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes
 
-from database.database import create_user, update_user_order
+from database.database import create_user, update_user_order, get_user_order
 from keyboards.keyboards import Keyboard
 from routes.routes import StartEndRoutes
 
@@ -24,17 +26,48 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
 async def start_over(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     """Prompt same text & keyboard as `start` does but not as new message"""
     query = update.callback_query
+    user_chat_id = update.callback_query.from_user.id
     await query.answer()
+
     reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
+
+    reply_text = ""
+    for row in await get_user_order(update.callback_query.from_user.id):
+        print(reply_text)
+        reply_text += "Brend: {}\nModel: {}\nPTS: {}\nBody Type: {}\nDrive: {}\nEngine Capacity: {}\nYear: {}\nFuel Type: {}\nBudget: {}\n\n".format(
+            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+
     await query.edit_message_text(
-        text="Start handler, Choose a route again", reply_markup=reply_markup
+        text=reply_text, reply_markup=reply_markup
     )
-    return StartEndRoutes.start_route
+    return StartEndRoutes.end_route
 
 async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show new choice of buttons"""
+
     user_chat_id = update.callback_query.from_user.id
-    await update_user_order(brend="Mazda", user_chat_id=user_chat_id)
+    await update_user_order(brend="Мазда", user_chat_id=user_chat_id)
+    query = update.callback_query
+    await query.answer()
+
+    reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
+
+    reply_text = ""
+    for row in await get_user_order(update.callback_query.from_user.id):
+        print(reply_text)
+        reply_text += "Brend: {}\nModel: {}\nPTS: {}\nBody Type: {}\nDrive: {}\nEngine Capacity: {}\nYear: {}\nFuel Type: {}\nBudget: {}\n\n".format(
+            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+
+    await query.edit_message_text(
+        text=reply_text, reply_markup=reply_markup
+    )
+    return StartEndRoutes.start_route
+
+
+async def subaru(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show new choice of buttons"""
+    user_chat_id = update.callback_query.from_user.id
+    await update_user_order(brend="Subaru", user_chat_id=user_chat_id)
     query = update.callback_query
     await query.answer()
     reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
@@ -43,141 +76,63 @@ async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     return StartEndRoutes.start_route
 
-async def brand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes: # USE INLIIIIINE MARKAP
-    """Show new choice of buttons"""
 
+async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                                 keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes:
     query = update.callback_query
     await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.BRAND_KEYBOARD)
-    await query.edit_message_text(
-        text="BRAND", reply_markup=reply_markup
-    )
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await query.edit_message_text(text=text, reply_markup=reply_markup)
     return StartEndRoutes.end_route
+
+
+async def brand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard(update, context, "brand", Keyboard.BRAND_KEYBOARD)
 
 
 async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.MODEL_KEYBOARD)
-    await query.edit_message_text(text="MODEL", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "model", Keyboard.MODEL_KEYBOARD)
 
 
 async def pts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.PTS_KEYBOARD)
-    await query.edit_message_text(text="PTS", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "pts", Keyboard.PTS_KEYBOARD)
 
 
 async def body_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.BODY_TYPE_KEYBOARD)
-    await query.edit_message_text(text="BODYTYPE", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "body_type", Keyboard.BODY_TYPE_KEYBOARD)
 
 
 async def drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.DRIVE_KEYBOARD)
-    await query.edit_message_text(text="DRIVE", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "drive", Keyboard.DRIVE_KEYBOARD)
 
 
 async def engine_capacity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.ENGINE_CAPACITY_KEYBOARD)
-    await query.edit_message_text(text="ENGINE_CAPACITY", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "engine_capacity", Keyboard.ENGINE_CAPACITY_KEYBOARD)
 
 
 async def yeah(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.YEAR_KEYBOARD)
-    await query.edit_message_text(text="YEAR", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "yeah", Keyboard.YEAR_KEYBOARD)
 
 
 async def fuel_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.FUEL_TYPE_KEYBOARD)
-    await query.edit_message_text(text="FUEL_TYPE", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "fuel_type", Keyboard.FUEL_TYPE_KEYBOARD)
 
 
 async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD)
-    await query.edit_message_text(text="BUDGET", reply_markup=reply_markup)
+    return await show_specific_keyboard(update, context, "buget", Keyboard.BUDGET_KEYBOARD)
 
-    return StartEndRoutes.end_route
+
+async def budget2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard(update, context, "buget2", Keyboard.BUDGET_KEYBOARD2)
 
 
 async def send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.SEND)
-    await query.edit_message_text(
-        text="SENDED", reply_markup=reply_markup  # поставить ограничение
-    )
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "send", Keyboard.SEND)
 
 
 async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.TAX)
-    await query.edit_message_text(text="TAX", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
+    return await show_specific_keyboard(update, context, "DRIVE", Keyboard.TAX)
 
 
 async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    """Show new choice of buttons"""
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.DELETE)
-    await query.edit_message_text(text="DELETE", reply_markup=reply_markup)
-    return StartEndRoutes.end_route
-
-
-
-
-# async def user_budget(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     query = update.callback_query
-#     await query.answer()
-#     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD)
-#     await query.edit_message_text(text="BUDGET_ANSWER", reply_markup=reply_markup)
-#     return StartEndRoutes.end_route
-
-#
-# async def user_budget_answer1(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     query = update.callback_query
-#     await query.answer()
-#     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING1)
-#     await query.edit_message_text(text="BUDGET1", reply_markup=reply_markup)
-#     return UserAnswerRoutes2.user_budget_answer2
-#
-#
-# async def user_budget_answer2(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     query = update.callback_query
-#     await query.answer()
-#     reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD_TYPING2)
-#     await query.edit_message_text(text="BUDGET2", reply_markup=reply_markup)
-#     return UserAnswerRoutes1.user_budget_answer1
+    return await show_specific_keyboard(update, context, "DRIVE", Keyboard.DELETE)

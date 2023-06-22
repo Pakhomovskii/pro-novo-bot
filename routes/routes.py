@@ -42,9 +42,15 @@ class Routes:
      back,
      start_over,
      update_user_order,
+     ) \
+        = range(15)
+
+
+class RoutesBrand:
+    (subaru,
      mazda
      ) \
-        = range(16)
+        = range(2)
 
 # TODO Think about Enum in this case
 # from enum import Enum

@@ -1,23 +1,22 @@
 import os
-import subprocess
+
 from dotenv import load_dotenv
-from handlers.handlers import (
-
-    brand, \
-    model, pts, body_type, drive, engine_capacity, yeah, fuel_type, budget, send,
-    tax, \
-    start_over, start, delete, update_user_order, mazda
-)
-
 from telegram import __version__ as TG_VER
-from routes.routes import Routes, StartEndRoutes
-
 from telegram.ext import (
     Application,
     CallbackQueryHandler,
     CommandHandler,
     ConversationHandler,
 )
+
+from handlers.handlers import (
+
+    brand, \
+    model, pts, body_type, drive, engine_capacity, yeah, fuel_type, budget, send,
+    tax, \
+    start_over, start, delete, mazda, subaru
+)
+from routes.routes import Routes, StartEndRoutes, RoutesBrand
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -62,6 +61,9 @@ def main() -> None:
                 CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
                 CallbackQueryHandler(send, pattern="^" + str(Routes.send) + "$"),
                 CallbackQueryHandler(tax, pattern="^" + str(Routes.tax) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+                CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
+
                 # CallbackQueryHandler(start_over, pattern="^" + str(Routes.start_over) + "$"),
 
                 # CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
@@ -75,7 +77,8 @@ def main() -> None:
             ],
             StartEndRoutes.end_route: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-                CallbackQueryHandler(mazda, pattern="^" + str(Routes.mazda) + "$"),
+                CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
+                CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
 
                 # CallbackQueryHandler(update_user_order, pattern="^" + str(Routes.update_user_order) + "$"),
 
