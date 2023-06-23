@@ -3,6 +3,7 @@ class StartEndRoutes:
      start_route) \
         = range(2)
 
+
 #
 # class UserAnswerRoutes1:
 #     user_budget_answer1 \
@@ -40,10 +41,11 @@ class Routes:
      tax,
      delete,
      back,
+     back2,
      start_over,
      update_user_order,
      ) \
-        = range(15)
+        = range(16)
 
 
 class RoutesBrand:
@@ -51,6 +53,21 @@ class RoutesBrand:
      mazda
      ) \
         = range(2)
+
+
+class RoutesBudget:
+    (keyboard1,
+     keyboard3
+     ) \
+        = range(2)
+
+
+class RoutesBudgetKeyboard1:
+    (one, two, three, four, five, six, seven, eight, nine, zero) = range(10)
+
+
+class RoutesBudgetKeyboard2:
+    (one2, two2, three2, four2, five2, six2, seven2, eight2, nine2, zero2) = range(10)
 
 # TODO Think about Enum in this case
 # from enum import Enum

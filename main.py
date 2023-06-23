@@ -14,9 +14,10 @@ from handlers.handlers import (
     brand, \
     model, pts, body_type, drive, engine_capacity, yeah, fuel_type, budget, send,
     tax, \
-    start_over, start, delete, mazda, subaru
+    start_over, start, delete, mazda, subaru, one, two, three, four, five, six, seven, nine, zero, eight, one2, two2,
+    three2, four2, five2, six2, seven2, eight2, nine2, zero2
 )
-from routes.routes import Routes, StartEndRoutes, RoutesBrand
+from routes.routes import Routes, StartEndRoutes, RoutesBrand, RoutesBudgetKeyboard1, RoutesBudgetKeyboard2
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -73,12 +74,48 @@ def main() -> None:
                 # CallbackQueryHandler(user_budget_answer2, pattern="^" + str(Routes.second_keyboard) + "$"),
                 # CallbackQueryHandler(start_over, pattern="^" + str(Routes.third_back) + "$"),
 
+                CallbackQueryHandler(one, pattern="^" + str(RoutesBudgetKeyboard1.one) + "$"),
+                CallbackQueryHandler(two, pattern="^" + str(RoutesBudgetKeyboard1.two) + "$"),
+                CallbackQueryHandler(three, pattern="^" + str(RoutesBudgetKeyboard1.three) + "$"),
+                CallbackQueryHandler(four, pattern="^" + str(RoutesBudgetKeyboard1.four) + "$"),
+                CallbackQueryHandler(five, pattern="^" + str(RoutesBudgetKeyboard1.five) + "$"),
+                CallbackQueryHandler(six, pattern="^" + str(RoutesBudgetKeyboard1.six) + "$"),
+                CallbackQueryHandler(seven, pattern="^" + str(RoutesBudgetKeyboard1.seven) + "$"),
+                CallbackQueryHandler(eight, pattern="^" + str(RoutesBudgetKeyboard1.eight) + "$"),
+                CallbackQueryHandler(nine, pattern="^" + str(RoutesBudgetKeyboard1.nine) + "$"),
+                CallbackQueryHandler(zero, pattern="^" + str(RoutesBudgetKeyboard1.zero) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
 
             ],
             StartEndRoutes.end_route: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+
                 CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
                 CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
+
+                CallbackQueryHandler(one, pattern="^" + str(RoutesBudgetKeyboard1.one) + "$"),
+                CallbackQueryHandler(two, pattern="^" + str(RoutesBudgetKeyboard1.two) + "$"),
+                CallbackQueryHandler(three, pattern="^" + str(RoutesBudgetKeyboard1.three) + "$"),
+                CallbackQueryHandler(four, pattern="^" + str(RoutesBudgetKeyboard1.four) + "$"),
+                CallbackQueryHandler(five, pattern="^" + str(RoutesBudgetKeyboard1.five) + "$"),
+                CallbackQueryHandler(six, pattern="^" + str(RoutesBudgetKeyboard1.six) + "$"),
+                CallbackQueryHandler(seven, pattern="^" + str(RoutesBudgetKeyboard1.seven) + "$"),
+                CallbackQueryHandler(eight, pattern="^" + str(RoutesBudgetKeyboard1.eight) + "$"),
+                CallbackQueryHandler(nine, pattern="^" + str(RoutesBudgetKeyboard1.nine) + "$"),
+                CallbackQueryHandler(zero, pattern="^" + str(RoutesBudgetKeyboard1.zero) + "$"),
+
+                CallbackQueryHandler(one2, pattern="^" + str(RoutesBudgetKeyboard2.one2) + "$"),
+                CallbackQueryHandler(two2, pattern="^" + str(RoutesBudgetKeyboard2.two2) + "$"),
+                CallbackQueryHandler(three2, pattern="^" + str(RoutesBudgetKeyboard2.three2) + "$"),
+                CallbackQueryHandler(four2, pattern="^" + str(RoutesBudgetKeyboard2.four2) + "$"),
+                CallbackQueryHandler(five2, pattern="^" + str(RoutesBudgetKeyboard2.five2) + "$"),
+                CallbackQueryHandler(six2, pattern="^" + str(RoutesBudgetKeyboard2.six2) + "$"),
+                CallbackQueryHandler(seven2, pattern="^" + str(RoutesBudgetKeyboard2.seven2) + "$"),
+                CallbackQueryHandler(eight2, pattern="^" + str(RoutesBudgetKeyboard2.eight2) + "$"),
+                CallbackQueryHandler(nine2, pattern="^" + str(RoutesBudgetKeyboard2.nine2) + "$"),
+                CallbackQueryHandler(zero2, pattern="^" + str(RoutesBudgetKeyboard2.zero2) + "$"),
 
                 # CallbackQueryHandler(update_user_order, pattern="^" + str(Routes.update_user_order) + "$"),
 

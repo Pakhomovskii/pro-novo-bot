@@ -29,6 +29,14 @@ cursor.execute('''
     )
 ''')
 
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS temporary_budget (
+        id INTEGER PRIMARY KEY,
+        budget TEXT,
+        user_id INTEGER UNIQUE,
+        FOREIGN KEY (user_id) REFERENCES users(user_chat_id)
+    )
+''')
 
 conn.commit()
 conn.close()

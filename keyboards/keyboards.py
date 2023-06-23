@@ -101,22 +101,22 @@ class Keyboard:
 
     BUDGET_KEYBOARD = [
         [
-            InlineKeyboardButton("1", callback_data=str("1")),
-            InlineKeyboardButton("2", callback_data=str("3")),
-            InlineKeyboardButton("3", callback_data=str("2")),
+            InlineKeyboardButton("1", callback_data=str(RoutesBudgetKeyboard1.one)),
+            InlineKeyboardButton("2", callback_data=str(RoutesBudgetKeyboard1.two)),
+            InlineKeyboardButton("3", callback_data=str(RoutesBudgetKeyboard1.three)),
         ],
         [
-            InlineKeyboardButton("4", callback_data=str("4")),
-            InlineKeyboardButton("5", callback_data=str("5")),
-            InlineKeyboardButton("6", callback_data=str("6")),
+            InlineKeyboardButton("4", callback_data=str(RoutesBudgetKeyboard1.four)),
+            InlineKeyboardButton("5", callback_data=str(RoutesBudgetKeyboard1.five)),
+            InlineKeyboardButton("6", callback_data=str(RoutesBudgetKeyboard1.six)),
         ],
         [
-            InlineKeyboardButton("7", callback_data=str("7")),
-            InlineKeyboardButton("8", callback_data=str("8")),
-            InlineKeyboardButton("9", callback_data=str("9")),
+            InlineKeyboardButton("7", callback_data=str(RoutesBudgetKeyboard1.seven)),
+            InlineKeyboardButton("8", callback_data=str(RoutesBudgetKeyboard1.eight)),
+            InlineKeyboardButton("9", callback_data=str(RoutesBudgetKeyboard1.nine)),
         ],
         [
-            InlineKeyboardButton("0", callback_data=str("0")),
+            InlineKeyboardButton("0", callback_data=str(RoutesBudgetKeyboard1.zero)),
         ],
         [
             InlineKeyboardButton("Применить", callback_data=str(Routes.back)),
@@ -129,29 +129,29 @@ class Keyboard:
 
     BUDGET_KEYBOARD2 = [
         [
-            InlineKeyboardButton("1", callback_data=str("1")),
-            InlineKeyboardButton("2", callback_data=str("3")),
-            InlineKeyboardButton("3", callback_data=str("2")),
+            InlineKeyboardButton("1", callback_data=str(RoutesBudgetKeyboard2.one2)),
+            InlineKeyboardButton("2", callback_data=str(RoutesBudgetKeyboard2.two2)),
+            InlineKeyboardButton("3", callback_data=str(RoutesBudgetKeyboard2.three2)),
         ],
         [
-            InlineKeyboardButton("4", callback_data=str("4")),
-            InlineKeyboardButton("5", callback_data=str("5")),
-            InlineKeyboardButton("6", callback_data=str("6")),
+            InlineKeyboardButton("4", callback_data=str(RoutesBudgetKeyboard2.four2)),
+            InlineKeyboardButton("5", callback_data=str(RoutesBudgetKeyboard2.five2)),
+            InlineKeyboardButton("6", callback_data=str(RoutesBudgetKeyboard2.six2)),
         ],
         [
-            InlineKeyboardButton("7", callback_data=str("7")),
-            InlineKeyboardButton("8", callback_data=str("8")),
-            InlineKeyboardButton("9", callback_data=str("9")),
+            InlineKeyboardButton("7", callback_data=str(RoutesBudgetKeyboard2.seven2)),
+            InlineKeyboardButton("8", callback_data=str(RoutesBudgetKeyboard2.eight2)),
+            InlineKeyboardButton("9", callback_data=str(RoutesBudgetKeyboard2.nine2)),
         ],
         [
-            InlineKeyboardButton("0", callback_data=str("0")),
+            InlineKeyboardButton("0", callback_data=str(RoutesBudgetKeyboard2.zero2)),
         ],
         [
-            InlineKeyboardButton("Применить", callback_data=str(Routes.back)),
+            InlineKeyboardButton("Применить", callback_data=str(Routes.back2)),
         ],
 
-            [
-                InlineKeyboardButton("Отмена", callback_data=str(Routes.back)),
+        [
+            InlineKeyboardButton("Отмена", callback_data=str(Routes.back2)),
         ]
     ]
 

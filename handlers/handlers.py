@@ -3,7 +3,8 @@ from typing import List
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes
 
-from database.database import create_user, update_user_order, get_user_order
+from database.database import create_user, update_user_order, get_user_order, show_temporary_budget, \
+    edit_temporary_budget
 from keyboards.keyboards import Keyboard
 from routes.routes import StartEndRoutes
 
@@ -25,28 +26,24 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
 
 async def start_over(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     """Prompt same text & keyboard as `start` does but not as new message"""
+
     query = update.callback_query
-    user_chat_id = update.callback_query.from_user.id
     await query.answer()
-
     reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
-
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        print(reply_text)
-        reply_text += "Brend: {}\nModel: {}\nPTS: {}\nBody Type: {}\nDrive: {}\nEngine Capacity: {}\nYear: {}\nFuel Type: {}\nBudget: {}\n\n".format(
+        reply_text += "Brand: {}\nModel: {}\nPTS: {}\nBody Type: {}\nDrive: {}\nEngine Capacity: {}\nYear: {}\nFuel Type: {}\nBudget: {}\n\n".format(
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-
     await query.edit_message_text(
         text=reply_text, reply_markup=reply_markup
     )
     return StartEndRoutes.end_route
 
-async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show new choice of buttons"""
 
+async def show_specific_keyboard_to_change_order(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                                                 keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes:
     user_chat_id = update.callback_query.from_user.id
-    await update_user_order(brend="Мазда", user_chat_id=user_chat_id)
+    await update_user_order(brand=text, user_chat_id=user_chat_id)
     query = update.callback_query
     await query.answer()
 
@@ -54,8 +51,7 @@ async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        print(reply_text)
-        reply_text += "Brend: {}\nModel: {}\nPTS: {}\nBody Type: {}\nDrive: {}\nEngine Capacity: {}\nYear: {}\nFuel Type: {}\nBudget: {}\n\n".format(
+        reply_text += "Brand: {}\nModel: {}\nPTS: {}\nBody Type: {}\nDrive: {}\nEngine Capacity: {}\nYear: {}\nFuel Type: {}\nBudget: {}\n\n".format(
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
 
     await query.edit_message_text(
@@ -64,17 +60,12 @@ async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return StartEndRoutes.start_route
 
 
-async def subaru(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Show new choice of buttons"""
-    user_chat_id = update.callback_query.from_user.id
-    await update_user_order(brend="Subaru", user_chat_id=user_chat_id)
-    query = update.callback_query
-    await query.answer()
-    reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
-    await query.edit_message_text(
-        text="Start handler, Choose a route again!", reply_markup=reply_markup
-    )
-    return StartEndRoutes.start_route
+async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard_to_change_order(update, context, "Мазда", Keyboard.BRAND_KEYBOARD)
+
+
+async def subaru(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard_to_change_order(update, context, "Субару", Keyboard.BRAND_KEYBOARD)
 
 
 async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
@@ -136,3 +127,122 @@ async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRou
 
 async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "DRIVE", Keyboard.DELETE)
+
+
+async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                         keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes:
+    user_chat_id = update.callback_query.from_user.id
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD)
+    reply_text = ""
+    for row in await show_temporary_budget(update.callback_query.from_user.id):
+        reply_text += "Бюждет: {}".format(
+            row[0], )
+
+    await query.edit_message_text(
+        text=reply_text, reply_markup=reply_markup
+    )
+    new_value = reply_text + text
+    await edit_temporary_budget(value=new_value, user_chat_id=user_chat_id)
+    return StartEndRoutes.start_route
+
+
+async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                         keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes:
+    user_chat_id = update.callback_query.from_user.id
+    query = update.callback_query
+    await query.answer()
+    reply_markup = InlineKeyboardMarkup(Keyboard.BUDGET_KEYBOARD2)
+
+    reply_text = ""
+    for row in await show_temporary_budget(update.callback_query.from_user.id):
+        reply_text += "Бюждет: {}".format(
+            row[0], )
+
+    await query.edit_message_text(
+        text=reply_text, reply_markup=reply_markup
+    )
+    new_value = reply_text + text
+    await edit_temporary_budget(value=new_value, user_chat_id=user_chat_id)
+    return StartEndRoutes.start_route
+
+
+async def one(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "1", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def two(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "2", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def three(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "3", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def four(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "4", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "5", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def six(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "6", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def seven(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "7", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def eight(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "8", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def nine(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "9", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def zero(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard1(update, context, "0", Keyboard.BUDGET_KEYBOARD2)
+
+
+async def one2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "1", Keyboard.BUDGET_KEYBOARD)
+
+
+async def two2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "2", Keyboard.BUDGET_KEYBOARD)
+
+
+async def three2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "3", Keyboard.BUDGET_KEYBOARD)
+
+
+async def four2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "4", Keyboard.BUDGET_KEYBOARD)
+
+
+async def five2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "5", Keyboard.BUDGET_KEYBOARD)
+
+
+async def six2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "6", Keyboard.BUDGET_KEYBOARD)
+
+
+async def seven2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "7", Keyboard.BUDGET_KEYBOARD)
+
+
+async def eight2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "8", Keyboard.BUDGET_KEYBOARD)
+
+
+async def nine2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "9", Keyboard.BUDGET_KEYBOARD)
+
+
+async def zero2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_keyboard2(update, context, "0", Keyboard.BUDGET_KEYBOARD)
