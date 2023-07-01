@@ -15,7 +15,7 @@ cursor.execute('''
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS orders (
         id INTEGER PRIMARY KEY,
-        brend TEXT,
+        brand TEXT,
         model TEXT,
         pts TEXT,
         body_type TEXT,

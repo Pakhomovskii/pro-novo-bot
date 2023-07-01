@@ -42,8 +42,8 @@ class Keyboard:
 
     MODEL_KEYBOARD = [
         [
-            InlineKeyboardButton("Калина", callback_data=str(Routes.back)),
-            InlineKeyboardButton("Калина2", callback_data=str(Routes.back)),
+            InlineKeyboardButton("Калина", callback_data=str(RoutesModel.kalina)),
+            InlineKeyboardButton("Гранта", callback_data=str(RoutesModel.granta)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]

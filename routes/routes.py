@@ -1,7 +1,9 @@
 class StartEndRoutes:
     (end_route,
-     start_route) \
-        = range(2)
+     start_route,
+     brand,
+     model) \
+        = range(4)
 
 
 #
@@ -51,6 +53,13 @@ class Routes:
 class RoutesBrand:
     (subaru,
      mazda
+     ) \
+        = range(2)
+
+
+class RoutesModel:
+    (kalina,
+     granta,
      ) \
         = range(2)
 
