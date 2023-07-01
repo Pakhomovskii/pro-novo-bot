@@ -94,11 +94,19 @@ def main() -> None:
 
                 CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
                 CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+            ], StartEndRoutes.model: [
+
 
             ], StartEndRoutes.model: [
 
                 CallbackQueryHandler(kalina, pattern="^" + str(RoutesModel.kalina) + "$"),
                 CallbackQueryHandler(granta, pattern="^" + str(RoutesModel.granta) + "$"),
+
+
+                CallbackQueryHandler(kalina, pattern="^" + str(RoutesModel.kalina) + "$"),
+                CallbackQueryHandler(granta, pattern="^" + str(RoutesModel.granta) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
             ],
 
