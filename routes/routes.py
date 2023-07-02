@@ -2,8 +2,12 @@ class StartEndRoutes:
     (end_route,
      start_route,
      brand,
-     model) \
-        = range(4)
+     model,
+     model_mazda,
+     model_subaru,
+     budget,
+     budget2) \
+        = range(8)
 
 
 #
@@ -39,15 +43,19 @@ class Routes:
      year,
      fuel_type,
      budget,
+     budget2,
      send,
      tax,
      delete,
      back,
      back2,
      start_over,
+     start_over2,
      update_user_order,
+     aplay_new_budget,
+     aplay_new_budget2
      ) \
-        = range(16)
+        = range(20)
 
 
 class RoutesBrand:
@@ -58,8 +66,8 @@ class RoutesBrand:
 
 
 class RoutesModel:
-    (kalina,
-     granta,
+    (impreza,
+     cx_8,
      ) \
         = range(2)
 

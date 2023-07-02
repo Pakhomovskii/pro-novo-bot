@@ -23,7 +23,7 @@ cursor.execute('''
         engine_capacity TEXT,
         year TEXT,
         fuel_type TEXT,
-        budget INTEGER,
+        budget TEXT,
         user_id INTEGER UNIQUE,
         FOREIGN KEY (user_id) REFERENCES users(user_chat_id)
     )
