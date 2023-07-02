@@ -20,7 +20,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
     # logging.info("User %s started the conversation.", user.first_name) # TODO START LOGGGGING
     reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
     await update.message.reply_text(
-        "Начните собирать свой конструктор! Выбранные параметры будут отражаться здесь автоматически",
+        "Начните собирать свой конструктор! Выбранные параметры будут отражаться здесь автоматически\n\nЕсли бот не реагирует нажмите /start",
         reply_markup=reply_markup
     )
     return StartEndRoutes.start_route
