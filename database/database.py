@@ -7,7 +7,7 @@ cursor = conn.cursor()
 async def get_user_order(user_chat_id):
     conn.execute('BEGIN')
     cursor.execute('''
-            SELECT brand, model, pts, body_type, drive, engine_capacity, year, fuel_type, budget FROM orders
+            SELECT brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget FROM orders
             WHERE user_id=?''', (user_chat_id,))
     # Fetch all the rows
     order = cursor.fetchall()
@@ -17,10 +17,10 @@ async def get_user_order(user_chat_id):
     return order
 
 
-async def get_user_model(user_chat_id):
+async def get_user_brand(user_chat_id):
     conn.execute('BEGIN')
     cursor.execute('''
-            SELECT model FROM orders
+            SELECT brand FROM orders
             WHERE user_id=?''', (user_chat_id,))
     # Fetch all the rows
     order = cursor.fetchall()
@@ -52,13 +52,13 @@ async def create_user(user_chat_id, user_name, user_first_name):
            ''', (user_chat_id, user_name, user_first_name))
 
         cursor.execute('''
-            INSERT INTO orders (brand, model, pts, body_type, drive, engine_capacity, year, fuel_type, budget, user_id)
+            INSERT INTO orders (brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget, user_id)
             VALUES ('','','','','','','','','', ?)
         ''', (user_chat_id,))
 
         cursor.execute('''
                     INSERT INTO temporary_budget (budget, user_id)
-                    VALUES ("", ?)
+                    VALUES ('', ?)
                 ''', (user_chat_id,))
         conn.commit()
     except sqlite3.Error:
@@ -91,6 +91,19 @@ async def update_user_order_model(model=None, user_chat_id=None):
         conn.rollback()
 
 
+async def update_user_order_engine_capacity(engine_capacity=None, user_chat_id=None):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE orders
+            SET engine_capacity=?
+            WHERE user_id = ?
+        ''', (engine_capacity, user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
 async def update_user_order_budget(budget=None, user_chat_id=None):
     try:
         conn.execute('BEGIN')
@@ -104,16 +117,55 @@ async def update_user_order_budget(budget=None, user_chat_id=None):
         conn.rollback()
 
 
-async def delete_user_order(brand="", model="", pts="", body_type="",
+async def update_user_order_hand_drive(hand_drive=None, user_chat_id=None):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE orders
+            SET hand_drive=?
+            WHERE user_id = ?
+        ''', (hand_drive, user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
+async def update_user_order_year(year=None, user_chat_id=None):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE orders
+            SET year=?
+            WHERE user_id = ?
+        ''', (year, user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
+async def delete_user_order(brand="", model="", hand_drive="", body_type="",
                             drive="", engine_capacity="", year="",
                             fuel_type="", budget="", user_chat_id=None):
     try:
         conn.execute('BEGIN')
         cursor.execute('''
             UPDATE orders
-            SET brand=?, model=?, pts=?, body_type=?, drive=?, engine_capacity=?, year=?, fuel_type=?, budget=?
+            SET brand=?, model=?, hand_drive=?, body_type=?, drive=?, engine_capacity=?, year=?, fuel_type=?, budget=?
             WHERE user_id = ?
-        ''', (brand, model, pts, body_type, drive, engine_capacity, year, fuel_type, budget, user_chat_id))
+        ''', (brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget, user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
+async def delete_user_model(user_chat_id=None):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE orders
+            SET model=?
+            WHERE user_id = ?
+        ''', ("", user_chat_id))
         conn.commit()
     except sqlite3.Error:
         conn.rollback()

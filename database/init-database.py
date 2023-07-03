@@ -17,7 +17,7 @@ cursor.execute('''
         id INTEGER PRIMARY KEY,
         brand TEXT,
         model TEXT,
-        pts TEXT,
+        hand_drive TEXT,
         body_type TEXT,
         drive TEXT,
         engine_capacity TEXT,

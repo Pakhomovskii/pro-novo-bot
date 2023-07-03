@@ -5,7 +5,8 @@ from telegram.ext import ContextTypes
 
 from database.database import create_user, get_user_order, show_temporary_budget, \
     edit_temporary_budget, update_user_order_brand, update_user_order_model, delete_user_temporary_budget, \
-    update_user_order_budget, get_user_contact
+    update_user_order_budget, get_user_contact, get_user_brand, delete_user_model, \
+    update_user_order_engine_capacity, update_user_order_year, update_user_order_hand_drive
 from keyboards.keyboards import Keyboard
 from routes.routes import StartEndRoutes, Routes
 
@@ -36,15 +37,24 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
     user_chat_id = update.callback_query.from_user.id
 
     if key == "aplay_new_budget":
+        print("RRRERER")
         old_value = await show_temporary_budget(user_chat_id)
         await update_user_order_budget(budget=old_value[0][0], user_chat_id=user_chat_id)
 
     await delete_user_temporary_budget(user_chat_id)
 
     if key == "brand":
+        await delete_user_model(user_chat_id)
         await update_user_order_brand(brand=text, user_chat_id=user_chat_id)
+
     if key == "model":
         await update_user_order_model(model=text, user_chat_id=user_chat_id)
+    if key == "engine_capacity":
+        await update_user_order_engine_capacity(engine_capacity=text, user_chat_id=user_chat_id)
+    if key == "year":
+        await update_user_order_year(year=text, user_chat_id=user_chat_id)
+    if key == "hand_drive":
+        await update_user_order_hand_drive(hand_drive=text, user_chat_id=user_chat_id)
 
     query = update.callback_query
     await query.answer()
@@ -53,7 +63,7 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        reply_text += "Brand: {}\nModel: {}\nPTS: {}\nBody Type: {}\nDrive: {}\nEngine Capacity: {}\nYear: {}\nFuel Type: {}\nBudget: {}\n\n".format(
+        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nBody Type:    {}\nDrive:    {}\nEngine Capacity:    {}\nВозраст авто:    {}\nFuel Type:    {}\nBudget:    {}\n\n".format(
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
     if reply_text:
         await query.edit_message_text(
@@ -71,16 +81,19 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
 
     if text == "brand":
         return StartEndRoutes.brand
-    if text == "model":
-        # user_chat_id = update.callback_query.from_user.id
-        # model_user = await get_user_model(user_chat_id)
-        # if model_user[0][0] == "Мазда":
-        #     return StartEndRoutes.model_mazda
-        # if model_user[0][0] == "Субару":
-        #     return StartEndRoutes.model_subaruzz
-        return StartEndRoutes.model
+    if text == "model_subaru":
+        return StartEndRoutes.model_subaru
+    if text == "model_mazda":
+        return StartEndRoutes.model_mazda
+    if text == "hand_drive":
+        return StartEndRoutes.hand_drive
     if text == "budget":
+        print("OOOOOOOOOOOOO")
         return StartEndRoutes.budget2
+    if text == "year":
+        return StartEndRoutes.year
+    if text == "engine_capacity":
+        return StartEndRoutes.engine_capacity
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
         user_tg_name = await get_user_contact(user_chat_id)
@@ -106,6 +119,7 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
 
 async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
                          keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes.budget2:
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     user_chat_id = update.callback_query.from_user.id
     query = update.callback_query
     await query.answer()
@@ -122,6 +136,7 @@ async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE, tex
 
 async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
                          keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes.budget:
+    print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
     user_chat_id = update.callback_query.from_user.id
     query = update.callback_query
     await query.answer()
@@ -137,11 +152,13 @@ async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE, tex
 
 
 async def aplay_new_budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    print("DDFSAAAAAA")
     return await show_specific_keyboard_to_change_order(update, context, "aplay_new_budget", "",
                                                         Keyboard.BUDGET_KEYBOARD2)
 
 
 async def aplay_new_budget2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    print("DDFSAAAAAA")
     return await show_specific_keyboard_to_change_order(update, context, "aplay_new_budget", "",
                                                         Keyboard.BUDGET_KEYBOARD)
 
@@ -151,19 +168,16 @@ async def brand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
 
 
 async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
-    return await show_specific_keyboard(update, context, "model", Keyboard.MODEL_KEYBOARD)
+    user_chat_id = update.callback_query.from_user.id
+    brand_user = await get_user_brand(user_chat_id)
+    if brand_user[0][0] == "Мазда":
+        return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
+    if brand_user[0][0] == "Субару":
+        return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
 
 
-# async def model_subaru(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
-#     return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_SUBARU)
-#
-#
-# async def model_mazda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
-#     return await show_specific_keyboard(update, context, "model_subary", Keyboard.MODEL_KEYBOARD_MAZDA)
-
-
-async def pts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "pts", Keyboard.PTS_KEYBOARD)
+async def hand_drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard(update, context, "hand_drive", Keyboard.HAND_DRIVE_KEYBOARD)
 
 
 async def body_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -178,8 +192,8 @@ async def engine_capacity(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     return await show_specific_keyboard(update, context, "engine_capacity", Keyboard.ENGINE_CAPACITY_KEYBOARD)
 
 
-async def yeah(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "yeah", Keyboard.YEAR_KEYBOARD)
+async def year(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard(update, context, "year", Keyboard.YEAR_KEYBOARD)
 
 
 async def fuel_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:

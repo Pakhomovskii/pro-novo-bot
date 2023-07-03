@@ -7,6 +7,7 @@ from routes.routes import StartEndRoutes
 
 
 async def one(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.budget:
+    print("111111")
     return await show_keyboard1(update, context, "1", Keyboard.BUDGET_KEYBOARD)
 
 
@@ -27,7 +28,6 @@ async def five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRo
 
 
 async def six(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    print("66666666666666")
     return await show_keyboard1(update, context, "6", Keyboard.BUDGET_KEYBOARD)
 
 
@@ -48,6 +48,7 @@ async def zero(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRo
 
 
 async def one2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.budget2:
+    print("111111222222")
     return await show_keyboard2(update, context, "1", Keyboard.BUDGET_KEYBOARD2)
 
 
