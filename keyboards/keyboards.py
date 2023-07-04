@@ -11,11 +11,11 @@ class Keyboard:
         ],
         [
             InlineKeyboardButton("Руль", callback_data=str(Routes.hand_drive)),
-            InlineKeyboardButton("Тип кузова", callback_data=str(Routes.body_type)),
+            InlineKeyboardButton("Мощность двигателя", callback_data=str(Routes.power)),
         ],
         [
             InlineKeyboardButton("Привод", callback_data=str(Routes.drive)),
-            InlineKeyboardButton("Объем двигателя", callback_data=str(Routes.engine_capacity)),
+            InlineKeyboardButton("Объем двигателя", callback_data=str(Routes.engine)),
         ],
         [
             InlineKeyboardButton("Год", callback_data=str(Routes.year)),
@@ -68,6 +68,69 @@ class Keyboard:
         ]
     ]
 
+    ENGINE_KEYBOARD = [
+
+        [
+            InlineKeyboardButton("1.0", callback_data=str(RoutesEngine.r_10)),
+            InlineKeyboardButton("1.1", callback_data=str(RoutesEngine.r_11)),
+            InlineKeyboardButton("1.2", callback_data=str(RoutesEngine.r_12)),
+            InlineKeyboardButton("1.3", callback_data=str(RoutesEngine.r_13)),
+            InlineKeyboardButton("1.4", callback_data=str(RoutesEngine.r_14)),
+            InlineKeyboardButton("1.5", callback_data=str(RoutesEngine.r_15)),
+            InlineKeyboardButton("1.6", callback_data=str(RoutesEngine.r_16)),
+            InlineKeyboardButton("1.7", callback_data=str(RoutesEngine.r_17)),
+            InlineKeyboardButton("1.8", callback_data=str(RoutesEngine.r_18)),
+            InlineKeyboardButton("1.9", callback_data=str(RoutesEngine.r_19)),
+        ],
+        [
+            InlineKeyboardButton("2.0", callback_data=str(RoutesEngine.r_20)),
+            InlineKeyboardButton("2.1", callback_data=str(RoutesEngine.r_21)),
+            InlineKeyboardButton("2.2", callback_data=str(RoutesEngine.r_22)),
+            InlineKeyboardButton("2.3", callback_data=str(RoutesEngine.r_23)),
+            InlineKeyboardButton("2.4", callback_data=str(RoutesEngine.r_24)),
+            InlineKeyboardButton("2.5", callback_data=str(RoutesEngine.r_25)),
+            InlineKeyboardButton("2.6", callback_data=str(RoutesEngine.r_26)),
+            InlineKeyboardButton("2.7", callback_data=str(RoutesEngine.r_27)),
+            InlineKeyboardButton("2.8", callback_data=str(RoutesEngine.r_28)),
+            InlineKeyboardButton("2.9", callback_data=str(RoutesEngine.r_29)),
+        ],
+        [
+            InlineKeyboardButton("3.0", callback_data=str(RoutesEngine.r_30)),
+            InlineKeyboardButton("3.1", callback_data=str(RoutesEngine.r_31)),
+            InlineKeyboardButton("3.2", callback_data=str(RoutesEngine.r_32)),
+            InlineKeyboardButton("3.3", callback_data=str(RoutesEngine.r_33)),
+            InlineKeyboardButton("3.4", callback_data=str(RoutesEngine.r_34)),
+            InlineKeyboardButton("3.5", callback_data=str(RoutesEngine.r_35)),
+            InlineKeyboardButton("3.6", callback_data=str(RoutesEngine.r_36)),
+            InlineKeyboardButton("3.7", callback_data=str(RoutesEngine.r_37)),
+            InlineKeyboardButton("3.8", callback_data=str(RoutesEngine.r_38)),
+            InlineKeyboardButton("3.9", callback_data=str(RoutesEngine.r_39)),
+        ],
+        [
+            InlineKeyboardButton("4.0", callback_data=str(RoutesEngine.r_40)),
+            InlineKeyboardButton("4.1", callback_data=str(RoutesEngine.r_41)),
+            InlineKeyboardButton("4.2", callback_data=str(RoutesEngine.r_42)),
+            InlineKeyboardButton("4.3", callback_data=str(RoutesEngine.r_43)),
+            InlineKeyboardButton("4.4", callback_data=str(RoutesEngine.r_44)),
+            InlineKeyboardButton("4.5", callback_data=str(RoutesEngine.r_45)),
+            InlineKeyboardButton("4.6", callback_data=str(RoutesEngine.r_46)),
+            InlineKeyboardButton("4.7", callback_data=str(RoutesEngine.r_47)),
+            InlineKeyboardButton("4.8", callback_data=str(RoutesEngine.r_48)),
+            InlineKeyboardButton("4.9", callback_data=str(RoutesEngine.r_49)),
+        ],
+        [
+            InlineKeyboardButton("5.0", callback_data=str(RoutesEngine.r_50)),
+            InlineKeyboardButton("5.1", callback_data=str(RoutesEngine.r_51)),
+            InlineKeyboardButton("5.2", callback_data=str(RoutesEngine.r_52)),
+            InlineKeyboardButton("5.3", callback_data=str(RoutesEngine.r_53)),
+            InlineKeyboardButton("5.4", callback_data=str(RoutesEngine.r_54)),
+            InlineKeyboardButton("5.5", callback_data=str(RoutesEngine.r_55)),
+            InlineKeyboardButton("5.6", callback_data=str(RoutesEngine.r_56)),
+            InlineKeyboardButton("5.7", callback_data=str(RoutesEngine.r_57)),
+
+        ],
+    ]
+
     HAND_DRIVE_KEYBOARD = [
         [
             InlineKeyboardButton("Правый", callback_data=str(RoutesHandDrive.hand_drive_right)), ],
@@ -76,11 +139,25 @@ class Keyboard:
          ]
     ]
 
-    BODY_TYPE_KEYBOARD = [
+    POWER_KEYBOARD = [
         [
-            # InlineKeyboardButton("Седан", callback_data=str(Routes.back)),
-            # InlineKeyboardButton("Хечбек", callback_data=str(Routes.back)),
-            # InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+            InlineKeyboardButton("50_100 л.с.", callback_data=str(RoutesPower.v_50_100)), ],
+        [
+            InlineKeyboardButton("101_150 л.с.", callback_data=str(RoutesPower.v_101_150)), ],
+        [
+            InlineKeyboardButton("151_200 л.с.", callback_data=str(RoutesPower.v_151_200)), ],
+        [
+            InlineKeyboardButton("201_250 л.с.", callback_data=str(RoutesPower.v_201_250)), ],
+        [
+            InlineKeyboardButton("251_300 л.с.", callback_data=str(RoutesPower.v_251_300)), ],
+        [
+            InlineKeyboardButton("301_350 л.с.", callback_data=str(RoutesPower.v_301_350)), ],
+
+        [
+            InlineKeyboardButton("351_400 л.с.", callback_data=str(RoutesPower.v_351_400)), ],
+
+        [
+            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]
 
@@ -157,72 +234,68 @@ class Keyboard:
         ]
     ]
 
-    ENGINE_CAPACITY_KEYBOARD = [
-        [
-            InlineKeyboardButton("1.0", callback_data=str(RoutesEngineCapacity.r_10)),
-            InlineKeyboardButton("1.1", callback_data=str(RoutesEngineCapacity.r_11)),
-            # InlineKeyboardButton("1.2", callback_data=str(RoutesEngineCapacity.r_12)),
-            # InlineKeyboardButton("1.3", callback_data=str(RoutesEngineCapacity.r_13)),
-            # InlineKeyboardButton("1.4", callback_data=str(RoutesEngineCapacity.r_14)),
-            # InlineKeyboardButton("1.5", callback_data=str(RoutesEngineCapacity.r_15)),
-            # InlineKeyboardButton("1.6", callback_data=str(RoutesEngineCapacity.r_16)),
-            # InlineKeyboardButton("1.7", callback_data=str(RoutesEngineCapacity.r_17)),
-            # InlineKeyboardButton("1.8", callback_data=str(RoutesEngineCapacity.r_18)),
-            # InlineKeyboardButton("1.9", callback_data=str(RoutesEngineCapacity.r_19)),
-        ],
-        [
-            InlineKeyboardButton("2.0", callback_data=str(RoutesEngineCapacity.r_20)),
-            InlineKeyboardButton("2.1", callback_data=str(RoutesEngineCapacity.r_21)),
-            # InlineKeyboardButton("2.2", callback_data=str(RoutesEngineCapacity.r_22)),
-            # InlineKeyboardButton("2.3", callback_data=str(RoutesEngineCapacity.r_23)),
-            # InlineKeyboardButton("2.4", callback_data=str(RoutesEngineCapacity.r_24)),
-            # InlineKeyboardButton("2.5", callback_data=str(RoutesEngineCapacity.r_25)),
-            # InlineKeyboardButton("2.6", callback_data=str(RoutesEngineCapacity.r_26)),
-            # InlineKeyboardButton("2.7", callback_data=str(RoutesEngineCapacity.r_27)),
-            # InlineKeyboardButton("2.8", callback_data=str(RoutesEngineCapacity.r_28)),
-            # InlineKeyboardButton("2.9", callback_data=str(RoutesEngineCapacity.r_29)),
-        ],
-        [
-            InlineKeyboardButton("3.0", callback_data=str(RoutesEngineCapacity.r_30)),
-            InlineKeyboardButton("3.1", callback_data=str(RoutesEngineCapacity.r_31)),
-            # InlineKeyboardButton("3.2", callback_data=str(RoutesEngineCapacity.r_32)),
-            # InlineKeyboardButton("3.3", callback_data=str(RoutesEngineCapacity.r_33)),
-            # InlineKeyboardButton("3.4", callback_data=str(RoutesEngineCapacity.r_34)),
-            # InlineKeyboardButton("3.5", callback_data=str(RoutesEngineCapacity.r_35)),
-            # InlineKeyboardButton("3.6", callback_data=str(RoutesEngineCapacity.r_36)),
-            # InlineKeyboardButton("3.7", callback_data=str(RoutesEngineCapacity.r_37)),
-            # InlineKeyboardButton("3.8", callback_data=str(RoutesEngineCapacity.r_38)),
-            # InlineKeyboardButton("3.9", callback_data=str(RoutesEngineCapacity.r_39)),
-        ],
-        [
-            InlineKeyboardButton("4.0", callback_data=str(RoutesEngineCapacity.r_40)),
-            InlineKeyboardButton("4.1", callback_data=str(RoutesEngineCapacity.r_41)),
-            # InlineKeyboardButton("4.2", callback_data=str(RoutesEngineCapacity.r_42)),
-            # InlineKeyboardButton("4.3", callback_data=str(RoutesEngineCapacity.r_43)),
-            # InlineKeyboardButton("4.4", callback_data=str(RoutesEngineCapacity.r_44)),
-            # InlineKeyboardButton("4.5", callback_data=str(RoutesEngineCapacity.r_45)),
-            # InlineKeyboardButton("4.6", callback_data=str(RoutesEngineCapacity.r_46)),
-            # InlineKeyboardButton("4.7", callback_data=str(RoutesEngineCapacity.r_47)),
-            # InlineKeyboardButton("4.8", callback_data=str(RoutesEngineCapacity.r_48)),
-            # InlineKeyboardButton("4.9", callback_data=str(RoutesEngineCapacity.r_49)),
-        ],
-        [
-            InlineKeyboardButton("5.0", callback_data=str(RoutesEngineCapacity.r_50)),
-            InlineKeyboardButton("5.1", callback_data=str(RoutesEngineCapacity.r_51)),
-            # InlineKeyboardButton("5.2", callback_data=str(RoutesEngineCapacity.r_52)),
-            # InlineKeyboardButton("5.3", callback_data=str(RoutesEngineCapacity.r_53)),
-            # InlineKeyboardButton("5.4", callback_data=str(RoutesEngineCapacity.r_54)),
-            # InlineKeyboardButton("5.5", callback_data=str(RoutesEngineCapacity.r_55)),
-            # InlineKeyboardButton("5.6", callback_data=str(RoutesEngineCapacity.r_56)),
-            # InlineKeyboardButton("5.7", callback_data=str(RoutesEngineCapacity.r_57)),
-            # # InlineKeyboardButton("5.8", callback_data=str(RoutesEngineCapacity._58)),
-            # # InlineKeyboardButton("5.9", callback_data=str(RoutesEngineCapacity._59)),
-        ],
+    # ENGINE_CAPACITY_KEYBOARD = [
+    #     [
+    #         InlineKeyboardButton("1.0", callback_data=str(RoutesEngine.r_10)),
+    #         InlineKeyboardButton("1.1", callback_data=str(RoutesEngine.r_11)),
+    #         # InlineKeyboardButton("1.2", callback_data=str(RoutesEngine.r_12)),
+    #         # InlineKeyboardButton("1.3", callback_data=str(RoutesEngine.r_13)),
+    #         # InlineKeyboardButton("1.4", callback_data=str(RoutesEngine.r_14)),
+    #         # InlineKeyboardButton("1.5", callback_data=str(RoutesEngine.r_15)),
+    #         # InlineKeyboardButton("1.6", callback_data=str(RoutesEngine.r_16)),
+    #         # InlineKeyboardButton("1.7", callback_data=str(RoutesEngine.r_17)),
+    #         # InlineKeyboardButton("1.8", callback_data=str(RoutesEngine.r_18)),
+    #         # InlineKeyboardButton("1.9", callback_data=str(RoutesEngine.r_19)),
+    #     ],
+    #     [
+    #         InlineKeyboardButton("2.0", callback_data=str(RoutesEngine.r_20)),
+    #         InlineKeyboardButton("2.1", callback_data=str(RoutesEngine.r_21)),
+    #         # InlineKeyboardButton("2.2", callback_data=str(RoutesEngine.r_22)),
+    #         # InlineKeyboardButton("2.3", callback_data=str(RoutesEngine.r_23)),
+    #         # InlineKeyboardButton("2.4", callback_data=str(RoutesEngine.r_24)),
+    #         # InlineKeyboardButton("2.5", callback_data=str(RoutesEngine.r_25)),
+    #         # InlineKeyboardButton("2.6", callback_data=str(RoutesEngine.r_26)),
+    #         # InlineKeyboardButton("2.7", callback_data=str(RoutesEngine.r_27)),
+    #         # InlineKeyboardButton("2.8", callback_data=str(RoutesEngine.r_28)),
+    #         # InlineKeyboardButton("2.9", callback_data=str(RoutesEngine.r_29)),
+    #     ],
+    #     [
+    #         InlineKeyboardButton("3.0", callback_data=str(RoutesEngine.r_30)),
+    #         InlineKeyboardButton("3.1", callback_data=str(RoutesEngine.r_31)),
+    #         # InlineKeyboardButton("3.2", callback_data=str(RoutesEngine.r_32)),
+    #         # InlineKeyboardButton("3.3", callback_data=str(RoutesEngine.r_33)),
+    #         # InlineKeyboardButton("3.4", callback_data=str(RoutesEngine.r_34)),
+    #         # InlineKeyboardButton("3.5", callback_data=str(RoutesEngine.r_35)),
+    #         # InlineKeyboardButton("3.6", callback_data=str(RoutesEngine.r_36)),
+    #         # InlineKeyboardButton("3.7", callback_data=str(RoutesEngine.r_37)),
+    #         # InlineKeyboardButton("3.8", callback_data=str(RoutesEngine.r_38)),
+    #         # InlineKeyboardButton("3.9", callback_data=str(RoutesEngine.r_39)),
+    #     ],
+    #     [
+    #         InlineKeyboardButton("4.0", callback_data=str(RoutesEngine.r_40)),
+    #         InlineKeyboardButton("4.1", callback_data=str(RoutesEngine.r_41)),
+    #         # InlineKeyboardButton("4.2", callback_data=str(RoutesEngine.r_42)),
+    #         # InlineKeyboardButton("4.3", callback_data=str(RoutesEngine.r_43)),
+    #         # InlineKeyboardButton("4.4", callback_data=str(RoutesEngine.r_44)),
+    #         # InlineKeyboardButton("4.5", callback_data=str(RoutesEngine.r_45)),
+    #         # InlineKeyboardButton("4.6", callback_data=str(RoutesEngine.r_46)),
+    #         # InlineKeyboardButton("4.7", callback_data=str(RoutesEngine.r_47)),
+    #         # InlineKeyboardButton("4.8", callback_data=str(RoutesEngine.r_48)),
+    #         # InlineKeyboardButton("4.9", callback_data=str(RoutesEngine.r_49)),
+    #     ],
+    #     [
+    #         InlineKeyboardButton("5.0", callback_data=str(RoutesEngine.r_50)),
+    #         InlineKeyboardButton("5.1", callback_data=str(RoutesEngine.r_51)),
+    #         # InlineKeyboardButton("5.2", callback_data=str(RoutesEngine.r_52)),
+    #         # InlineKeyboardButton("5.3", callback_data=str(RoutesEngine.r_53)),
+    #         # InlineKeyboardButton("5.4", callback_data=str(RoutesEngine.r_54)),
+    #         # InlineKeyboardButton("5.5", callback_data=str(RoutesEngine.r_55)),
+    #         # InlineKeyboardButton("5.6", callback_data=str(RoutesEngine.r_56)),
+    #         # InlineKeyboardButton("5.7", callback_data=str(RoutesEngine.r_57)),
+    #         # # InlineKeyboardButton("5.8", callback_data=str(RoutesEngine._58)),
+    #         # # InlineKeyboardButton("5.9", callback_data=str(RoutesEngine._59)),
+    #     ],
 
-        [
-            InlineKeyboardButton("Отмена", callback_data=str(Routes.back)),
-        ]
-    ]
     SEND = [
         [
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),

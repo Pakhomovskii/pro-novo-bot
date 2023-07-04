@@ -18,7 +18,7 @@ cursor.execute('''
         brand TEXT,
         model TEXT,
         hand_drive TEXT,
-        body_type TEXT,
+        power TEXT,
         drive TEXT,
         engine_capacity TEXT,
         year TEXT,

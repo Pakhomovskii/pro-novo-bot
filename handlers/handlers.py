@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 from database.database import create_user, get_user_order, show_temporary_budget, \
     edit_temporary_budget, update_user_order_brand, update_user_order_model, delete_user_temporary_budget, \
     update_user_order_budget, get_user_contact, get_user_brand, delete_user_model, \
-    update_user_order_engine_capacity, update_user_order_year, update_user_order_hand_drive
+    update_user_order_engine_capacity, update_user_order_year, update_user_order_hand_drive, update_user_order_power
 from keyboards.keyboards import Keyboard
 from routes.routes import StartEndRoutes, Routes
 
@@ -49,12 +49,16 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 
     if key == "model":
         await update_user_order_model(model=text, user_chat_id=user_chat_id)
-    if key == "engine_capacity":
+    # if key == "engine_capacity":
+    #     await update_user_order_engine_capacity(engine_capacity=text, user_chat_id=user_chat_id)
+    if key == "engine":
         await update_user_order_engine_capacity(engine_capacity=text, user_chat_id=user_chat_id)
     if key == "year":
         await update_user_order_year(year=text, user_chat_id=user_chat_id)
     if key == "hand_drive":
         await update_user_order_hand_drive(hand_drive=text, user_chat_id=user_chat_id)
+    if key == "power":
+        await update_user_order_power(power=text, user_chat_id=user_chat_id)
 
     query = update.callback_query
     await query.answer()
@@ -63,7 +67,7 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nBody Type:    {}\nDrive:    {}\nEngine Capacity:    {}\nВозраст авто:    {}\nFuel Type:    {}\nBudget:    {}\n\n".format(
+        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nDrive:    {}\nОбъем двигателя:    {}\nВозраст авто:    {}\nFuel Type:    {}\nБюджет:    {}\n\n".format(
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
     if reply_text:
         await query.edit_message_text(
@@ -91,15 +95,19 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         return StartEndRoutes.budget2
     if text == "year":
         return StartEndRoutes.year
-    if text == "engine_capacity":
-        return StartEndRoutes.engine_capacity
+    if text == "engine":
+        return StartEndRoutes.engine
+    if text == "power":
+        return StartEndRoutes.power
+    # if text == "engine_capacity":
+    #     return StartEndRoutes.engine_capacity
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
         user_tg_name = await get_user_contact(user_chat_id)
 
         reply_text = ""
         for row in await get_user_order(update.callback_query.from_user.id):
-            reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nBody Type:    {}\nDrive:    {}\nEngine Capacity:    {}\nВозраст авто:    {}\nFuel Type:    {}\nBudget:    {}\n\n".format(
+            reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nDrive:    {}\nОбъем двигателя:    {}\nВозраст авто:    {}\nFuel Type:    {}\nБюджет:    {}\n\n".format(
                 row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
 
         if reply_text:
@@ -179,20 +187,24 @@ async def hand_drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Star
     return await show_specific_keyboard(update, context, "hand_drive", Keyboard.HAND_DRIVE_KEYBOARD)
 
 
-async def body_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "body_type", Keyboard.BODY_TYPE_KEYBOARD)
+async def power(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard(update, context, "power", Keyboard.POWER_KEYBOARD)
 
 
 async def drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "drive", Keyboard.DRIVE_KEYBOARD)
 
 
-async def engine_capacity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.engine_capacity:
-    return await show_specific_keyboard(update, context, "engine_capacity", Keyboard.ENGINE_CAPACITY_KEYBOARD)
+# async def engine_capacity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.engine_capacity:
+#     return await show_specific_keyboard(update, context, "engine_capacity", Keyboard.ENGINE_KEYBOARD)
 
 
 async def year(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "year", Keyboard.YEAR_KEYBOARD)
+
+
+async def engine(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard(update, context, "engine", Keyboard.ENGINE_KEYBOARD)
 
 
 async def fuel_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:

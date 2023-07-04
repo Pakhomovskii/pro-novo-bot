@@ -7,24 +7,25 @@ class StartEndRoutes:
      model,
      model_mazda,
      model_subaru,
-
      budget,
      budget2,
-     engine_capacity,
+     # engine_capacity,
+     engine,
+     power,
 
      ) \
-     = range(11)
-
+     = range(12)
 
 
 class Routes:
     (brand,
      model,
      hand_drive,
-     body_type,
+     power,
      drive,
-     engine_capacity,
+     # engine_capacity,
      year,
+     engine,
      fuel_type,
      budget,
      budget2,
@@ -45,10 +46,10 @@ class Routes:
 
 
 class RoutesBrand:
-    (subaru,
-     mazda
-     ) \
-     = range(2)
+ (subaru,
+  mazda
+  ) \
+  = range(2)
 
 
 class RoutesModel:
@@ -66,20 +67,18 @@ class RoutesYear:
   = range(4)
 
 
-class RoutesHandDrive:
- (hand_drive_right,
-  hand_drive_left) \
-  = range(2)
+class RoutesPower:
+ (v_50_100,
+  v_101_150,
+  v_151_200,
+  v_201_250,
+  v_251_300,
+  v_301_350,
+  v_351_400) \
+  = range(7)
 
 
-class RoutesBudget:
- (keyboard1,
-  keyboard2
-  ) \
-  = range(2)
-
-
-class RoutesEngineCapacity:
+class RoutesEngine:
  (r_10,
   r_11,
   r_12,
@@ -130,6 +129,19 @@ class RoutesEngineCapacity:
   r_57
   ) \
   = range(48)
+
+
+class RoutesHandDrive:
+ (hand_drive_right,
+  hand_drive_left) \
+  = range(2)
+
+
+class RoutesBudget:
+ (keyboard1,
+  keyboard2
+  ) \
+  = range(2)
 
 
 class RoutesBudgetKeyboard1:

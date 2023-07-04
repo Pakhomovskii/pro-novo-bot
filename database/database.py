@@ -7,7 +7,7 @@ cursor = conn.cursor()
 async def get_user_order(user_chat_id):
     conn.execute('BEGIN')
     cursor.execute('''
-            SELECT brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget FROM orders
+            SELECT brand, model, hand_drive, power, drive, engine_capacity, year, fuel_type, budget FROM orders
             WHERE user_id=?''', (user_chat_id,))
     # Fetch all the rows
     order = cursor.fetchall()
@@ -52,7 +52,7 @@ async def create_user(user_chat_id, user_name, user_first_name):
            ''', (user_chat_id, user_name, user_first_name))
 
         cursor.execute('''
-            INSERT INTO orders (brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget, user_id)
+            INSERT INTO orders (brand, model, hand_drive, power, drive, engine_capacity, year, fuel_type, budget, user_id)
             VALUES ('','','','','','','','','', ?)
         ''', (user_chat_id,))
 
@@ -143,16 +143,29 @@ async def update_user_order_year(year=None, user_chat_id=None):
         conn.rollback()
 
 
-async def delete_user_order(brand="", model="", hand_drive="", body_type="",
+async def update_user_order_power(power=None, user_chat_id=None):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE orders
+            SET power=?
+            WHERE user_id = ?
+        ''', (power, user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
+async def delete_user_order(brand="", model="", hand_drive="", power="",
                             drive="", engine_capacity="", year="",
                             fuel_type="", budget="", user_chat_id=None):
     try:
         conn.execute('BEGIN')
         cursor.execute('''
             UPDATE orders
-            SET brand=?, model=?, hand_drive=?, body_type=?, drive=?, engine_capacity=?, year=?, fuel_type=?, budget=?
+            SET brand=?, model=?, hand_drive=?, power=?, drive=?, engine_capacity=?, year=?, fuel_type=?, budget=?
             WHERE user_id = ?
-        ''', (brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget, user_chat_id))
+        ''', (brand, model, hand_drive, power, drive, engine_capacity, year, fuel_type, budget, user_chat_id))
         conn.commit()
     except sqlite3.Error:
         conn.rollback()
