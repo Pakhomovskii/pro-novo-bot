@@ -88,7 +88,6 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "hand_drive":
         return StartEndRoutes.hand_drive
     if text == "budget":
-        print("OOOOOOOOOOOOO")
         return StartEndRoutes.budget2
     if text == "year":
         return StartEndRoutes.year
@@ -100,12 +99,12 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
 
         reply_text = ""
         for row in await get_user_order(update.callback_query.from_user.id):
-            reply_text += "Марка: {}\nМодель: {}\nПТС: {}\nТип кузова: {}\nПривод: {}\nОбъем двигателя: {}\nГод: {}\nТип топлива: {}\nБюджет: {}\n\n".format(
+            reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nBody Type:    {}\nDrive:    {}\nEngine Capacity:    {}\nВозраст авто:    {}\nFuel Type:    {}\nBudget:    {}\n\n".format(
                 row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
 
         if reply_text:
             text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
-            await context.bot.send_message(chat_id=270900337, text=text, )
+            await context.bot.send_message(chat_id=557195190, text=text, )
         print(type(user_tg_name[0][0]))
         if user_tg_name[0][0] is None:
             print(user_tg_name[0][0])
@@ -188,7 +187,7 @@ async def drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
     return await show_specific_keyboard(update, context, "drive", Keyboard.DRIVE_KEYBOARD)
 
 
-async def engine_capacity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+async def engine_capacity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.engine_capacity:
     return await show_specific_keyboard(update, context, "engine_capacity", Keyboard.ENGINE_CAPACITY_KEYBOARD)
 
 
