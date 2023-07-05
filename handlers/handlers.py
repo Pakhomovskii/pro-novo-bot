@@ -14,7 +14,7 @@ from database.database import (create_user, delete_user_model,
                                update_user_order_fuel,
                                update_user_order_hand_drive,
                                update_user_order_model,
-                               update_user_order_power, update_user_order_year, delete_user_order)
+                               update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
 
@@ -25,14 +25,31 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
     user_name = update.message.from_user.username
     user_first_name = update.message.from_user.first_name
     # create user
-    await create_user(user_chat_id, user_name, user_first_name)
-    # logging.info("User %s started the conversation.", user.first_name) # TODO START LOGGGGING
-    reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
-    await update.message.reply_text(
-        "Начните собирать свой конструктор! Выбранные параметры будут отражаться здесь автоматически\n\nЕсли бот не реагирует нажмите /start",
-        reply_markup=reply_markup
-    )
-    return StartEndRoutes.start_route
+    user_id_from_db = await get_user_id_from_db(user_chat_id)
+
+    if user_id_from_db:
+
+        reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
+
+        reply_text = ""
+        for row in await get_user_order(user_chat_id):
+            reply_text += "Марка:    {}                Модель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
+                row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+        await update.message.reply_text(reply_text,
+                                        reply_markup=reply_markup
+                                        )
+        return StartEndRoutes.start_route
+    else:
+
+        await create_user(user_chat_id, user_name, user_first_name)
+        # logging.info("User %s started the conversation.", user.first_name) # TODO START LOGGGGING
+        reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
+
+        await update.message.reply_text(
+            "Начните собирать свой конструктор! Выбранные параметры будут отражаться здесь автоматически\n\nЕсли бот не реагирует нажмите /start",
+            reply_markup=reply_markup
+        )
+        return StartEndRoutes.start_route
 
 
 async def start_over(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -78,7 +95,7 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
+        reply_text += "Марка:    {}                Модель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
     if reply_text:
         await query.edit_message_text(
@@ -128,9 +145,7 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         if reply_text:
             text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
             await context.bot.send_message(chat_id=557195190, text=text, )
-        print(type(user_tg_name[0][0]))
         if user_tg_name[0][0] is None:
-            print(user_tg_name[0][0])
             text2 = "Мы не смогли отправить вашу анкету, т.к. ваше имя в Телеграмме не определено.\n" \
                     "Пожалуйста, отправьте вашу анкету @Aleksei_Novopashin"
             await context.bot.send_message(chat_id=user_chat_id, text=text2, )
@@ -141,7 +156,8 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "delete":
         print("ВВdddddddaaaaaaaaaaaaaaaaaaaА")
         user_chat_id = update.callback_query.from_user.id
-        await delete_user_order(user_chat_id)
+        print(user_chat_id)
+        await delete_user_order(user_chat_id=user_chat_id)
         return Routes.delete
     return None
 

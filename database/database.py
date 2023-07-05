@@ -4,6 +4,19 @@ conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
 
 
+async def get_user_id_from_db(user_chat_id) -> bool:
+    conn.execute('BEGIN')
+    cursor.execute('''
+            SELECT user_chat_id FROM users
+            WHERE user_chat_id=?''', (user_chat_id,))
+    # Fetch all the rows
+    order = cursor.fetchall()
+    conn.commit()
+    if order:
+        return True
+    return False
+
+
 async def get_user_order(user_chat_id):
     conn.execute('BEGIN')
     cursor.execute('''
@@ -182,20 +195,37 @@ async def update_user_order_power(power=None, user_chat_id=None):
         conn.rollback()
 
 
-async def delete_user_order(brand='', model='', hand_drive='', body_type='',
+async def delete_user_order(brand='', model='', hand_drive='', power='', body_type='',
                             drive='', engine_capacity='', year='',
                             fuel_type='', budget='', user_chat_id=None):
     try:
         conn.execute('BEGIN')
         cursor.execute('''
             UPDATE orders
-            SET brand=?, model=?, hand_drive=?, power=?, drive=?, engine_capacity=?, year=?, fuel_type=?, budget=?
-            WHERE user_id = ?
-        ''', (brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget, user_chat_id))
+            SET brand=?,
+             model=?, 
+             hand_drive=?, 
+             power=?, 
+             drive=?, 
+             engine_capacity=?,
+              year=?,
+               fuel_type=?,
+                budget=?
+            WHERE user_id = ?   
+        ''', (brand,
+              model,
+              hand_drive,
+              power,
+              drive,
+              engine_capacity,
+              year,
+              fuel_type,
+              budget,
+              user_chat_id))
         conn.commit()
         print("dsddsdsdsdsdsdsds")
     except sqlite3.Error:
-        print("ffffffffffff")
+        print(sqlite3.Error)
         conn.rollback()
 
 
