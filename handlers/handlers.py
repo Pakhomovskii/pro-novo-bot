@@ -244,6 +244,3 @@ async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
 async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "DRIVE", Keyboard.TAX)
 
-
-async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "DRIVE", Keyboard.DELETE)

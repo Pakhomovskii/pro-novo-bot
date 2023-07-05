@@ -182,7 +182,7 @@ async def update_user_order_power(power=None, user_chat_id=None):
         conn.rollback()
 
 
-async def delete_user_order(brand='', model='', hand_drive='', power='',
+async def delete_user_order(brand='', model='', hand_drive='', body_type='',
                             drive='', engine_capacity='', year='',
                             fuel_type='', budget='', user_chat_id=None):
     try:
@@ -191,9 +191,11 @@ async def delete_user_order(brand='', model='', hand_drive='', power='',
             UPDATE orders
             SET brand=?, model=?, hand_drive=?, power=?, drive=?, engine_capacity=?, year=?, fuel_type=?, budget=?
             WHERE user_id = ?
-        ''', (brand, model, hand_drive, power, drive, engine_capacity, year, fuel_type, budget, user_chat_id))
+        ''', (brand, model, hand_drive, body_type, drive, engine_capacity, year, fuel_type, budget, user_chat_id))
         conn.commit()
+        print("dsddsdsdsdsdsdsds")
     except sqlite3.Error:
+        print("ffffffffffff")
         conn.rollback()
 
 
