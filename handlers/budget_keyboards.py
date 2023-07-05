@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from handlers.handlers import show_keyboard2, show_keyboard1
+from handlers.handlers import show_keyboard1, show_keyboard2
 from keyboards.keyboards import Keyboard
 from routes.routes import StartEndRoutes
 

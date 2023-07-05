@@ -9,12 +9,13 @@ class StartEndRoutes:
      model_subaru,
      budget,
      budget2,
-     # engine_capacity,
      engine,
      power,
+     drive,
+     fuel_type,
 
      ) \
-     = range(12)
+     = range(14)
 
 
 class Routes:
@@ -23,7 +24,6 @@ class Routes:
      hand_drive,
      power,
      drive,
-     # engine_capacity,
      year,
      engine,
      fuel_type,
@@ -67,6 +67,14 @@ class RoutesYear:
   = range(4)
 
 
+class RoutesDrive:
+ (rear,
+  front,
+  drive_four,
+  connected) \
+  = range(4)
+
+
 class RoutesPower:
  (v_50_100,
   v_101_150,
@@ -76,6 +84,14 @@ class RoutesPower:
   v_301_350,
   v_351_400) \
   = range(7)
+
+
+class RoutesFuel:
+ (petrol,
+  diesel,
+  hybrid,
+  electro) \
+  = range(4)
 
 
 class RoutesEngine:

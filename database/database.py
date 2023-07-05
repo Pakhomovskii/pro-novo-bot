@@ -143,6 +143,32 @@ async def update_user_order_year(year=None, user_chat_id=None):
         conn.rollback()
 
 
+async def update_user_order_drive(drive=None, user_chat_id=None):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE orders
+            SET drive=?
+            WHERE user_id = ?
+        ''', (drive, user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
+async def update_user_order_fuel(fuel_type=None, user_chat_id=None):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE orders
+            SET fuel_type=?
+            WHERE user_id = ?
+        ''', (fuel_type, user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
 async def update_user_order_power(power=None, user_chat_id=None):
     try:
         conn.execute('BEGIN')
@@ -156,9 +182,9 @@ async def update_user_order_power(power=None, user_chat_id=None):
         conn.rollback()
 
 
-async def delete_user_order(brand="", model="", hand_drive="", power="",
-                            drive="", engine_capacity="", year="",
-                            fuel_type="", budget="", user_chat_id=None):
+async def delete_user_order(brand='', model='', hand_drive='', power='',
+                            drive='', engine_capacity='', year='',
+                            fuel_type='', budget='', user_chat_id=None):
     try:
         conn.execute('BEGIN')
         cursor.execute('''

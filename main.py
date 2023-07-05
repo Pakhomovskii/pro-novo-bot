@@ -2,38 +2,34 @@ import os
 
 from dotenv import load_dotenv
 from telegram import __version__ as TG_VER
-from telegram.ext import (
-    Application,
-    CallbackQueryHandler,
-    CommandHandler,
-    ConversationHandler,
-)
+from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
+                          ConversationHandler)
 
-from handlers.brands import subaru, mazda
-from handlers.budget_keyboards import (
-    one, two, three, four, five, six, seven, eight, nine, zero, zero2, nine2, eight2,
-    seven2, six2, five2, four2, three2, two2, one2
-)
-from handlers.engine import r_10, r_11, \
-    r_12, r_13, r_14, r_15, r_16, r_17, r_18, r_19, r_20, r_21, r_22, r_23, \
-    r_24, r_25, \
-    r_26, r_27, r_28, r_29, r_30, r_31, r_32, r_33, r_34, r_35, r_36, r_37, r_38, r_39, r_40, r_41, r_42, r_43, r_44, \
-    r_45, r_46, r_47, r_48, \
-    r_49, r_50, r_51, r_52, r_53, r_54, r_55, r_56, r_57
-from handlers.hand_drive import hand_drive_right, hand_drive_left
-from handlers.handlers import (
-
-    brand, \
-    budget, send,
-    start, start_over, aplay_new_budget, aplay_new_budget2, model, year,
-    engine, hand_drive, power,
-
-)
-from handlers.models import impreza, cx_8
-from handlers.power import v_50_100, v_101_150, v_151_200, v_251_300, v_301_350, v_351_400
-from handlers.year import year_more_7, year_3_5, year_less_3, year_5_7
-from routes.routes import Routes, StartEndRoutes, RoutesBrand, RoutesModel, RoutesBudgetKeyboard1, RoutesEngine, \
-    RoutesYear, RoutesHandDrive, RoutesBudgetKeyboard2, RoutesPower
+from handlers.brands import mazda, subaru
+from handlers.budget_keyboards import (eight, eight2, five, five2, four, four2,
+                                       nine, nine2, one, one2, seven, seven2,
+                                       six, six2, three, three2, two, two2,
+                                       zero, zero2)
+from handlers.drive import connected, drive_four, front, rear
+from handlers.engine import (r_10, r_11, r_12, r_13, r_14, r_15, r_16, r_17,
+                             r_18, r_19, r_20, r_21, r_22, r_23, r_24, r_25,
+                             r_26, r_27, r_28, r_29, r_30, r_31, r_32, r_33,
+                             r_34, r_35, r_36, r_37, r_38, r_39, r_40, r_41,
+                             r_42, r_43, r_44, r_45, r_46, r_47, r_48, r_49,
+                             r_50, r_51, r_52, r_53, r_54, r_55, r_56, r_57)
+from handlers.fuel import diesel, electro, hybrid, petrol
+from handlers.hand_drive import hand_drive_left, hand_drive_right
+from handlers.handlers import (aplay_new_budget, aplay_new_budget2, brand,
+                               budget, drive, engine, hand_drive, model, power,
+                               send, start, start_over, year, fuel_type, delete)
+from handlers.models import cx_8, impreza
+from handlers.power import (v_50_100, v_101_150, v_151_200, v_251_300,
+                            v_301_350, v_351_400)
+from handlers.year import year_3_5, year_5_7, year_less_3, year_more_7
+from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
+                           RoutesBudgetKeyboard2, RoutesDrive, RoutesEngine,
+                           RoutesFuel, RoutesHandDrive, RoutesModel,
+                           RoutesPower, RoutesYear, StartEndRoutes)
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
@@ -66,13 +62,13 @@ def main() -> None:
                 CallbackQueryHandler(model, pattern="^" + str(Routes.model) + "$"),
                 CallbackQueryHandler(hand_drive, pattern="^" + str(Routes.hand_drive) + "$"),
                 CallbackQueryHandler(power, pattern="^" + str(Routes.power) + "$"),
-                # CallbackQueryHandler(drive, pattern="^" + str(Routes.drive) + "$"),
+                CallbackQueryHandler(drive, pattern="^" + str(Routes.drive) + "$"),
                 CallbackQueryHandler(year, pattern="^" + str(Routes.year) + "$"),
-                # CallbackQueryHandler(fuel_type, pattern="^" + str(Routes.fuel_type) + "$"),
+                CallbackQueryHandler(fuel_type, pattern="^" + str(Routes.fuel_type) + "$"),
                 CallbackQueryHandler(engine, pattern="^" + str(Routes.engine) + "$"
                                      ),
                 CallbackQueryHandler(budget, pattern="^" + str(Routes.budget) + "$"),
-                # CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
+                CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
 
                 CallbackQueryHandler(send, pattern="^" + str(Routes.send) + "$"),
                 # CallbackQueryHandler(tax, pattern="^" + str(Routes.tax) + "$"),
@@ -165,6 +161,11 @@ def main() -> None:
             ],
 
             Routes.send: [
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+            ],
+
+            Routes.delete: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
             ],
@@ -268,6 +269,26 @@ def main() -> None:
                 CallbackQueryHandler(v_251_300, pattern="^" + str(RoutesPower.v_251_300) + "$"),
                 CallbackQueryHandler(v_301_350, pattern="^" + str(RoutesPower.v_301_350) + "$"),
                 CallbackQueryHandler(v_351_400, pattern="^" + str(RoutesPower.v_351_400) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
+            StartEndRoutes.drive: [
+
+                CallbackQueryHandler(rear, pattern="^" + str(RoutesDrive.rear) + "$"),
+                CallbackQueryHandler(front, pattern="^" + str(RoutesDrive.front) + "$"),
+                CallbackQueryHandler(drive_four, pattern="^" + str(RoutesDrive.drive_four) + "$"),
+                CallbackQueryHandler(connected, pattern="^" + str(RoutesDrive.connected) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
+            StartEndRoutes.fuel_type: [
+
+                CallbackQueryHandler(petrol, pattern="^" + str(RoutesFuel.petrol) + "$"),
+                CallbackQueryHandler(diesel, pattern="^" + str(RoutesFuel.diesel) + "$"),
+                CallbackQueryHandler(hybrid, pattern="^" + str(RoutesFuel.hybrid) + "$"),
+                CallbackQueryHandler(electro, pattern="^" + str(RoutesFuel.electro) + "$"),
 
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 

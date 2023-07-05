@@ -1,14 +1,22 @@
 from typing import List
 
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
-from database.database import create_user, get_user_order, show_temporary_budget, \
-    edit_temporary_budget, update_user_order_brand, update_user_order_model, delete_user_temporary_budget, \
-    update_user_order_budget, get_user_contact, get_user_brand, delete_user_model, \
-    update_user_order_engine_capacity, update_user_order_year, update_user_order_hand_drive, update_user_order_power
+from database.database import (create_user, delete_user_model,
+                               delete_user_temporary_budget,
+                               edit_temporary_budget, get_user_brand,
+                               get_user_contact, get_user_order,
+                               show_temporary_budget, update_user_order_brand,
+                               update_user_order_budget,
+                               update_user_order_drive,
+                               update_user_order_engine_capacity,
+                               update_user_order_fuel,
+                               update_user_order_hand_drive,
+                               update_user_order_model,
+                               update_user_order_power, update_user_order_year, delete_user_order)
 from keyboards.keyboards import Keyboard
-from routes.routes import StartEndRoutes, Routes
+from routes.routes import Routes, StartEndRoutes
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -37,7 +45,6 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
     user_chat_id = update.callback_query.from_user.id
 
     if key == "aplay_new_budget":
-        print("RRRERER")
         old_value = await show_temporary_budget(user_chat_id)
         await update_user_order_budget(budget=old_value[0][0], user_chat_id=user_chat_id)
 
@@ -59,6 +66,10 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
         await update_user_order_hand_drive(hand_drive=text, user_chat_id=user_chat_id)
     if key == "power":
         await update_user_order_power(power=text, user_chat_id=user_chat_id)
+    if key == "drive":
+        await update_user_order_drive(drive=text, user_chat_id=user_chat_id)
+    if key == "fuel_type":
+        await update_user_order_fuel(fuel_type=text, user_chat_id=user_chat_id)
 
     query = update.callback_query
     await query.answer()
@@ -67,7 +78,7 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nDrive:    {}\nОбъем двигателя:    {}\nВозраст авто:    {}\nFuel Type:    {}\nБюджет:    {}\n\n".format(
+        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
     if reply_text:
         await query.edit_message_text(
@@ -99,6 +110,10 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         return StartEndRoutes.engine
     if text == "power":
         return StartEndRoutes.power
+    if text == "drive":
+        return StartEndRoutes.drive
+    if text == "fuel_type":
+        return StartEndRoutes.fuel_type
     # if text == "engine_capacity":
     #     return StartEndRoutes.engine_capacity
     if text == "send":
@@ -107,7 +122,7 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
 
         reply_text = ""
         for row in await get_user_order(update.callback_query.from_user.id):
-            reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nDrive:    {}\nОбъем двигателя:    {}\nВозраст авто:    {}\nFuel Type:    {}\nБюджет:    {}\n\n".format(
+            reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
                 row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
 
         if reply_text:
@@ -116,17 +131,23 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         print(type(user_tg_name[0][0]))
         if user_tg_name[0][0] is None:
             print(user_tg_name[0][0])
-            text = "Мы не смогли отправить вашу анкету, т.к. ваше имя в Телеграмме не определено.\n" \
-                   "Пожалуйста, свяжитесь с нашим специалистом @Aleksei_Novopashin"
+            text2 = "Мы не смогли отправить вашу анкету, т.к. ваше имя в Телеграмме не определено.\n" \
+                    "Пожалуйста, отправьте вашу анкету @Aleksei_Novopashin"
+            await context.bot.send_message(chat_id=user_chat_id, text=text2, )
+            text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
             await context.bot.send_message(chat_id=user_chat_id, text=text, )
 
         return Routes.send
+    if text == "delete":
+        print("ВВdddddddaaaaaaaaaaaaaaaaaaaА")
+        user_chat_id = update.callback_query.from_user.id
+        await delete_user_order(user_chat_id)
+        return Routes.delete
     return None
 
 
 async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
                          keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes.budget2:
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     user_chat_id = update.callback_query.from_user.id
     query = update.callback_query
     await query.answer()
@@ -143,7 +164,6 @@ async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE, tex
 
 async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
                          keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes.budget:
-    print("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
     user_chat_id = update.callback_query.from_user.id
     query = update.callback_query
     await query.answer()
@@ -159,13 +179,11 @@ async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE, tex
 
 
 async def aplay_new_budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    print("DDFSAAAAAA")
     return await show_specific_keyboard_to_change_order(update, context, "aplay_new_budget", "",
                                                         Keyboard.BUDGET_KEYBOARD2)
 
 
 async def aplay_new_budget2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    print("DDFSAAAAAA")
     return await show_specific_keyboard_to_change_order(update, context, "aplay_new_budget", "",
                                                         Keyboard.BUDGET_KEYBOARD)
 
@@ -208,7 +226,7 @@ async def engine(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
 
 
 async def fuel_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "fuel_type", Keyboard.FUEL_TYPE_KEYBOARD)
+    return await show_specific_keyboard(update, context, "fuel_type", Keyboard.FUEL_KEYBOARD)
 
 
 async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.budget:
@@ -217,6 +235,10 @@ async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
 
 async def send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "send", Keyboard.SEND)
+
+
+async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard(update, context, "delete", Keyboard.DELETE)
 
 
 async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
