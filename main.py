@@ -23,8 +23,9 @@ from handlers.handlers import (aplay_new_budget, aplay_new_budget2, brand,
                                budget, drive, engine, hand_drive, model, power,
                                send, start, start_over, year, fuel_type, delete)
 from handlers.models import cx_8, impreza
-from handlers.power import (v_50_100, v_101_150, v_151_200, v_251_300,
+from handlers.power import (v_50_100, v_101_150, v_151_200, v_251_300, v_201_250,
                             v_301_350, v_351_400)
+from handlers.tax import tax
 from handlers.year import year_3_5, year_5_7, year_less_3, year_more_7
 from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
                            RoutesBudgetKeyboard2, RoutesDrive, RoutesEngine,
@@ -71,62 +72,8 @@ def main() -> None:
                 CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
 
                 CallbackQueryHandler(send, pattern="^" + str(Routes.send) + "$"),
-                # CallbackQueryHandler(tax, pattern="^" + str(Routes.tax) + "$"),
+                CallbackQueryHandler(tax, pattern="^" + str(Routes.tax) + "$"),
             ],
-
-            # StartEndRoutes.engine_capacity: [
-            #     CallbackQueryHandler(r_10, pattern="^" + str(RoutesEngine.r_10) + "$"),
-            #     CallbackQueryHandler(r_11, pattern="^" + str(RoutesEngine.r_11) + "$"),
-            #     CallbackQueryHandler(r_12, pattern="^" + str(RoutesEngine.r_12) + "$"),
-            #     CallbackQueryHandler(r_13, pattern="^" + str(RoutesEngine.r_13) + "$"),
-            #     CallbackQueryHandler(r_14, pattern="^" + str(RoutesEngine.r_14) + "$"),
-            #     CallbackQueryHandler(r_15, pattern="^" + str(RoutesEngine.r_15) + "$"),
-            #     CallbackQueryHandler(r_16, pattern="^" + str(RoutesEngine.r_16) + "$"),
-            #     CallbackQueryHandler(r_17, pattern="^" + str(RoutesEngine.r_17) + "$"),
-            #     CallbackQueryHandler(r_18, pattern="^" + str(RoutesEngine.r_18) + "$"),
-            #     CallbackQueryHandler(r_19, pattern="^" + str(RoutesEngine.r_19) + "$"),
-            #     CallbackQueryHandler(r_20, pattern="^" + str(RoutesEngine.r_20) + "$"),
-            #     CallbackQueryHandler(r_21, pattern="^" + str(RoutesEngine.r_21) + "$"),
-            #     CallbackQueryHandler(r_22, pattern="^" + str(RoutesEngine.r_22) + "$"),
-            #     CallbackQueryHandler(r_23, pattern="^" + str(RoutesEngine.r_23) + "$"),
-            #     CallbackQueryHandler(r_24, pattern="^" + str(RoutesEngine.r_24) + "$"),
-            #     CallbackQueryHandler(r_25, pattern="^" + str(RoutesEngine.r_25) + "$"),
-            #     CallbackQueryHandler(r_26, pattern="^" + str(RoutesEngine.r_26) + "$"),
-            #     CallbackQueryHandler(r_27, pattern="^" + str(RoutesEngine.r_27) + "$"),
-            #     CallbackQueryHandler(r_28, pattern="^" + str(RoutesEngine.r_28) + "$"),
-            #     CallbackQueryHandler(r_29, pattern="^" + str(RoutesEngine.r_29) + "$"),
-            #     CallbackQueryHandler(r_30, pattern="^" + str(RoutesEngine.r_30) + "$"),
-            #     CallbackQueryHandler(r_31, pattern="^" + str(RoutesEngine.r_31) + "$"),
-            #     CallbackQueryHandler(r_32, pattern="^" + str(RoutesEngine.r_32) + "$"),
-            #     CallbackQueryHandler(r_33, pattern="^" + str(RoutesEngine.r_33) + "$"),
-            #     CallbackQueryHandler(r_34, pattern="^" + str(RoutesEngine.r_34) + "$"),
-            #     CallbackQueryHandler(r_35, pattern="^" + str(RoutesEngine.r_35) + "$"),
-            #     CallbackQueryHandler(r_36, pattern="^" + str(RoutesEngine.r_36) + "$"),
-            #     CallbackQueryHandler(r_37, pattern="^" + str(RoutesEngine.r_37) + "$"),
-            #     CallbackQueryHandler(r_38, pattern="^" + str(RoutesEngine.r_38) + "$"),
-            #     CallbackQueryHandler(r_39, pattern="^" + str(RoutesEngine.r_39) + "$"),
-            #     CallbackQueryHandler(r_40, pattern="^" + str(RoutesEngine.r_40) + "$"),
-            #     CallbackQueryHandler(r_41, pattern="^" + str(RoutesEngine.r_41) + "$"),
-            #     CallbackQueryHandler(r_42, pattern="^" + str(RoutesEngine.r_42) + "$"),
-            #     CallbackQueryHandler(r_43, pattern="^" + str(RoutesEngine.r_43) + "$"),
-            #     CallbackQueryHandler(r_44, pattern="^" + str(RoutesEngine.r_44) + "$"),
-            #     CallbackQueryHandler(r_45, pattern="^" + str(RoutesEngine.r_45) + "$"),
-            #     CallbackQueryHandler(r_46, pattern="^" + str(RoutesEngine.r_46) + "$"),
-            #     CallbackQueryHandler(r_47, pattern="^" + str(RoutesEngine.r_47) + "$"),
-            #     CallbackQueryHandler(r_48, pattern="^" + str(RoutesEngine.r_48) + "$"),
-            #     CallbackQueryHandler(r_49, pattern="^" + str(RoutesEngine.r_49) + "$"),
-            #     CallbackQueryHandler(r_50, pattern="^" + str(RoutesEngine.r_50) + "$"),
-            #     CallbackQueryHandler(r_51, pattern="^" + str(RoutesEngine.r_51) + "$"),
-            #     CallbackQueryHandler(r_52, pattern="^" + str(RoutesEngine.r_52) + "$"),
-            #     CallbackQueryHandler(r_53, pattern="^" + str(RoutesEngine.r_53) + "$"),
-            #     CallbackQueryHandler(r_54, pattern="^" + str(RoutesEngine.r_54) + "$"),
-            #     CallbackQueryHandler(r_55, pattern="^" + str(RoutesEngine.r_55) + "$"),
-            #     CallbackQueryHandler(r_56, pattern="^" + str(RoutesEngine.r_56) + "$"),
-            #     CallbackQueryHandler(r_57, pattern="^" + str(RoutesEngine.r_57) + "$"),
-            #
-            #     CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-            #
-            # ],
 
             StartEndRoutes.budget: [
 
@@ -160,10 +107,10 @@ def main() -> None:
 
             ],
 
-            Routes.send: [
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
-            ],
+            # Routes.send: [
+            #     CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+            #     CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+            # ],
 
             Routes.delete: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
@@ -266,6 +213,7 @@ def main() -> None:
                 CallbackQueryHandler(v_50_100, pattern="^" + str(RoutesPower.v_50_100) + "$"),
                 CallbackQueryHandler(v_101_150, pattern="^" + str(RoutesPower.v_101_150) + "$"),
                 CallbackQueryHandler(v_151_200, pattern="^" + str(RoutesPower.v_151_200) + "$"),
+                CallbackQueryHandler(v_201_250, pattern="^" + str(RoutesPower.v_201_250) + "$"),
                 CallbackQueryHandler(v_251_300, pattern="^" + str(RoutesPower.v_251_300) + "$"),
                 CallbackQueryHandler(v_301_350, pattern="^" + str(RoutesPower.v_301_350) + "$"),
                 CallbackQueryHandler(v_351_400, pattern="^" + str(RoutesPower.v_351_400) + "$"),

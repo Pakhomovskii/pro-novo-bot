@@ -13,9 +13,10 @@ class StartEndRoutes:
      power,
      drive,
      fuel_type,
+     tax,
 
      ) \
-     = range(14)
+     = range(15)
 
 
 class Routes:
@@ -90,7 +91,7 @@ class RoutesFuel:
  (petrol,
   diesel,
   hybrid,
-  electro) \
+  electro,) \
   = range(4)
 
 

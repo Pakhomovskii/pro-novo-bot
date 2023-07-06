@@ -11,25 +11,25 @@ class Keyboard:
         ],
         [
             InlineKeyboardButton("Руль", callback_data=str(Routes.hand_drive)),
-            InlineKeyboardButton("Мощность двигателя", callback_data=str(Routes.power)),
+            InlineKeyboardButton("Мощность ДВС", callback_data=str(Routes.power)),
         ],
         [
             InlineKeyboardButton("Привод", callback_data=str(Routes.drive)),
-            InlineKeyboardButton("Объем двигателя", callback_data=str(Routes.engine)),
+            InlineKeyboardButton("Объем ДВС", callback_data=str(Routes.engine)),
         ],
         [
             InlineKeyboardButton("Возраст Авто", callback_data=str(Routes.year)),
             InlineKeyboardButton("Тип топлива", callback_data=str(Routes.fuel_type)),
         ],
-        [InlineKeyboardButton("Бюджет", callback_data=str(Routes.budget))],
+        [InlineKeyboardButton("Стоимость", callback_data=str(Routes.budget)),
 
-        [InlineKeyboardButton("Обнулить конструктор", callback_data=str(Routes.delete))
+         InlineKeyboardButton("Обнулить анкету", callback_data=str(Routes.delete))
          ],
 
         [
-            InlineKeyboardButton("Отправить авто для подбора", callback_data=str(Routes.send)),
-            InlineKeyboardButton("Расчет полной стоимости", callback_data=str(Routes.tax)),
-        ],
+            InlineKeyboardButton("Отправить авто для подбора", callback_data=str(Routes.send)), ],
+        [InlineKeyboardButton("Cтоимость + таможенные платежи", callback_data=str(Routes.tax)),
+         ],
     ]
 
     BRAND_KEYBOARD = [
@@ -141,20 +141,20 @@ class Keyboard:
 
     POWER_KEYBOARD = [
         [
-            InlineKeyboardButton("50_100 л.с.", callback_data=str(RoutesPower.v_50_100)), ],
+            InlineKeyboardButton("50-100 л.с.", callback_data=str(RoutesPower.v_50_100)), ],
         [
-            InlineKeyboardButton("101_150 л.с.", callback_data=str(RoutesPower.v_101_150)), ],
+            InlineKeyboardButton("101-150 л.с.", callback_data=str(RoutesPower.v_101_150)), ],
         [
-            InlineKeyboardButton("151_200 л.с.", callback_data=str(RoutesPower.v_151_200)), ],
+            InlineKeyboardButton("151-200 л.с.", callback_data=str(RoutesPower.v_151_200)), ],
         [
-            InlineKeyboardButton("201_250 л.с.", callback_data=str(RoutesPower.v_201_250)), ],
+            InlineKeyboardButton("201-250 л.с.", callback_data=str(RoutesPower.v_201_250)), ],
         [
-            InlineKeyboardButton("251_300 л.с.", callback_data=str(RoutesPower.v_251_300)), ],
+            InlineKeyboardButton("251-300 л.с.", callback_data=str(RoutesPower.v_251_300)), ],
         [
-            InlineKeyboardButton("301_350 л.с.", callback_data=str(RoutesPower.v_301_350)), ],
+            InlineKeyboardButton("301-350 л.с.", callback_data=str(RoutesPower.v_301_350)), ],
 
         [
-            InlineKeyboardButton("351_400 л.с.", callback_data=str(RoutesPower.v_351_400)), ],
+            InlineKeyboardButton("351-400 л.с.", callback_data=str(RoutesPower.v_351_400)), ],
 
         [
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
@@ -237,7 +237,6 @@ class Keyboard:
         ]
     ]
 
-
     SEND = [
         [
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
@@ -246,7 +245,7 @@ class Keyboard:
 
     TAX = [
         [
-            # InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]
 

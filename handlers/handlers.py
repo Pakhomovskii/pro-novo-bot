@@ -33,7 +33,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
 
         reply_text = ""
         for row in await get_user_order(user_chat_id):
-            reply_text += "Марка:    {}                Модель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
+            reply_text += "Марка:                     {}\nМодель:                  {}\nРуль:                        {}\nМощность:             {}\nПривод:                   {}\nОбъем ДВС:            {}\nВозраст авто:        {}\nТип топлива:          {}\nСтоимость:             {}\n\nЕсли бот не реагирует нажмите /start".format(
                 row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
         await update.message.reply_text(reply_text,
                                         reply_markup=reply_markup
@@ -95,13 +95,40 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        reply_text += "Марка:    {}                Модель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
+        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nСтоимость:    {}\n\nЕсли бот не реагирует нажмите /start".format(
             row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
     if reply_text:
         await query.edit_message_text(
             text=reply_text, reply_markup=reply_markup
         )
     return StartEndRoutes.start_route
+
+
+async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
+    query = update.callback_query
+    if text == "tax":
+        await context.bot.answer_callback_query(callback_query_id=query.id, text=text, show_alert=True)
+
+    if text == "send":
+        user_chat_id = update.callback_query.from_user.id
+        user_tg_name = await get_user_contact(user_chat_id)
+
+        if user_tg_name[0][0] is not None:
+            reply_text = ""
+            for row in await get_user_order(update.callback_query.from_user.id):
+                reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nСтоимость:    {}\n\n".format(
+                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+
+            if reply_text:
+                text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
+                await context.bot.send_message(chat_id=557195190, text=text, )
+                await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                        text="Ваша анкета была успешно оправлена и скоро с вами свяжется наш специалист.\n\nСпасибо, что воспользовались нашим ботом =)",
+                                                        show_alert=True)
+        else:
+            text2 = "Мы отправили вашу анкету без имени, т.к. оно в Телеграмме не определено.\n" \
+                    "Пожалуйста, сообщите это нашему специалисту @Aleksei_Novopashin"
+            await context.bot.send_message(chat_id=user_chat_id, text=text2)
 
 
 async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
@@ -131,30 +158,7 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         return StartEndRoutes.drive
     if text == "fuel_type":
         return StartEndRoutes.fuel_type
-    # if text == "engine_capacity":
-    #     return StartEndRoutes.engine_capacity
-    if text == "send":
-        user_chat_id = update.callback_query.from_user.id
-        user_tg_name = await get_user_contact(user_chat_id)
-
-        reply_text = ""
-        for row in await get_user_order(update.callback_query.from_user.id):
-            reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nБюджет:    {}\n\n".format(
-                row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
-
-        if reply_text:
-            text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
-            await context.bot.send_message(chat_id=557195190, text=text, )
-        if user_tg_name[0][0] is None:
-            text2 = "Мы не смогли отправить вашу анкету, т.к. ваше имя в Телеграмме не определено.\n" \
-                    "Пожалуйста, отправьте вашу анкету @Aleksei_Novopashin"
-            await context.bot.send_message(chat_id=user_chat_id, text=text2, )
-            text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
-            await context.bot.send_message(chat_id=user_chat_id, text=text, )
-
-        return Routes.send
     if text == "delete":
-        print("ВВdddddddaaaaaaaaaaaaaaaaaaaА")
         user_chat_id = update.callback_query.from_user.id
         print(user_chat_id)
         await delete_user_order(user_chat_id=user_chat_id)
@@ -249,14 +253,13 @@ async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
     return await show_specific_keyboard(update, context, "budget", Keyboard.BUDGET_KEYBOARD)
 
 
-async def send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "send", Keyboard.SEND)
+async def send(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    return await show_pop_up(update, context, "send")
 
 
 async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "delete", Keyboard.DELETE)
 
 
-async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "DRIVE", Keyboard.TAX)
-
+async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    return await show_pop_up(update, context, "tax")
