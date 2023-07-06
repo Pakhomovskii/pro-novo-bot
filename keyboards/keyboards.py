@@ -21,7 +21,7 @@ class Keyboard:
             InlineKeyboardButton("Возраст Авто", callback_data=str(Routes.year)),
             InlineKeyboardButton("Тип топлива", callback_data=str(Routes.fuel_type)),
         ],
-        [InlineKeyboardButton("Стоимость", callback_data=str(Routes.budget)),
+        [InlineKeyboardButton("Бюджет", callback_data=str(Routes.budget)),
 
          InlineKeyboardButton("Обнулить анкету", callback_data=str(Routes.delete))
          ],
