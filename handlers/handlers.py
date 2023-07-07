@@ -113,13 +113,15 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
     query = update.callback_query
     if text == "tax":
-        user_chat_id = update.callback_query.from_user.id
-        tax = await calculate_sum(user_chat_id)
-        await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                text=f"Таможенные сборы составят {tax} руб.", show_alert=True)
-    # except:
-    #     await context.bot.answer_callback_query(callback_query_id=query.id,
-    #                                             text=f"Не хватает данных для расчета таможенных сборов", show_alert=True)
+        try:
+            user_chat_id = update.callback_query.from_user.id
+            tax = await calculate_sum(user_chat_id)
+            await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                    text=f"Таможенные сборы составят {tax} руб.", show_alert=True)
+        except:
+            await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                    text=f"Не хватает данных для расчета таможенных сборов",
+                                                    show_alert=True)
 
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
@@ -247,6 +249,7 @@ async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
         await context.bot.answer_callback_query(callback_query_id=query.id,
                                                 text="Сначала выберите Марку автомобиля",
                                                 show_alert=True)
+
 
 async def hand_drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "hand_drive", Keyboard.HAND_DRIVE_KEYBOARD)

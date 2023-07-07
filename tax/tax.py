@@ -30,7 +30,7 @@ class CarTaxCalculator:
         self.power = power
         self.capacity = capacity
 
-    def calculate_tax(self):
+    async def calculate_tax(self):
         if self.age < 3:
             if self.cost < 325000:
                 tax_rate = 0.54
@@ -88,8 +88,6 @@ async def calculate_sum(user_chat_id=None):
     age = await get_user_car_age(user_chat_id)
     capacity = await get_user_car_engine_capacity(user_chat_id)
     cost_int = int(cost[0][0])
-    print(cost_int)
-    # age_int = None
 
     if age[0][0] == "меньше 3-х лет":
         age_int = 2
@@ -104,5 +102,5 @@ async def calculate_sum(user_chat_id=None):
     tax_for_new_car = CarTaxCalculator(cost=cost_int, age=age_int, power=0, capacity=capacity_int)
     rate = Euro(1)
 
-    tax = int(tax_for_new_car.calculate_tax()) * int(rate.exchange_rub())
+    tax = int(await tax_for_new_car.calculate_tax()) * int(rate.exchange_rub())
     return tax
