@@ -151,9 +151,9 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                 text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
                 await context.bot.send_message(chat_id=557195190, text=text)
                 await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                        text="""Ваша анкета была успешно оправлена и скоро с вами
-                                                         свяжется наш специалист.\n\n
-                                                         Спасибо, что воспользовались нашим ботом =)""",
+                                                        text="Ваша анкета была успешно оправлена"
+                                                             " и скоро с вами свяжется наш специалист.\n\n"
+                                                             "Спасибо, что воспользовались нашим ботом =)",
                                                         show_alert=True)
         else:
             text2 = "Мы отправили вашу анкету без имени, т.к. оно в Телеграмме не определено.\n" \
