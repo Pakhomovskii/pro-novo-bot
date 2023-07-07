@@ -27,8 +27,8 @@ class Keyboard:
          ],
 
         [
-            InlineKeyboardButton("Отправить авто для подбора", callback_data=str(Routes.send)), ],
-        [InlineKeyboardButton("Расчет  платежей", callback_data=str(Routes.tax)),
+            InlineKeyboardButton("Отправить авто нам для подбора", callback_data=str(Routes.send)), ],
+        [InlineKeyboardButton("Расчет всех платежей", callback_data=str(Routes.tax)),
          ],
     ]
 
