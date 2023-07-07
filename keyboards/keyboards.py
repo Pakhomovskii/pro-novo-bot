@@ -129,6 +129,9 @@ class Keyboard:
             InlineKeyboardButton("5.7", callback_data=str(RoutesEngine.r_57)),
 
         ],
+        [
+            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+        ]
     ]
 
     HAND_DRIVE_KEYBOARD = [
