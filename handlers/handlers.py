@@ -1,5 +1,6 @@
 from typing import List
 
+import emoji
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
@@ -17,6 +18,12 @@ from database.database import (create_user, delete_user_model,
                                update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
+from tax.tax import calculate_sum
+
+MAIN_REPLAY_TEXT = emoji.emojize(
+    "🔹Марка:    {}\n🔹Модель:    {}\n🔹Руль:    {}\n🔹Мощность ДВС*:    {}\n🔹Привод:    {}\n🔹Объем ДВС*:    {}\n🔹Возраст авто*:    {}\n🔹Тип топлива:    {}\n🔹Стоимость*:    {}\n\n*Обязательные поля для расчета таможенных платежей\n\nЕсли бот не реагирует нажмите /start")
+REPLAY_TEXT_TO_SEND = (
+    "🔹Марка:    {}\n🔹Модель:    {}\n🔹Руль:    {}\n🔹Мощность:    {}\n🔹Привод:    {}\n🔹Объем ДВС:    {}\n🔹Возраст авто:    {}\n🔹Тип топлива:    {}\n🔹Стоимость:    {}\n\n")
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -33,8 +40,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
 
         reply_text = ""
         for row in await get_user_order(user_chat_id):
-            reply_text += "Марка:                     {}\nМодель:                  {}\nРуль:                        {}\nМощность:             {}\nПривод:                   {}\nОбъем ДВС:            {}\nВозраст авто:        {}\nТип топлива:          {}\nСтоимость:             {}\n\nЕсли бот не реагирует нажмите /start".format(
-                row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+            reply_text += MAIN_REPLAY_TEXT.format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],
+                                                  row[8])
         await update.message.reply_text(reply_text,
                                         reply_markup=reply_markup
                                         )
@@ -95,8 +102,7 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 
     reply_text = ""
     for row in await get_user_order(update.callback_query.from_user.id):
-        reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nСтоимость:    {}\n\nЕсли бот не реагирует нажмите /start".format(
-            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+        reply_text += MAIN_REPLAY_TEXT.format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
     if reply_text:
         await query.edit_message_text(
             text=reply_text, reply_markup=reply_markup
@@ -107,7 +113,13 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
     query = update.callback_query
     if text == "tax":
-        await context.bot.answer_callback_query(callback_query_id=query.id, text=text, show_alert=True)
+        user_chat_id = update.callback_query.from_user.id
+        tax = await calculate_sum(user_chat_id)
+        await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                text=f"Таможенные сборы составят {tax} руб.", show_alert=True)
+    # except:
+    #     await context.bot.answer_callback_query(callback_query_id=query.id,
+    #                                             text=f"Не хватает данных для расчета таможенных сборов", show_alert=True)
 
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
@@ -116,8 +128,8 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
         if user_tg_name[0][0] is not None:
             reply_text = ""
             for row in await get_user_order(update.callback_query.from_user.id):
-                reply_text += "Марка:    {}\nМодель:    {}\nРуль:    {}\nМощность:    {}\nПривод:    {}\nОбъем ДВС:    {}\nВозраст авто:    {}\nТип топлива:    {}\nСтоимость:    {}\n\n".format(
-                    row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+                reply_text += REPLAY_TEXT_TO_SEND.format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],
+                                                         row[8])
 
             if reply_text:
                 text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
@@ -136,31 +148,42 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     query = update.callback_query
     await query.answer()
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(text=text, reply_markup=reply_markup)
-
     if text == "brand":
+        await query.edit_message_text(text="Выберите марку автомобиля", reply_markup=reply_markup)
         return StartEndRoutes.brand
     if text == "model_subaru":
+        await query.edit_message_text(text="Модели Subaru", reply_markup=reply_markup)
         return StartEndRoutes.model_subaru
     if text == "model_mazda":
+        await query.edit_message_text(text="Модели Mazda", reply_markup=reply_markup)
         return StartEndRoutes.model_mazda
     if text == "hand_drive":
+        await query.edit_message_text(text="Руль", reply_markup=reply_markup)
         return StartEndRoutes.hand_drive
     if text == "budget":
+        await query.edit_message_text(
+            text="Ваш бюджет в рублях. Начните вводить нужную сумму на клавиатуре. После этого нажмите Применить",
+            reply_markup=reply_markup)
         return StartEndRoutes.budget2
     if text == "year":
+        await query.edit_message_text(text="Возраст Авто", reply_markup=reply_markup)
         return StartEndRoutes.year
     if text == "engine":
+        await query.edit_message_text(text="Объем ДВС", reply_markup=reply_markup)
         return StartEndRoutes.engine
     if text == "power":
+        await query.edit_message_text(text="Мощность ДВС", reply_markup=reply_markup)
         return StartEndRoutes.power
     if text == "drive":
+        await query.edit_message_text(text="Привод", reply_markup=reply_markup)
         return StartEndRoutes.drive
     if text == "fuel_type":
+        await query.edit_message_text(text="Тип топлива", reply_markup=reply_markup)
         return StartEndRoutes.fuel_type
     if text == "delete":
+        await query.edit_message_text(text="Ваша анкета былв удалена. Для возврата в основное меню, нажмите Назад",
+                                      reply_markup=reply_markup)
         user_chat_id = update.callback_query.from_user.id
-        print(user_chat_id)
         await delete_user_order(user_chat_id=user_chat_id)
         return Routes.delete
     return None
@@ -219,7 +242,11 @@ async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
         return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
     if brand_user[0][0] == "Субару":
         return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
-
+    else:
+        query = update.callback_query
+        await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                text="Сначала выберите Марку автомобиля",
+                                                show_alert=True)
 
 async def hand_drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "hand_drive", Keyboard.HAND_DRIVE_KEYBOARD)
@@ -231,10 +258,6 @@ async def power(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
 
 async def drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "drive", Keyboard.DRIVE_KEYBOARD)
-
-
-# async def engine_capacity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.engine_capacity:
-#     return await show_specific_keyboard(update, context, "engine_capacity", Keyboard.ENGINE_KEYBOARD)
 
 
 async def year(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:

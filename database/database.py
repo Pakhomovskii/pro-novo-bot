@@ -56,6 +56,45 @@ async def get_user_contact(user_chat_id):
     return order
 
 
+async def get_user_budget(user_chat_id):
+    conn.execute('BEGIN')
+    cursor.execute('''
+            SELECT budget  FROM orders
+            WHERE user_id=?''', (user_chat_id,))
+    # Fetch all the rows
+    order = cursor.fetchall()
+    conn.commit()
+    if order is None:
+        return []
+    return order
+
+
+async def get_user_car_age(user_chat_id):
+    conn.execute('BEGIN')
+    cursor.execute('''
+            SELECT year FROM orders
+            WHERE user_id=?''', (user_chat_id,))
+    # Fetch all the rows
+    order = cursor.fetchall()
+    conn.commit()
+    if order is None:
+        return []
+    return order
+
+
+async def get_user_car_engine_capacity(user_chat_id):
+    conn.execute('BEGIN')
+    cursor.execute('''
+            SELECT engine_capacity FROM orders
+            WHERE user_id=?''', (user_chat_id,))
+    # Fetch all the rows
+    order = cursor.fetchall()
+    conn.commit()
+    if order is None:
+        return []
+    return order
+
+
 async def create_user(user_chat_id, user_name, user_first_name):
     try:
         conn.execute('BEGIN')
@@ -223,7 +262,6 @@ async def delete_user_order(brand='', model='', hand_drive='', power='', body_ty
               budget,
               user_chat_id))
         conn.commit()
-        print("dsddsdsdsdsdsdsds")
     except sqlite3.Error:
         print(sqlite3.Error)
         conn.rollback()
