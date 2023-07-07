@@ -15,15 +15,27 @@ from database.database import (create_user, delete_user_model,
                                update_user_order_fuel,
                                update_user_order_hand_drive,
                                update_user_order_model,
-                               update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db)
+                               update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db,
+                               get_user_budget)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
 from tax.tax import calculate_sum
 
 MAIN_REPLAY_TEXT = emoji.emojize(
-    "🔹Марка:    {}\n🔹Модель:    {}\n🔹Руль:    {}\n🔹Мощность ДВС*:    {}\n🔹Привод:    {}\n🔹Объем ДВС*:    {}\n🔹Возраст авто*:    {}\n🔹Тип топлива:    {}\n🔹Стоимость*:    {}\n\n*Обязательные поля для расчета таможенных платежей\n\nЕсли бот не реагирует нажмите /start")
+    "🔹Марка:                      {}\n"
+    "🔹Модель:                   {}\n"
+    "🔹Руль:                          {}\n"
+    "🔹Мощность*:            {}\n"
+    "🔹Привод:                    {}\n"
+    "🔹Объем ДВС*:           {}\n"
+    "🔹Возраст авто*:        {}\n"
+    "🔹Тип топлива:           {}\n"
+    "🔹Стоимость*:            {} руб.\n\n"
+    "*Обязательные поля для расчета таможенных платежей\n\n"
+    "Если бот не реагирует нажмите /start")
 REPLAY_TEXT_TO_SEND = (
-    "🔹Марка:    {}\n🔹Модель:    {}\n🔹Руль:    {}\n🔹Мощность:    {}\n🔹Привод:    {}\n🔹Объем ДВС:    {}\n🔹Возраст авто:    {}\n🔹Тип топлива:    {}\n🔹Стоимость:    {}\n\n")
+    "🔹Марка:    {}\n🔹Модель:    {}\n🔹Руль:    {}\n🔹Мощность:    {}\n🔹Привод:    {}\n🔹Объем ДВС:    {}\n"
+    "🔹Возраст авто:    {}\n🔹Тип топлива:    {}\n🔹Стоимость:    {}\n\n")
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -31,13 +43,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
     user_chat_id = update.message.from_user.id
     user_name = update.message.from_user.username
     user_first_name = update.message.from_user.first_name
-    # create user
     user_id_from_db = await get_user_id_from_db(user_chat_id)
 
     if user_id_from_db:
-
         reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
-
         reply_text = ""
         for row in await get_user_order(user_chat_id):
             reply_text += MAIN_REPLAY_TEXT.format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],
@@ -53,7 +62,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
         reply_markup = InlineKeyboardMarkup(Keyboard.MAIN_KEYBOARD)
 
         await update.message.reply_text(
-            "Начните собирать свой конструктор! Выбранные параметры будут отражаться здесь автоматически\n\nЕсли бот не реагирует нажмите /start",
+            "Начните собирать свой конструктор! Выбранные параметры будут отражаться здесь автоматически\n\n"
+            "Если бот не реагирует нажмите /start",
             reply_markup=reply_markup
         )
         return StartEndRoutes.start_route
@@ -77,11 +87,8 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
     if key == "brand":
         await delete_user_model(user_chat_id)
         await update_user_order_brand(brand=text, user_chat_id=user_chat_id)
-
     if key == "model":
         await update_user_order_model(model=text, user_chat_id=user_chat_id)
-    # if key == "engine_capacity":
-    #     await update_user_order_engine_capacity(engine_capacity=text, user_chat_id=user_chat_id)
     if key == "engine":
         await update_user_order_engine_capacity(engine_capacity=text, user_chat_id=user_chat_id)
     if key == "year":
@@ -113,15 +120,22 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
     query = update.callback_query
     if text == "tax":
-        try:
-            user_chat_id = update.callback_query.from_user.id
-            tax = await calculate_sum(user_chat_id)
-            await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                    text=f"Таможенные сборы составят {tax} руб.", show_alert=True)
-        except:
-            await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                    text=f"Не хватает данных для расчета таможенных сборов",
-                                                    show_alert=True)
+        # try:  # TODO: make this without the exeption
+        user_chat_id = update.callback_query.from_user.id
+        user_tax = await calculate_sum(user_chat_id)
+        utilization = 20000
+        customs_clearance = 30000
+        user_budget = await get_user_budget(user_chat_id)
+        full_price = customs_clearance + utilization + user_tax + int(user_budget[0][0])
+        await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                text=f"Утилизационный сбор {utilization} руб.\n"
+                                                     f"Таможенные сборы {user_tax} руб.\n"
+                                                     f"Таможенное оформление {customs_clearance} руб.\n\n"
+                                                     f"Полная стоимость {full_price} руб.", show_alert=True)
+    # except:
+    #     await context.bot.answer_callback_query(callback_query_id=query.id,
+    #                                             text=f"Не хватает данных для расчета таможенных сборов",
+    #                                             show_alert=True)
 
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
@@ -137,7 +151,9 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                 text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
                 await context.bot.send_message(chat_id=557195190, text=text, )
                 await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                        text="Ваша анкета была успешно оправлена и скоро с вами свяжется наш специалист.\n\nСпасибо, что воспользовались нашим ботом =)",
+                                                        text="""Ваша анкета была успешно оправлена и скоро с вами
+                                                         свяжется наш специалист.\n\n
+                                                         Спасибо, что воспользовались нашим ботом =)""",
                                                         show_alert=True)
         else:
             text2 = "Мы отправили вашу анкету без имени, т.к. оно в Телеграмме не определено.\n" \
@@ -237,20 +253,6 @@ async def brand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
     return await show_specific_keyboard(update, context, "brand", Keyboard.BRAND_KEYBOARD)
 
 
-async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
-    user_chat_id = update.callback_query.from_user.id
-    brand_user = await get_user_brand(user_chat_id)
-    if brand_user[0][0] == "Мазда":
-        return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
-    if brand_user[0][0] == "Субару":
-        return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
-    else:
-        query = update.callback_query
-        await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                text="Сначала выберите Марку автомобиля",
-                                                show_alert=True)
-
-
 async def hand_drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "hand_drive", Keyboard.HAND_DRIVE_KEYBOARD)
 
@@ -289,3 +291,17 @@ async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEnd
 
 async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     return await show_pop_up(update, context, "tax")
+
+
+async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+    user_chat_id = update.callback_query.from_user.id
+    brand_user = await get_user_brand(user_chat_id)
+    if brand_user[0][0] == "Мазда":
+        return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
+    if brand_user[0][0] == "Субару":
+        return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
+    else:
+        query = update.callback_query
+        await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                text="Сначала выберите Марку автомобиля",
+                                                show_alert=True)

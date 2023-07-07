@@ -234,7 +234,7 @@ async def update_user_order_power(power=None, user_chat_id=None):
         conn.rollback()
 
 
-async def delete_user_order(brand='', model='', hand_drive='', power='', body_type='',
+async def delete_user_order(brand='', model='', hand_drive='', power='',
                             drive='', engine_capacity='', year='',
                             fuel_type='', budget='', user_chat_id=None):
     try:
@@ -280,12 +280,24 @@ async def delete_user_model(user_chat_id=None):
         conn.rollback()
 
 
+async def delete_user_temporary_budget(user_chat_id):
+    try:
+        conn.execute('BEGIN')
+        cursor.execute('''
+            UPDATE temporary_budget
+            SET budget=?
+            WHERE user_id = ? and budget <> '';
+        ''', ('', user_chat_id))
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+
+
 async def show_temporary_budget(user_chat_id):
     conn.execute('BEGIN')
     cursor.execute('''
             SELECT budget FROM temporary_budget
             WHERE user_id=?''', (user_chat_id,))
-    # Fetch all the rows
     order = cursor.fetchall()
     conn.commit()
     if order is None:
@@ -306,14 +318,3 @@ async def edit_temporary_budget(user_chat_id, value):
         conn.rollback()
 
 
-async def delete_user_temporary_budget(user_chat_id):
-    try:
-        conn.execute('BEGIN')
-        cursor.execute('''
-            UPDATE temporary_budget
-            SET budget=?
-            WHERE user_id = ? and budget <> '';
-        ''', ('', user_chat_id))
-        conn.commit()
-    except sqlite3.Error:
-        conn.rollback()
