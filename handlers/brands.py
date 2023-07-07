@@ -6,9 +6,13 @@ from keyboards.keyboards import Keyboard
 from routes.routes import StartEndRoutes
 
 
+async def acura(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard_to_change_order(update, context, "brand", "Acura", Keyboard.BRAND_KEYBOARD)
+
+
 async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard_to_change_order(update, context, "brand", "Мазда", Keyboard.BRAND_KEYBOARD)
+    return await show_specific_keyboard_to_change_order(update, context, "brand", "Mazda", Keyboard.BRAND_KEYBOARD)
 
 
 async def subaru(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard_to_change_order(update, context, "brand", "Субару", Keyboard.BRAND_KEYBOARD)
+    return await show_specific_keyboard_to_change_order(update, context, "brand", "Subaru", Keyboard.BRAND_KEYBOARD)

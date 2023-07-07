@@ -34,10 +34,20 @@ class Keyboard:
 
     BRAND_KEYBOARD = [
         [
-            InlineKeyboardButton("Мазда", callback_data=str(RoutesBrand.mazda)),
-            InlineKeyboardButton("Субару", callback_data=str(RoutesBrand.subaru)),
+            InlineKeyboardButton("Acura", callback_data=str(RoutesBrand.acura)),
+            InlineKeyboardButton("Mazda", callback_data=str(RoutesBrand.mazda)),
+            InlineKeyboardButton("Subaru", callback_data=str(RoutesBrand.subaru)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
+    ]
+
+    MODEL_KEYBOARD_ACURA = [
+        [InlineKeyboardButton("MDX", callback_data=str(RoutesModel.MDX)), ],
+        [InlineKeyboardButton("RDX", callback_data=str(RoutesModel.RDX)), ],
+        [InlineKeyboardButton("TSX", callback_data=str(RoutesModel.TSX)), ],
+        [InlineKeyboardButton("ZDX", callback_data=str(RoutesModel.ZDX)), ],
+        [InlineKeyboardButton("ILX", callback_data=str(RoutesModel.ILX)), ],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
     ]
 
     MODEL_KEYBOARD_MAZDA = [
@@ -49,7 +59,7 @@ class Keyboard:
 
     MODEL_KEYBOARD_SUBARU = [
         [
-            InlineKeyboardButton("Импреза", callback_data=str(RoutesModel.impreza)),
+            InlineKeyboardButton("Impreza", callback_data=str(RoutesModel.impreza)),
             InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
         ]
     ]

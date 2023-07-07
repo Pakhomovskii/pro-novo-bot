@@ -5,6 +5,7 @@ class StartEndRoutes:
      hand_drive,
      year,
      model,
+     model_acura,
      model_mazda,
      model_subaru,
      budget,
@@ -16,7 +17,7 @@ class StartEndRoutes:
      tax,
 
      ) \
-     = range(15)
+     = range(16)
 
 
 class Routes:
@@ -47,17 +48,23 @@ class Routes:
 
 
 class RoutesBrand:
- (subaru,
+ (acura,
+  subaru,
   mazda
   ) \
-  = range(2)
+  = range(3)
 
 
 class RoutesModel:
  (impreza,
   cx_8,
+  MDX,
+  ZDX,
+  ILX,
+  RDX,
+  TSX,
   ) \
-  = range(2)
+  = range(7)
 
 
 class RoutesYear:

@@ -4,4 +4,4 @@ docker rm pro-novo-bot-container
 
 docker build -t pro-novo-bot .
 
-docker run -d --name pro-novo-bot-container pro-novo-bot
+docker run -d -it -p 5432:5432 -v /:/data --name pro-novo-bot-container pro-novo-bot

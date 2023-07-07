@@ -5,7 +5,7 @@ from telegram import __version__ as TG_VER
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           ConversationHandler)
 
-from handlers.brands import mazda, subaru
+from handlers.brands import mazda, subaru, acura
 from handlers.budget_keyboards import (eight, eight2, five, five2, four, four2,
                                        nine, nine2, one, one2, seven, seven2,
                                        six, six2, three, three2, two, two2,
@@ -22,7 +22,7 @@ from handlers.hand_drive import hand_drive_left, hand_drive_right
 from handlers.handlers import (aplay_new_budget, aplay_new_budget2, brand,
                                budget, drive, engine, hand_drive, model, power,
                                send, start, start_over, year, fuel_type, delete)
-from handlers.models import cx_8, impreza
+from handlers.models import *
 from handlers.power import (v_50_100, v_101_150, v_151_200, v_251_300, v_201_250,
                             v_301_350, v_351_400)
 from handlers.tax import tax
@@ -38,7 +38,7 @@ TOKEN = os.getenv("TOKEN")
 try:
     from telegram import __version_info__
 except ImportError:
-    r__version_info__ = (0, 0, 0, 0, 0)
+    __version_info__ = (0, 0, 0, 0, 0)  # type: ignore[assignment]
 
 if __version_info__ < (20, 0, 0, "alpha", 1):
     raise RuntimeError(
@@ -122,20 +122,31 @@ def main() -> None:
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
             ],
             StartEndRoutes.brand: [
-
+                CallbackQueryHandler(acura, pattern="^" + str(RoutesBrand.acura) + "$"),
                 CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
                 CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
             ],
+            StartEndRoutes.model_acura: [
+
+                CallbackQueryHandler(Acura.MDX, pattern="^" + str(RoutesModel.MDX) + "$"),
+                CallbackQueryHandler(Acura.ZDX, pattern="^" + str(RoutesModel.ZDX) + "$"),
+                CallbackQueryHandler(Acura.ILX, pattern="^" + str(RoutesModel.ILX) + "$"),
+                CallbackQueryHandler(Acura.RDX, pattern="^" + str(RoutesModel.RDX) + "$"),
+                CallbackQueryHandler(Acura.TSX, pattern="^" + str(RoutesModel.TSX) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
             StartEndRoutes.model_mazda: [
 
-                CallbackQueryHandler(cx_8, pattern="^" + str(RoutesModel.cx_8) + "$"),
+                CallbackQueryHandler(Mazda.cx_8, pattern="^" + str(RoutesModel.cx_8) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
             ],
             StartEndRoutes.model_subaru: [
 
-                CallbackQueryHandler(impreza, pattern="^" + str(RoutesModel.impreza) + "$"),
+                CallbackQueryHandler(Subaru.impreza, pattern="^" + str(RoutesModel.impreza) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
             ],

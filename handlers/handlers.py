@@ -169,6 +169,9 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "brand":
         await query.edit_message_text(text="Выберите марку автомобиля", reply_markup=reply_markup)
         return StartEndRoutes.brand
+    if text == "model_acura":
+        await query.edit_message_text(text="Модели Acura", reply_markup=reply_markup)
+        return StartEndRoutes.model_acura
     if text == "model_subaru":
         await query.edit_message_text(text="Модели Subaru", reply_markup=reply_markup)
         return StartEndRoutes.model_subaru
@@ -296,10 +299,15 @@ async def tax(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
     user_chat_id = update.callback_query.from_user.id
     brand_user = await get_user_brand(user_chat_id)
-    if brand_user[0][0] == "Мазда":
+
+    if brand_user[0][0] == "Acura":
+        return await show_specific_keyboard(update, context, "model_acura", Keyboard.MODEL_KEYBOARD_ACURA)
+    if brand_user[0][0] == "Mazda":
         return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
-    if brand_user[0][0] == "Субару":
+    if brand_user[0][0] == "Subaru":
         return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
+
+
     else:
         query = update.callback_query
         await context.bot.answer_callback_query(callback_query_id=query.id,
