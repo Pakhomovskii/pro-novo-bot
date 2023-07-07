@@ -120,22 +120,22 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
 async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
     query = update.callback_query
     if text == "tax":
-        # try:  # TODO: make this without the exeption
-        user_chat_id = update.callback_query.from_user.id
-        user_tax = await calculate_sum(user_chat_id)
-        utilization = 20000
-        customs_clearance = 30000
-        user_budget = await get_user_budget(user_chat_id)
-        full_price = customs_clearance + utilization + user_tax + int(user_budget[0][0])
-        await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                text=f"Утилизационный сбор {utilization} руб.\n"
-                                                     f"Таможенные сборы {user_tax} руб.\n"
-                                                     f"Таможенное оформление {customs_clearance} руб.\n\n"
-                                                     f"Полная стоимость {full_price} руб.", show_alert=True)
-    # except:
-    #     await context.bot.answer_callback_query(callback_query_id=query.id,
-    #                                             text=f"Не хватает данных для расчета таможенных сборов",
-    #                                             show_alert=True)
+        try:  # TODO: make this without the exeption
+            user_chat_id = update.callback_query.from_user.id
+            user_tax = await calculate_sum(user_chat_id)
+            utilization = 20000
+            customs_clearance = 30000
+            user_budget = await get_user_budget(user_chat_id)
+            full_price = customs_clearance + utilization + user_tax + int(user_budget[0][0])
+            await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                    text=f"Утилизационный сбор {utilization} руб.\n"
+                                                         f"Таможенные сборы {user_tax} руб.\n"
+                                                         f"Таможенное оформление {customs_clearance} руб.\n\n"
+                                                         f"Полная стоимость {full_price} руб.", show_alert=True)
+        except:
+            await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                    text=f"Не хватает данных для расчета таможенных сборов",
+                                                    show_alert=True)
 
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
