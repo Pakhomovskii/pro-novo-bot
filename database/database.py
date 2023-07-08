@@ -79,6 +79,19 @@ async def get_user_budget(user_chat_id):
     return order
 
 
+async def get_user_power(user_chat_id):
+    conn.execute('BEGIN')
+    cursor.execute('''
+            SELECT power  FROM orders
+            WHERE user_id=?''', (user_chat_id,))
+    # Fetch all the rows
+    order = cursor.fetchall()
+    conn.commit()
+    if order is None:
+        return []
+    return order
+
+
 async def get_user_fuel_type(user_chat_id):
     conn.execute('BEGIN')
     cursor.execute('''

@@ -16,21 +16,21 @@ from database.database import (create_user, delete_user_model,
                                update_user_order_hand_drive,
                                update_user_order_model,
                                update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db,
-                               get_user_budget, get_user_fuel_type)
+                               get_user_budget, get_user_fuel_type, get_user_power)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
 from tax.tax import calculate_sum
 
 MAIN_REPLAY_TEXT = emoji.emojize(
-    "🔹Марка:                      {}\n"
-    "🔹Модель:                   {}\n"
-    "🔹Руль:                          {}\n"
-    "🔹Мощность*:             {}\n"
-    "🔹Привод:                    {}\n"
-    "🔹Объем ДВС*:           {}\n"
-    "🔹Возраст авто*:        {}\n"
+    "🔹Марка:                       {}\n"
+    "🔹Модель:                    {}\n"
+    "🔹Руль:                           {}\n"
+    "🔹Мощность*:             {} л.с.\n"
+    "🔹Привод:                     {}\n"
+    "🔹Объем ДВС*:            {} л.\n"
+    "🔹Возраст авто*:         {}\n"
     "🔹Тип топлива*:          {}\n"
-    "🔹Стоимость*:            {} руб.\n\n"
+    "🔹Стоимость*:             {} руб.\n\n"
     "*Обязательные поля для расчета таможенных платежей\n\n"
     "Если бот не реагирует нажмите /start")
 REPLAY_TEXT_TO_SEND = (
@@ -82,6 +82,10 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
         old_value = await show_temporary_budget(user_chat_id)
         await update_user_order_budget(budget=old_value[0][0], user_chat_id=user_chat_id)
 
+    if key == "aplay_new_power":
+        old_value = await show_temporary_budget(user_chat_id)
+        await update_user_order_power(power=old_value[0][0], user_chat_id=user_chat_id)
+
     await delete_user_temporary_budget(user_chat_id)
 
     if key == "brand":
@@ -95,8 +99,8 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
         await update_user_order_year(year=text, user_chat_id=user_chat_id)
     if key == "hand_drive":
         await update_user_order_hand_drive(hand_drive=text, user_chat_id=user_chat_id)
-    if key == "power":
-        await update_user_order_power(power=text, user_chat_id=user_chat_id)
+    # if key == "power":
+    #     await update_user_order_power(power=text, user_chat_id=user_chat_id)
     if key == "drive":
         await update_user_order_drive(drive=text, user_chat_id=user_chat_id)
     if key == "fuel_type":
@@ -148,8 +152,11 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                 utilization = 5200
                 nds = 20
                 posh = 15
-
-                akciz = 1584
+                user_power = await get_user_power(user_chat_id)
+                if int(user_power[0][0]) > 90:
+                    akciz = 55 * int(user_power[0][0])
+                else:
+                    akciz = 0
                 full_price = utilization + customs_clearance + user_tax + int(user_budget[0][0]) + int(
                     user_budget[0][0]) * 0.15 + (akciz + customs_clearance + user_tax + int(user_budget[0][0]) + int(
                     user_budget[0][0]) * 0.20) * 0.2 + akciz
@@ -157,7 +164,7 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
                                                              f"Таможенные сборы {user_tax} руб.\n"
                                                              f"Пошлина {posh}%\n"
-                                                             f"Примерный акциз {akciz}руб\n"
+                                                             f"Aкциз {akciz}руб\n"
                                                              f"Таможенное оформление {customs_clearance} руб.\n"
                                                              f"НДС {nds}%\n\n"
                                                              f"Полная стоимость {full_price} руб.", show_alert=True)
@@ -212,18 +219,24 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         return StartEndRoutes.hand_drive
     if text == "budget":
         await query.edit_message_text(
-            text="Ваш бюджет в рублях. Начните вводить нужную сумму на клавиатуре. После этого нажмите Применить",
+            text="0руб.",
             reply_markup=reply_markup)
         return StartEndRoutes.budget2
+
+    if text == "power":
+        await query.edit_message_text(
+            text="0л.с.",
+            reply_markup=reply_markup)
+        return StartEndRoutes.power2
     if text == "year":
         await query.edit_message_text(text="Возраст Авто", reply_markup=reply_markup)
         return StartEndRoutes.year
     if text == "engine":
-        await query.edit_message_text(text="Объем ДВС", reply_markup=reply_markup)
+        await query.edit_message_text(text="Объем ДВС в литрах", reply_markup=reply_markup)
         return StartEndRoutes.engine
-    if text == "power":
-        await query.edit_message_text(text="Мощность ДВС", reply_markup=reply_markup)
-        return StartEndRoutes.power
+    # if text == "power":
+    #     await query.edit_message_text(text="Мощность ДВС", reply_markup=reply_markup)
+    #     return StartEndRoutes.power
     if text == "drive":
         await query.edit_message_text(text="Привод", reply_markup=reply_markup)
         return StartEndRoutes.drive
@@ -239,8 +252,8 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     return None
 
 
-async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
-                         keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes.budget2:
+async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE,
+                         keyboard: List[List[InlineKeyboardButton]], text="", opa=""):
     user_chat_id = update.callback_query.from_user.id
     query = update.callback_query
     await query.answer()
@@ -250,13 +263,16 @@ async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE, tex
     await edit_temporary_budget(value=new_value, user_chat_id=user_chat_id)
     new_value = await show_temporary_budget(user_chat_id)
     await query.edit_message_text(
-        text=new_value[0][0], reply_markup=reply_markup
+        text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    return StartEndRoutes.budget2
+    if opa == "руб.":
+        return StartEndRoutes.budget2
+    else:
+        return StartEndRoutes.power2
 
 
-async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
-                         keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes.budget:
+async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE,
+                         keyboard: List[List[InlineKeyboardButton]], text="", opa=""):
     user_chat_id = update.callback_query.from_user.id
     query = update.callback_query
     await query.answer()
@@ -266,9 +282,12 @@ async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE, tex
     await edit_temporary_budget(value=new_value, user_chat_id=user_chat_id)
     new_value = await show_temporary_budget(user_chat_id)
     await query.edit_message_text(
-        text=new_value[0][0], reply_markup=reply_markup
+        text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    return StartEndRoutes.budget
+    if opa == "руб.":
+        return StartEndRoutes.budget
+    else:
+        return StartEndRoutes.power
 
 
 async def aplay_new_budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
@@ -281,6 +300,16 @@ async def aplay_new_budget2(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                                         Keyboard.BUDGET_KEYBOARD)
 
 
+async def aplay_new_power(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard_to_change_order(update, context, "aplay_new_power", "",
+                                                        Keyboard.POWER_POWER_KEYBOARD2)
+
+
+async def aplay_new_power2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard_to_change_order(update, context, "aplay_new_power", "",
+                                                        Keyboard.POWER_POWER_KEYBOARD)
+
+
 async def brand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.brand:
     return await show_specific_keyboard(update, context, "brand", Keyboard.BRAND_KEYBOARD)
 
@@ -290,7 +319,7 @@ async def hand_drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Star
 
 
 async def power(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
-    return await show_specific_keyboard(update, context, "power", Keyboard.POWER_KEYBOARD)
+    return await show_specific_keyboard(update, context, "power", Keyboard.POWER_POWER_KEYBOARD)
 
 
 async def drive(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:

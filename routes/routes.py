@@ -8,16 +8,18 @@ class StartEndRoutes:
      model_acura,
      model_mazda,
      model_subaru,
+     power,
+     power2,
      budget,
      budget2,
      engine,
-     power,
+
      drive,
      fuel_type,
      tax,
 
      ) \
-     = range(16)
+     = range(17)
 
 
 class Routes:
@@ -25,6 +27,7 @@ class Routes:
      model,
      hand_drive,
      power,
+     power2,
      drive,
      year,
      engine,
@@ -41,10 +44,10 @@ class Routes:
      update_user_order,
      aplay_new_budget,
      aplay_new_budget2,
-     aplay_new_year2,
-     aplay_new_year
+     aplay_new_power,
+     aplay_new_power2
      ) \
-     = range(22)
+     = range(23)
 
 
 class RoutesBrand:
@@ -174,6 +177,14 @@ class RoutesBudgetKeyboard1:
 
 class RoutesBudgetKeyboard2:
  (one2, two2, three2, four2, five2, six2, seven2, eight2, nine2, zero2) = range(10)
+
+
+class RoutesPowerKeyboard1:
+ (pone, ptwo, pthree, pfour, pfive, psix, pseven, peight, pnine, pzero) = range(10)
+
+
+class RoutesPowerKeyboard2:
+ (pone2, ptwo2, pthree2, pfour2, pfive2, psix2, pseven2, peight2, pnine2, pzero2) = range(10)
 
 # TODO Think about Enum in this case
 # from enum import Enum

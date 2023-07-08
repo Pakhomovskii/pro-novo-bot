@@ -152,28 +152,6 @@ class Keyboard:
          ]
     ]
 
-    POWER_KEYBOARD = [
-        [
-            InlineKeyboardButton("50-100 л.с.", callback_data=str(RoutesPower.v_50_100)), ],
-        [
-            InlineKeyboardButton("101-150 л.с.", callback_data=str(RoutesPower.v_101_150)), ],
-        [
-            InlineKeyboardButton("151-200 л.с.", callback_data=str(RoutesPower.v_151_200)), ],
-        [
-            InlineKeyboardButton("201-250 л.с.", callback_data=str(RoutesPower.v_201_250)), ],
-        [
-            InlineKeyboardButton("251-300 л.с.", callback_data=str(RoutesPower.v_251_300)), ],
-        [
-            InlineKeyboardButton("301-350 л.с.", callback_data=str(RoutesPower.v_301_350)), ],
-
-        [
-            InlineKeyboardButton("351-400 л.с.", callback_data=str(RoutesPower.v_351_400)), ],
-
-        [
-            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
-        ]
-    ]
-
     DRIVE_KEYBOARD = [
 
         [InlineKeyboardButton("Задний", callback_data=str(RoutesDrive.rear)), ],
@@ -243,6 +221,62 @@ class Keyboard:
         ],
         [
             InlineKeyboardButton("Применить", callback_data=str(Routes.aplay_new_budget2)),
+        ],
+
+        [
+            InlineKeyboardButton("Отмена", callback_data=str(Routes.back2)),
+        ]
+    ]
+
+    POWER_POWER_KEYBOARD2 = [
+        [
+            InlineKeyboardButton("1", callback_data=str(RoutesPowerKeyboard1.pone)),
+            InlineKeyboardButton("2", callback_data=str(RoutesPowerKeyboard1.ptwo)),
+            InlineKeyboardButton("3", callback_data=str(RoutesPowerKeyboard1.pthree)),
+        ],
+        [
+            InlineKeyboardButton("4", callback_data=str(RoutesPowerKeyboard1.pfour)),
+            InlineKeyboardButton("5", callback_data=str(RoutesPowerKeyboard1.pfive)),
+            InlineKeyboardButton("6", callback_data=str(RoutesPowerKeyboard1.psix)),
+        ],
+        [
+            InlineKeyboardButton("7", callback_data=str(RoutesPowerKeyboard1.pseven)),
+            InlineKeyboardButton("8", callback_data=str(RoutesPowerKeyboard1.peight)),
+            InlineKeyboardButton("9", callback_data=str(RoutesPowerKeyboard1.pnine)),
+        ],
+        [
+            InlineKeyboardButton("0", callback_data=str(RoutesPowerKeyboard1.pzero)),
+        ],
+        [
+            InlineKeyboardButton("Применить", callback_data=str(Routes.aplay_new_power)),
+        ],
+
+        [
+            InlineKeyboardButton("Отмена", callback_data=str(Routes.back)),
+        ]
+    ]
+
+    POWER_POWER_KEYBOARD = [
+        [
+            InlineKeyboardButton("1", callback_data=str(RoutesPowerKeyboard2.pone2)),
+            InlineKeyboardButton("2", callback_data=str(RoutesPowerKeyboard2.ptwo2)),
+            InlineKeyboardButton("3", callback_data=str(RoutesPowerKeyboard2.pthree2)),
+        ],
+        [
+            InlineKeyboardButton("4", callback_data=str(RoutesPowerKeyboard2.pfour2)),
+            InlineKeyboardButton("5", callback_data=str(RoutesPowerKeyboard2.pfive2)),
+            InlineKeyboardButton("6", callback_data=str(RoutesPowerKeyboard2.psix2)),
+        ],
+        [
+            InlineKeyboardButton("7", callback_data=str(RoutesPowerKeyboard2.pseven2)),
+            InlineKeyboardButton("8", callback_data=str(RoutesPowerKeyboard2.peight2)),
+            InlineKeyboardButton("9", callback_data=str(RoutesPowerKeyboard2.pnine2)),
+        ],
+        [
+            InlineKeyboardButton("0", callback_data=str(RoutesPowerKeyboard2.pzero2)),
+        ],
+        [
+            InlineKeyboardButton("Применить", callback_data=str(Routes.aplay_new_power2)),
         ],
 
         [

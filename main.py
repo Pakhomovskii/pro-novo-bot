@@ -21,16 +21,16 @@ from handlers.fuel import diesel, electro, hybrid, petrol
 from handlers.hand_drive import hand_drive_left, hand_drive_right
 from handlers.handlers import (aplay_new_budget, aplay_new_budget2, brand,
                                budget, drive, engine, hand_drive, model, power,
-                               send, start, start_over, year, fuel_type, delete)
+                               send, start, start_over, year, fuel_type, delete, aplay_new_power, aplay_new_power2)
 from handlers.models import *
-from handlers.power import (v_50_100, v_101_150, v_151_200, v_251_300, v_201_250,
-                            v_301_350, v_351_400)
+from handlers.power_keyboard import pone2, pone, ptwo, pthree, pfive, pfour, psix, pseven, peight, pnine, pzero, \
+    pseven2, pfive2, pfour2, pthree2, ptwo2, psix2, peight2, pnine2, pzero2
 from handlers.tax import tax
 from handlers.year import year_3_5, year_5_7, year_less_3, year_more_7
 from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
                            RoutesBudgetKeyboard2, RoutesDrive, RoutesEngine,
                            RoutesFuel, RoutesHandDrive, RoutesModel,
-                           RoutesPower, RoutesYear, StartEndRoutes)
+                           RoutesYear, StartEndRoutes, RoutesPowerKeyboard1, RoutesPowerKeyboard2)
 
 try:
     DEBUG = os.environ.get('DEBUG')
@@ -112,6 +112,38 @@ def main() -> None:
                 CallbackQueryHandler(nine2, pattern="^" + str(RoutesBudgetKeyboard2.nine2) + "$"),
                 CallbackQueryHandler(zero2, pattern="^" + str(RoutesBudgetKeyboard2.zero2) + "$"),
                 CallbackQueryHandler(aplay_new_budget2, pattern="^" + str(Routes.aplay_new_budget2) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+
+            ],
+
+            StartEndRoutes.power: [
+
+                CallbackQueryHandler(pone, pattern="^" + str(RoutesPowerKeyboard1.pone) + "$"),
+                CallbackQueryHandler(ptwo, pattern="^" + str(RoutesPowerKeyboard1.ptwo) + "$"),
+                CallbackQueryHandler(pthree, pattern="^" + str(RoutesPowerKeyboard1.pthree) + "$"),
+                CallbackQueryHandler(pfour, pattern="^" + str(RoutesPowerKeyboard1.pfour) + "$"),
+                CallbackQueryHandler(pfive, pattern="^" + str(RoutesPowerKeyboard1.pfive) + "$"),
+                CallbackQueryHandler(psix, pattern="^" + str(RoutesPowerKeyboard1.psix) + "$"),
+                CallbackQueryHandler(pseven, pattern="^" + str(RoutesPowerKeyboard1.pseven) + "$"),
+                CallbackQueryHandler(peight, pattern="^" + str(RoutesPowerKeyboard1.peight) + "$"),
+                CallbackQueryHandler(pnine, pattern="^" + str(RoutesPowerKeyboard1.pnine) + "$"),
+                CallbackQueryHandler(pzero, pattern="^" + str(RoutesPowerKeyboard1.pzero) + "$"),
+                CallbackQueryHandler(aplay_new_power, pattern="^" + str(Routes.aplay_new_power) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+            ],
+
+            StartEndRoutes.power2: [
+                CallbackQueryHandler(pone2, pattern="^" + str(RoutesPowerKeyboard2.pone2) + "$"),
+                CallbackQueryHandler(ptwo2, pattern="^" + str(RoutesPowerKeyboard2.ptwo2) + "$"),
+                CallbackQueryHandler(pthree2, pattern="^" + str(RoutesPowerKeyboard2.pthree2) + "$"),
+                CallbackQueryHandler(pfour2, pattern="^" + str(RoutesPowerKeyboard2.pfour2) + "$"),
+                CallbackQueryHandler(pfive2, pattern="^" + str(RoutesPowerKeyboard2.pfive2) + "$"),
+                CallbackQueryHandler(psix2, pattern="^" + str(RoutesPowerKeyboard2.psix2) + "$"),
+                CallbackQueryHandler(pseven2, pattern="^" + str(RoutesPowerKeyboard2.pseven2) + "$"),
+                CallbackQueryHandler(peight2, pattern="^" + str(RoutesPowerKeyboard2.peight2) + "$"),
+                CallbackQueryHandler(pnine2, pattern="^" + str(RoutesPowerKeyboard2.pnine2) + "$"),
+                CallbackQueryHandler(pzero2, pattern="^" + str(RoutesPowerKeyboard2.pzero2) + "$"),
+                CallbackQueryHandler(aplay_new_power2, pattern="^" + str(Routes.aplay_new_power2) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
 
             ],
@@ -223,19 +255,19 @@ def main() -> None:
                 CallbackQueryHandler(hand_drive_left, pattern="^" + str(RoutesHandDrive.hand_drive_left) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
             ],
-            StartEndRoutes.power: [
-
-                CallbackQueryHandler(v_50_100, pattern="^" + str(RoutesPower.v_50_100) + "$"),
-                CallbackQueryHandler(v_101_150, pattern="^" + str(RoutesPower.v_101_150) + "$"),
-                CallbackQueryHandler(v_151_200, pattern="^" + str(RoutesPower.v_151_200) + "$"),
-                CallbackQueryHandler(v_201_250, pattern="^" + str(RoutesPower.v_201_250) + "$"),
-                CallbackQueryHandler(v_251_300, pattern="^" + str(RoutesPower.v_251_300) + "$"),
-                CallbackQueryHandler(v_301_350, pattern="^" + str(RoutesPower.v_301_350) + "$"),
-                CallbackQueryHandler(v_351_400, pattern="^" + str(RoutesPower.v_351_400) + "$"),
-
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-
-            ],
+            # StartEndRoutes.power: [
+            #
+            #     CallbackQueryHandler(v_50_100, pattern="^" + str(RoutesPower.v_50_100) + "$"),
+            #     CallbackQueryHandler(v_101_150, pattern="^" + str(RoutesPower.v_101_150) + "$"),
+            #     CallbackQueryHandler(v_151_200, pattern="^" + str(RoutesPower.v_151_200) + "$"),
+            #     CallbackQueryHandler(v_201_250, pattern="^" + str(RoutesPower.v_201_250) + "$"),
+            #     CallbackQueryHandler(v_251_300, pattern="^" + str(RoutesPower.v_251_300) + "$"),
+            #     CallbackQueryHandler(v_301_350, pattern="^" + str(RoutesPower.v_301_350) + "$"),
+            #     CallbackQueryHandler(v_351_400, pattern="^" + str(RoutesPower.v_351_400) + "$"),
+            #
+            #     CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+            #
+            # ],
             StartEndRoutes.drive: [
 
                 CallbackQueryHandler(rear, pattern="^" + str(RoutesDrive.rear) + "$"),
