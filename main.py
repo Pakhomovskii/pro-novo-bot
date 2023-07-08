@@ -34,8 +34,6 @@ from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
 
 try:
     DEBUG = os.environ.get('DEBUG')
-    if DEBUG:
-        DEBUG = "1"
 except:
     DEBUG = "0"
 
