@@ -101,6 +101,8 @@ async def calculate_sum(user_chat_id=None):
     capacity_int = int(float(capacity[0][0]) * 1000)
     tax_for_new_car = CarTaxCalculator(cost=cost_int, age=age_int, power=0, capacity=capacity_int)
     rate = Euro(1)
+    print(int(await tax_for_new_car.calculate_tax()))
 
     tax = int(await tax_for_new_car.calculate_tax()) * int(rate.exchange_rub())
+    print(tax)
     return tax
