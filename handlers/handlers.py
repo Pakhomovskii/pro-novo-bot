@@ -157,7 +157,7 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
                                                              f"Таможенные сборы {user_tax} руб.\n"
                                                              f"Пошлина {posh}%\n"
-                                                             f"Примерный акциз {akciz}%\n"
+                                                             f"Примерный акциз {akciz}руб\n"
                                                              f"Таможенное оформление {customs_clearance} руб.\n"
                                                              f"НДС {nds}%\n\n"
                                                              f"Полная стоимость {full_price} руб.", show_alert=True)
