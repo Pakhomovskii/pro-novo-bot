@@ -1,7 +1,17 @@
+import os
 import sqlite3
 
-# conn = sqlite3.connect('database.db')
-conn = sqlite3.connect('/data/mydatabase.db')
+try:
+    DEBUG = os.environ.get('DEBUG')
+    if DEBUG:
+        DEBUG = "1"
+except:
+    DEBUG = "0"
+
+if DEBUG == "1":
+    conn = sqlite3.connect('database.db')
+else:
+    conn = sqlite3.connect('/data/mydatabase.db')
 
 cursor = conn.cursor()
 
