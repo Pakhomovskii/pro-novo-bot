@@ -16,7 +16,7 @@ from database.database import (create_user, delete_user_model,
                                update_user_order_hand_drive,
                                update_user_order_model,
                                update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db,
-                               get_user_budget)
+                               get_user_budget, get_user_fuel_type)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
 from tax.tax import calculate_sum
@@ -25,11 +25,11 @@ MAIN_REPLAY_TEXT = emoji.emojize(
     "🔹Марка:                      {}\n"
     "🔹Модель:                   {}\n"
     "🔹Руль:                          {}\n"
-    "🔹Мощность*:            {}\n"
+    "🔹Мощность*:             {}\n"
     "🔹Привод:                    {}\n"
     "🔹Объем ДВС*:           {}\n"
     "🔹Возраст авто*:        {}\n"
-    "🔹Тип топлива:           {}\n"
+    "🔹Тип топлива*:          {}\n"
     "🔹Стоимость*:            {} руб.\n\n"
     "*Обязательные поля для расчета таможенных платежей\n\n"
     "Если бот не реагирует нажмите /start")
@@ -123,15 +123,44 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
         try:  # TODO: make this without the exeption
             user_chat_id = update.callback_query.from_user.id
             user_tax = await calculate_sum(user_chat_id)
-            utilization = 20000
-            customs_clearance = 30000
+            fuel_type = await get_user_fuel_type(user_chat_id)
             user_budget = await get_user_budget(user_chat_id)
-            full_price = customs_clearance + utilization + user_tax + int(user_budget[0][0])
-            await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                    text=f"Утилизационный сбор {utilization} руб.\n"
-                                                         f"Таможенные сборы {user_tax} руб.\n"
-                                                         f"Таможенное оформление {customs_clearance} руб.\n\n"
-                                                         f"Полная стоимость {full_price} руб.", show_alert=True)
+
+            if int(user_budget[0][0]) <= 200000:
+                customs_clearance = 755
+            elif 200000 < int(user_budget[0][0]) <= 450000:
+                customs_clearance = 1550
+            elif 450000 < int(user_budget[0][0]) <= 1200000:
+                customs_clearance = 3100
+            else:
+                customs_clearance = 8530
+
+            if fuel_type[0][0] != "Электро":
+                utilization = 5200
+
+                full_price = customs_clearance + utilization + user_tax + int(user_budget[0][0])
+                await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                        text=f"Утилизационный сбор {utilization} руб.\n"
+                                                             f"Таможенные сборы {user_tax} руб.\n"
+                                                             f"Таможенное оформление {customs_clearance} руб.\n\n"
+                                                             f"Полная стоимость {full_price} руб.", show_alert=True)
+            else:
+                utilization = 5200
+                nds = 20
+                posh = 15
+
+                akciz = 1584
+                full_price = utilization + customs_clearance + user_tax + int(user_budget[0][0]) + int(
+                    user_budget[0][0]) * 0.15 + (akciz + customs_clearance + user_tax + int(user_budget[0][0]) + int(
+                    user_budget[0][0]) * 0.20) * 0.2 + akciz
+                await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                        text=f"Утилизационный сбор {utilization} руб.\n"
+                                                             f"Таможенные сборы {user_tax} руб.\n"
+                                                             f"Пошлина {posh}%\n"
+                                                             f"Примерный акциз {akciz}%\n"
+                                                             f"Таможенное оформление {customs_clearance} руб.\n"
+                                                             f"НДС {nds}%\n\n"
+                                                             f"Полная стоимость {full_price} руб.", show_alert=True)
         except:
             await context.bot.answer_callback_query(callback_query_id=query.id,
                                                     text=f"Не хватает данных для расчета таможенных сборов",
