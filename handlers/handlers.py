@@ -19,7 +19,7 @@ from database.database import (create_user, delete_user_model,
                                get_user_budget, get_user_fuel_type, get_user_power)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
-from tax.tax import calculate_sum
+from tax.tax import calculate_sum, get_euro
 
 MAIN_REPLAY_TEXT = emoji.emojize(
     "🔹Марка:                       {}\n"
@@ -30,7 +30,7 @@ MAIN_REPLAY_TEXT = emoji.emojize(
     "🔹Объем ДВС*:            {} л.\n"
     "🔹Возраст авто*:         {}\n"
     "🔹Тип топлива*:          {}\n"
-    "🔹Стоимость*:             {} руб.\n\n"
+    "🔹Стоимость*:             {} euro\n\n"
     "*Обязательные поля для расчета таможенных платежей\n\n"
     "Если бот не реагирует нажмите /start")
 REPLAY_TEXT_TO_SEND = (
@@ -121,6 +121,10 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
     return StartEndRoutes.start_route
 
 
+def get_user_eur_rub(user_chat_id):
+    pass
+
+
 async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
     query = update.callback_query
     if text == "tax":
@@ -129,12 +133,14 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
             user_tax = await calculate_sum(user_chat_id)
             fuel_type = await get_user_fuel_type(user_chat_id)
             user_budget = await get_user_budget(user_chat_id)
+            eur_rub = await get_euro()
+            print(type(eur_rub))
 
-            if int(user_budget[0][0]) <= 200000:
+            if int(user_budget[0][0]) * eur_rub <= 200000:
                 customs_clearance = 755
-            elif 200000 < int(user_budget[0][0]) <= 450000:
+            elif 200000 < int(user_budget[0][0]) * eur_rub <= 450000:
                 customs_clearance = 1550
-            elif 450000 < int(user_budget[0][0]) <= 1200000:
+            elif 450000 < int(user_budget[0][0]) * eur_rub <= 1200000:
                 customs_clearance = 3100
             else:
                 customs_clearance = 8530
@@ -142,14 +148,19 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
             if fuel_type[0][0] != "Электро":
                 utilization = 5200
 
-                full_price = customs_clearance + utilization + user_tax + int(user_budget[0][0])
+                # full_price = customs_clearance + utilization + user_tax*eur_rub + float(user_budget[0][0])*eur_rub
+
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
-                                                             f"Таможенные сборы {user_tax} руб.\n"
+                                                             f"Таможенные сборы {float(user_tax) * eur_rub} руб.\n"
                                                              f"Таможенное оформление {customs_clearance} руб.\n\n"
-                                                             f"Полная стоимость {full_price} руб.", show_alert=True)
+                                                             f"Все таможенные расходы {utilization + float(user_tax) * eur_rub + customs_clearance} руб.\n\n"
+                                                        # f"Полная стоимость {full_price} руб.\n\n\n"
+                                                             f"Курс EUR {eur_rub} руб."
+                                                        ,
+                                                        show_alert=True)
             else:
-                utilization = 5200
+                utilization = 122000
                 nds = 20
                 posh = 15
                 user_power = await get_user_power(user_chat_id)
@@ -157,17 +168,22 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                     akciz = 55 * int(user_power[0][0])
                 else:
                     akciz = 0
-                full_price = utilization + customs_clearance + user_tax + int(user_budget[0][0]) + int(
-                    user_budget[0][0]) * 0.15 + (akciz + customs_clearance + user_tax + int(user_budget[0][0]) + int(
-                    user_budget[0][0]) * 0.20) * 0.2 + akciz
+                # full_price = utilization + customs_clearance+ user_tax + float(user_budget[0][0])*eur_rub + int(
+                #     user_budget[0][0]) * 0.15 + (akciz + customs_clearance + float(user_tax)*eur_rub + int(user_budget[0][0]) + int(
+                #     user_budget[0][0]) * 0.20) * 0.2 + akciz
+
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
-                                                             f"Таможенные сборы {user_tax} руб.\n"
+                                                        # f"Таможенные сборы {float(user_tax)*eur_rub} руб.\n"
                                                              f"Пошлина {posh}%\n"
                                                              f"Aкциз {akciz}руб\n"
                                                              f"Таможенное оформление {customs_clearance} руб.\n"
-                                                             f"НДС {nds}%\n\n"
-                                                             f"Полная стоимость {full_price} руб.", show_alert=True)
+                                                             f"НДС {nds}%\n"
+                                                             f"Все таможенные расходы {utilization + (customs_clearance + ((float(user_budget[0][0])) * eur_rub + float(user_budget[0][0]) * eur_rub * 0.15) + akciz) * 0.20} руб.\n\n"
+                                                        # f"Полная стоимость {full_price} руб.\n\n"
+                                                             f"Курс EUR {eur_rub} руб."
+                                                        ,
+                                                        show_alert=True)
         except:
             await context.bot.answer_callback_query(callback_query_id=query.id,
                                                     text=f"Не хватает данных для расчета таможенных сборов",
@@ -219,7 +235,7 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         return StartEndRoutes.hand_drive
     if text == "budget":
         await query.edit_message_text(
-            text="0руб.",
+            text="0 euro",
             reply_markup=reply_markup)
         return StartEndRoutes.budget2
 
@@ -265,7 +281,7 @@ async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await query.edit_message_text(
         text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    if opa == "руб.":
+    if opa == " euro":
         return StartEndRoutes.budget2
     else:
         return StartEndRoutes.power2
@@ -284,7 +300,7 @@ async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await query.edit_message_text(
         text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    if opa == "руб.":
+    if opa == " euro":
         return StartEndRoutes.budget
     else:
         return StartEndRoutes.power
