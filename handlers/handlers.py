@@ -152,36 +152,35 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
 
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
-                                                             f"Таможенные сборы {float(user_tax) * eur_rub} руб.\n"
-                                                             f"Таможенное оформление {customs_clearance} руб.\n\n"
-                                                             f"Все таможенные расходы {utilization + float(user_tax) * eur_rub + customs_clearance} руб.\n\n"
-                                                        # f"Полная стоимость {full_price} руб.\n\n\n"
-                                                             f"Курс EUR {eur_rub} руб."
+                                                             f"Таможенные сборы {round(float(user_tax) * eur_rub, 2)} руб.\n"
+                                                             f"Таможенное оформление {round(customs_clearance, 2)} руб.\n\n"
+                                                             f"Все таможенные расходы {round(utilization + float(user_tax) * eur_rub + customs_clearance, 2)} руб.\n\n"
+
+                                                             f"Курс EUR {round(eur_rub, 2)} руб."
                                                         ,
                                                         show_alert=True)
             else:
                 utilization = 122000
-                nds = 20
-                posh = 15
+
+                posh = float(user_budget[0][0]) * eur_rub * 0.15
+                bud_rub = (float(user_budget[0][0])) * eur_rub
                 user_power = await get_user_power(user_chat_id)
+
                 if int(user_power[0][0]) > 90:
                     akciz = 55 * int(user_power[0][0])
                 else:
                     akciz = 0
-                # full_price = utilization + customs_clearance+ user_tax + float(user_budget[0][0])*eur_rub + int(
-                #     user_budget[0][0]) * 0.15 + (akciz + customs_clearance + float(user_tax)*eur_rub + int(user_budget[0][0]) + int(
-                #     user_budget[0][0]) * 0.20) * 0.2 + akciz
+                nds = (utilization + posh + akciz) * 0.20
 
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
-                                                        # f"Таможенные сборы {float(user_tax)*eur_rub} руб.\n"
-                                                             f"Пошлина {posh}%\n"
-                                                             f"Aкциз {akciz}руб\n"
-                                                             f"Таможенное оформление {customs_clearance} руб.\n"
-                                                             f"НДС {nds}%\n"
-                                                             f"Все таможенные расходы {utilization + (customs_clearance + ((float(user_budget[0][0])) * eur_rub + float(user_budget[0][0]) * eur_rub * 0.15) + akciz) * 0.20} руб.\n\n"
-                                                        # f"Полная стоимость {full_price} руб.\n\n"
-                                                             f"Курс EUR {eur_rub} руб."
+                                                             f"Пошлина (15%) {round(posh, 2)} руб.\n"
+                                                             f"Aкциз {round(akciz, 2)}руб\n"
+                                                             f"Таможенное оформление {round(customs_clearance, 2)} руб.\n"
+                                                             f"НДС (20%) {round(nds, 2)} руб.\n\n"
+                                                             f"Все таможенные расходы {round(utilization + posh + akciz + customs_clearance + nds, 2)} руб.\n\n"
+
+                                                             f"Курс EUR {round(eur_rub, 2)} руб."
                                                         ,
                                                         show_alert=True)
         except:
