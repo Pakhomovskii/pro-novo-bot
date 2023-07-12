@@ -16,7 +16,7 @@ from database.database import (create_user, delete_user_model,
                                update_user_order_hand_drive,
                                update_user_order_model,
                                update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db,
-                               get_user_budget, get_user_fuel_type, get_user_power)
+                               get_user_budget, get_user_fuel_type, get_user_power, get_user_car_age)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
 from tax.tax import calculate_sum, get_euro
@@ -170,7 +170,10 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                     akciz = 55 * int(user_power[0][0])
                 else:
                     akciz = 0
-                nds = (utilization + posh + akciz) * 0.20
+
+                age = await get_user_car_age()
+                if age[0][0] == "меньше 3-х лет":
+                    nds = (bud_rub) * 0.50
 
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
