@@ -1,6 +1,8 @@
 import os
 import sqlite3
 
+import psycopg2
+
 try:
     DEBUG = os.environ.get('DEBUG')
 except:
@@ -8,11 +10,16 @@ except:
 
 if DEBUG == "1":
     conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
 else:
-    conn = sqlite3.connect('/data/mydatabase.db')
-
-cursor = conn.cursor()
-
+    connection = psycopg2.connect(
+        host="localhost",
+        port=5432,
+        database="pro-novo-bot",
+        user="postgres",
+        password="411652"
+    )
+    cursor = connection.cursor()
 
 async def get_user_id_from_db(user_chat_id) -> bool:
     conn.execute('BEGIN')
