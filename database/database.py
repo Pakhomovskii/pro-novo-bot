@@ -13,7 +13,7 @@ if DEBUG == "1":
     cursor = conn.cursor()
 else:
     connection = psycopg2.connect(
-        host="0.0.0.0",
+        host="localhost",
         port=5432,
         database="pro-novo-bot",
         user="postgres",
