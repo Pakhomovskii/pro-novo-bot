@@ -2,3 +2,4 @@ python-telegram-bot
 python-dotenv
 emoji
 forex-python
+psycopg2

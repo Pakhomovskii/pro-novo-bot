@@ -16,7 +16,7 @@ from database.database import (create_user, delete_user_model,
                                update_user_order_hand_drive,
                                update_user_order_model,
                                update_user_order_power, update_user_order_year, delete_user_order, get_user_id_from_db,
-                               get_user_budget, get_user_fuel_type, get_user_power, get_user_car_age)
+                               get_user_budget, get_user_fuel_type, get_user_power)
 from keyboards.keyboards import Keyboard
 from routes.routes import Routes, StartEndRoutes
 from tax.tax import calculate_sum, get_euro
@@ -128,7 +128,7 @@ def get_user_eur_rub(user_chat_id):
 async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
     query = update.callback_query
     if text == "tax":
-        try:  # TODO: make this without the exeption
+        # try:  # TODO: make this without the exeption
             user_chat_id = update.callback_query.from_user.id
             user_tax = await calculate_sum(user_chat_id)
             fuel_type = await get_user_fuel_type(user_chat_id)
@@ -171,9 +171,7 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                 else:
                     akciz = 0
 
-                age = await get_user_car_age()
-                if age[0][0] == "меньше 3-х лет":
-                    nds = (bud_rub) * 0.50
+                nds = (utilization + posh + akciz) * 0.2
 
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
@@ -186,10 +184,6 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                                                              f"Курс EUR {round(eur_rub, 2)} руб."
                                                         ,
                                                         show_alert=True)
-        except:
-            await context.bot.answer_callback_query(callback_query_id=query.id,
-                                                    text=f"Не хватает данных для расчета таможенных сборов",
-                                                    show_alert=True)
 
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
