@@ -1,0 +1,1 @@
+rsync -avz --progress -e ssh can:/var/lib/docker/volumes/pro-novo_volume/_data/mydatabase.db /home/sawkay/
