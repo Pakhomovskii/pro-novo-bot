@@ -9,7 +9,10 @@ except:
     DEBUG = "0"
 
 if DEBUG == "1":
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
 
+else:
     connection = psycopg2.connect(
         host="localhost",
         port=5432,
@@ -18,10 +21,6 @@ if DEBUG == "1":
         password="411652"
     )
     cursor = connection.cursor()
-
-else:
-    conn = sqlite3.connect('/data/mydatabase.db')
-    cursor = conn.cursor()
 
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
