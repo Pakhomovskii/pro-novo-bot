@@ -32,9 +32,9 @@ from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
                            RoutesFuel, RoutesHandDrive, RoutesModel,
                            RoutesYear, StartEndRoutes, RoutesPowerKeyboard1, RoutesPowerKeyboard2)
 
-try:
+if os.environ.get('DEBUG'):
     DEBUG = os.environ.get('DEBUG')
-except:
+else:
     DEBUG = "0"
 
 if DEBUG == "1":
