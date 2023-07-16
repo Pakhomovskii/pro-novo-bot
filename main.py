@@ -43,7 +43,7 @@ if DEBUG == "1":
 else:
     load_dotenv()
     TOKEN = os.getenv("TOKEN")
-    print("ASDDSDASDSADSA")
+    print(TOKEN)
 
 try:
     from telegram import __version_info__
