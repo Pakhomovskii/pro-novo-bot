@@ -4,7 +4,7 @@ docker rm pro-novo-bot-container
 
 docker build -t pro-novo-bot .
 
-docker run -d  --name pro-novo-bot-container docker run --add-host=database:209.38.224.54 pro-novo-bot
+docker run -d  --name pro-novo-bot-container docker run pro-novo-bot
 
 docker logs pro-novo-bot-container
 
