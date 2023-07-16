@@ -5,8 +5,10 @@ import psycopg2
 
 try:
     DEBUG = os.environ.get('DEBUG')
+    print("DEEB")
 except:
     DEBUG = "0"
+    print("MAINA")
 
 if DEBUG == "1":
     conn = sqlite3.connect('database.db')
