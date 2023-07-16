@@ -1,25 +1,28 @@
+import os
+import sqlite3
+
 import psycopg2
 
-# try:
-#     DEBUG = os.environ.get('DEBUG')
-#     print("DEEB")
-# except:
-#     DEBUG = "0"
-#     print("MAINA")
-#
-# if DEBUG == "1":
-#     conn = sqlite3.connect('database.db')
-#     cursor = conn.cursor()
-#
-# else:
-connection = psycopg2.connect(
-    host="209.38.224.54",
-    port=5432,
-    database="pro-novo-bot",
-    user="postgres",
-    password="411652"
-)
-cursor = connection.cursor()
+try:
+    DEBUG = os.environ.get('DEBUG')
+    print("DEEB")
+except:
+    DEBUG = "0"
+    print("MAINA")
+
+if DEBUG == "1":
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+else:
+    conn = psycopg2.connect(
+        host="209.38.224.54",
+        port=5432,
+        database="pro-novo-bot",
+        user="postgres",
+        password="411652"
+    )
+    cursor = conn.cursor()
 
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
