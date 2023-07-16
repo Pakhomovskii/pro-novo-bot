@@ -43,7 +43,6 @@ if DEBUG == "1":
 else:
     load_dotenv()
     TOKEN = os.getenv("TOKEN")
-    print(TOKEN)
 
 try:
     from telegram import __version_info__
@@ -59,9 +58,14 @@ if __version_info__ < (20, 0, 0, "alpha", 1):
 
 
 def main() -> None:
-    with open('database/init-database.py', 'r') as file:
-        script_code = file.read()
-        exec(script_code)
+    if DEBUG == "1":
+        with open('database/init-database_debug.py', 'r') as file:
+            script_code = file.read()
+            exec(script_code)
+    else:
+        with open('database/init-database.py', 'r') as file:
+            script_code = file.read()
+            exec(script_code)
 
     application = Application.builder().token(TOKEN).build()
 
