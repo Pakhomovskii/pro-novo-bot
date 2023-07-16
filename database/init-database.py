@@ -14,7 +14,7 @@ if DEBUG == "1":
 
 else:
     connection = psycopg2.connect(
-        host="172.17.0.1/16",
+        host="209.38.224.54",
         port=5432,
         database="pro-novo-bot",
         user="postgres",
