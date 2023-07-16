@@ -16,7 +16,7 @@ else:
     connection = psycopg2.connect(
         host="localhost",
         port=5432,
-        database="postgres",
+        database="pro-novo-bot",
         user="postgres",
         password="411652"
     )
