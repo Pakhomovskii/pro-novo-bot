@@ -52,8 +52,8 @@ async def get_user_brand(user_chat_id):
 
 async def get_user_contact(user_chat_id):
     cursor.execute('''
-        SELECT user_name FROM orders
-        WHERE user_id = %s
+        SELECT user_name FROM users
+        WHERE user_chat_id = %s
     ''', (user_chat_id,))
     # Fetch the row
     order = cursor.fetchone()
