@@ -1,5 +1,6 @@
 import asyncpg as ap
 
+
 async def create_tables():
     try:
         conn = await ap.connect(
@@ -52,9 +53,3 @@ async def create_tables():
         print("Tables created successfully!")
     except ap.PostgresError as e:
         print(f"An error occurred: {e}")
-
-
-if __name__ == "__main__":
-    import asyncio
-
-    asyncio.get_event_loop().run_until_complete(create_tables())
