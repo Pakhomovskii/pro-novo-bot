@@ -1,9 +1,8 @@
-import asyncpg
-
+import asyncpg as ap
 
 async def create_tables():
     try:
-        conn = await asyncpg.connect(
+        conn = await ap.connect(
             host="209.38.224.54",
             port=5432,
             database="pro-novo-bot",
@@ -51,7 +50,7 @@ async def create_tables():
 
         await conn.close()
         print("Tables created successfully!")
-    except asyncpg.PostgresError as e:
+    except ap.PostgresError as e:
         print(f"An error occurred: {e}")
 
 
