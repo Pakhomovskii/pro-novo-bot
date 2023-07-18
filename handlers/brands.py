@@ -10,6 +10,10 @@ async def acura(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
     return await show_specific_keyboard_to_change_order(update, context, "brand", "Acura", Keyboard.BRAND_KEYBOARD)
 
 
+async def daewoo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard_to_change_order(update, context, "brand", "Daewoo", Keyboard.BRAND_KEYBOARD)
+
+
 async def mazda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard_to_change_order(update, context, "brand", "Mazda", Keyboard.BRAND_KEYBOARD)
 

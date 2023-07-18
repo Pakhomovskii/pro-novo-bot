@@ -34,11 +34,12 @@ class Keyboard:
 
     BRAND_KEYBOARD = [
         [
-            InlineKeyboardButton("Acura", callback_data=str(RoutesBrand.acura)),
-            InlineKeyboardButton("Mazda", callback_data=str(RoutesBrand.mazda)),
-            InlineKeyboardButton("Subaru", callback_data=str(RoutesBrand.subaru)),
-            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
-        ]
+            InlineKeyboardButton("Acura", callback_data=str(RoutesBrand.acura))],
+        [InlineKeyboardButton("Daewoo", callback_data=str(RoutesBrand.daewoo))],
+        [InlineKeyboardButton("Mazda", callback_data=str(RoutesBrand.mazda))],
+        [InlineKeyboardButton("Subaru", callback_data=str(RoutesBrand.subaru))],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+         ]
     ]
 
     MODEL_KEYBOARD_ACURA = [
@@ -47,6 +48,15 @@ class Keyboard:
         [InlineKeyboardButton("TSX", callback_data=str(RoutesModel.TSX)), ],
         [InlineKeyboardButton("ZDX", callback_data=str(RoutesModel.ZDX)), ],
         [InlineKeyboardButton("ILX", callback_data=str(RoutesModel.ILX)), ],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
+    ]
+
+    MODEL_KEYBOARD_DAEWOO = [
+        [InlineKeyboardButton("nexia", callback_data=str(RoutesModel.nexia)), ],
+        [InlineKeyboardButton("matiz", callback_data=str(RoutesModel.matiz)), ],
+        [InlineKeyboardButton("gentra", callback_data=str(RoutesModel.gentra)), ],
+        [InlineKeyboardButton("lanos", callback_data=str(RoutesModel.lanos)), ],
+        [InlineKeyboardButton("winstorm", callback_data=str(RoutesModel.winstorm)), ],
         [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
     ]
 

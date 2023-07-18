@@ -8,18 +8,17 @@ class StartEndRoutes:
      model_acura,
      model_mazda,
      model_subaru,
+     model_daewoo,
      power,
      power2,
      budget,
      budget2,
      engine,
-
      drive,
      fuel_type,
      tax,
-
      ) \
-     = range(17)
+     = range(18)
 
 
 class Routes:
@@ -52,10 +51,11 @@ class Routes:
 
 class RoutesBrand:
  (acura,
+  daewoo,
   subaru,
   mazda
   ) \
-  = range(3)
+  = range(4)
 
 
 class RoutesModel:
@@ -66,8 +66,14 @@ class RoutesModel:
   ILX,
   RDX,
   TSX,
+  nexia,
+  matiz,
+  gentra,
+  lanos,
+  winstorm
+
   ) \
-  = range(7)
+  = range(12)
 
 
 class RoutesYear:

@@ -1,6 +1,8 @@
 import os
 import sqlite3
 
+import aiosqlite
+
 try:
     DEBUG = os.environ.get('DEBUG')
 except:
@@ -15,26 +17,38 @@ cursor = conn.cursor()
 
 
 async def get_user_id_from_db(user_chat_id) -> bool:
-    conn.execute('BEGIN')
-    cursor.execute('''
+    if DEBUG == "1":
+        conn2 = await aiosqlite.connect('database.db')
+    else:
+        conn2 = await aiosqlite.connect('/data/mydatabase.db')
+
+    cursor2 = await conn2.cursor()
+    await conn2.execute('BEGIN')
+    await cursor2.execute('''
             SELECT user_chat_id FROM users
             WHERE user_chat_id=?''', (user_chat_id,))
     # Fetch all the rows
-    order = cursor.fetchall()
-    conn.commit()
+    order = await cursor2.fetchall()
+    await conn2.commit()
     if order:
         return True
     return False
 
 
 async def get_user_order(user_chat_id):
-    conn.execute('BEGIN')
-    cursor.execute('''
+    if DEBUG == "1":
+        conn2 = await aiosqlite.connect('database.db')
+    else:
+        conn2 = await aiosqlite.connect('/data/mydatabase.db')
+
+    cursor2 = await conn2.cursor()
+    await conn2.execute('BEGIN')
+    await cursor2.execute('''
             SELECT brand, model, hand_drive, power, drive, engine_capacity, year, fuel_type, budget FROM orders
             WHERE user_id=?''', (user_chat_id,))
     # Fetch all the rows
-    order = cursor.fetchall()
-    conn.commit()
+    order = await cursor2.fetchall()
+    await conn2.commit()
     if order is None:
         return []
     return order
@@ -317,16 +331,23 @@ async def delete_user_model(user_chat_id=None):
 
 
 async def delete_user_temporary_budget(user_chat_id):
+    if DEBUG == "1":
+        conn2 = await aiosqlite.connect('database.db')
+    else:
+        conn2 = await aiosqlite.connect('/data/mydatabase.db')
+
+    cursor2 = await conn2.cursor()
+
     try:
-        conn.execute('BEGIN')
-        cursor.execute('''
+        await conn2.execute('BEGIN')
+        await cursor2.execute('''
             UPDATE temporary_budget
             SET budget=?
             WHERE user_id = ? and budget <> '';
         ''', ('', user_chat_id))
-        conn.commit()
+        await conn2.commit()
     except sqlite3.Error:
-        conn.rollback()
+        await conn2.rollback()
 
 
 async def show_temporary_budget(user_chat_id):

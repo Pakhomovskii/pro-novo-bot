@@ -6,7 +6,6 @@ from keyboards.keyboards import Keyboard
 
 
 async def pone(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("dddd")
     return await show_keyboard1(update, context, Keyboard.POWER_POWER_KEYBOARD, text="1", opa="л.с.")
 
 

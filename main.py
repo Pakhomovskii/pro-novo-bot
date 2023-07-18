@@ -5,7 +5,7 @@ from telegram import __version__ as TG_VER
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           ConversationHandler)
 
-from handlers.brands import mazda, subaru, acura
+from handlers.brands import mazda, subaru, acura, daewoo
 from handlers.budget_keyboards import (eight, eight2, five, five2, four, four2,
                                        nine, nine2, one, one2, seven, seven2,
                                        six, six2, three, three2, two, two2,
@@ -58,9 +58,12 @@ if __version_info__ < (20, 0, 0, "alpha", 1):
 
 
 def main() -> None:
-    with open('database/init-database.py', 'r') as file:
-        script_code = file.read()
-        exec(script_code)
+    try:
+        with open('database/init-database.py', 'r') as file:
+            script_code = file.read()
+            exec(script_code)
+    except:
+        print("cannot create db")
 
     application = Application.builder().token(TOKEN).build()
 
@@ -159,6 +162,7 @@ def main() -> None:
             ],
             StartEndRoutes.brand: [
                 CallbackQueryHandler(acura, pattern="^" + str(RoutesBrand.acura) + "$"),
+                CallbackQueryHandler(daewoo, pattern="^" + str(RoutesBrand.daewoo) + "$"),
                 CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
                 CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
@@ -170,6 +174,17 @@ def main() -> None:
                 CallbackQueryHandler(Acura.ILX, pattern="^" + str(RoutesModel.ILX) + "$"),
                 CallbackQueryHandler(Acura.RDX, pattern="^" + str(RoutesModel.RDX) + "$"),
                 CallbackQueryHandler(Acura.TSX, pattern="^" + str(RoutesModel.TSX) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
+            StartEndRoutes.model_daewoo: [
+
+                CallbackQueryHandler(Daewoo.nexia, pattern="^" + str(RoutesModel.nexia) + "$"),
+                CallbackQueryHandler(Daewoo.matiz, pattern="^" + str(RoutesModel.matiz) + "$"),
+                CallbackQueryHandler(Daewoo.gentra, pattern="^" + str(RoutesModel.gentra) + "$"),
+                CallbackQueryHandler(Daewoo.lanos, pattern="^" + str(RoutesModel.lanos) + "$"),
+                CallbackQueryHandler(Daewoo.winstorm, pattern="^" + str(RoutesModel.winstorm) + "$"),
 
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 

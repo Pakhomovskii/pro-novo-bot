@@ -121,14 +121,10 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
     return StartEndRoutes.start_route
 
 
-def get_user_eur_rub(user_chat_id):
-    pass
-
-
 async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=None):
     query = update.callback_query
     if text == "tax":
-        # try:  # TODO: make this without the exeption
+        try:  # TODO: make this without the exeption
             user_chat_id = update.callback_query.from_user.id
             user_tax = await calculate_sum(user_chat_id)
             fuel_type = await get_user_fuel_type(user_chat_id)
@@ -148,8 +144,6 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
             if fuel_type[0][0] != "Электро":
                 utilization = 5200
 
-                # full_price = customs_clearance + utilization + user_tax*eur_rub + float(user_budget[0][0])*eur_rub
-
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
                                                              f"Таможенные сборы {round(float(user_tax) * eur_rub, 2)} руб.\n"
@@ -163,7 +157,6 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                 utilization = 122000
 
                 posh = float(user_budget[0][0]) * eur_rub * 0.15
-                bud_rub = (float(user_budget[0][0])) * eur_rub
                 user_power = await get_user_power(user_chat_id)
 
                 if int(user_power[0][0]) > 90:
@@ -184,6 +177,10 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                                                              f"Курс EUR {round(eur_rub, 2)} руб."
                                                         ,
                                                         show_alert=True)
+        except:
+            await context.bot.answer_callback_query(callback_query_id=query.id,
+                                                    text=f"Не хватает данных для расчета таможенных сборов",
+                                                    show_alert=True)
 
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
@@ -220,6 +217,9 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "model_acura":
         await query.edit_message_text(text="Модели Acura", reply_markup=reply_markup)
         return StartEndRoutes.model_acura
+    if text == "model_daewoo":
+        await query.edit_message_text(text="Модели Daewoo", reply_markup=reply_markup)
+        return StartEndRoutes.model_daewoo
     if text == "model_subaru":
         await query.edit_message_text(text="Модели Subaru", reply_markup=reply_markup)
         return StartEndRoutes.model_subaru
@@ -372,6 +372,8 @@ async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
 
     if brand_user[0][0] == "Acura":
         return await show_specific_keyboard(update, context, "model_acura", Keyboard.MODEL_KEYBOARD_ACURA)
+    if brand_user[0][0] == "Daewoo":
+        return await show_specific_keyboard(update, context, "model_daewoo", Keyboard.MODEL_KEYBOARD_DAEWOO)
     if brand_user[0][0] == "Mazda":
         return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
     if brand_user[0][0] == "Subaru":

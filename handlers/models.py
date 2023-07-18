@@ -29,7 +29,26 @@ class Acura:
 
 
 class Daewoo:
-    pass
+    async def nexia(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", " nexia",
+                                                            Keyboard.MODEL_KEYBOARD_DAEWOO)
+
+    async def matiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", " matiz",
+                                                            Keyboard.MODEL_KEYBOARD_DAEWOO)
+
+    async def gentra(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", " gentra",
+                                                            Keyboard.MODEL_KEYBOARD_DAEWOO)
+
+    async def lanos(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", " lanos",
+
+                                                            Keyboard.MODEL_KEYBOARD_DAEWOO)
+
+    async def winstorm(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", " winstorm",
+                                                            Keyboard.MODEL_KEYBOARD_DAEWOO)
 
 
 class Datsun:
