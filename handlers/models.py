@@ -62,11 +62,47 @@ class Datsun:
 
 
 class Genesis:
-    pass
+    async def g70(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "G70",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def g80(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "G80",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def g90(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "G90",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def gv70(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "GV70",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def gv80(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "GV80",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
 
 
 class Honda:
-    pass
+    async def fit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "fit",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def freed(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "freed",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def cr_v(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "cr_v",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def accord(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "accord",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
+
+    async def vezel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "vezel",
+                                                            Keyboard.MODEL_KEYBOARD_GENESIS)
 
 
 class Hyundai:

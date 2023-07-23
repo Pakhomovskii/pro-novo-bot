@@ -5,7 +5,7 @@ from telegram import __version__ as TG_VER
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           ConversationHandler)
 
-from handlers.brands import mazda, subaru, acura, daewoo, datsun
+from handlers.brands import mazda, subaru, acura, daewoo, datsun, genesis, honda
 from handlers.budget_keyboards import (eight, eight2, five, five2, four, four2,
                                        nine, nine2, one, one2, seven, seven2,
                                        six, six2, three, three2, two, two2,
@@ -23,7 +23,7 @@ from handlers.handlers import (aplay_new_budget, aplay_new_budget2, brand,
                                budget, drive, engine, hand_drive, model, power,
                                send, start, start_over, year, fuel_type, delete, aplay_new_power, aplay_new_power2,
                                start_over2)
-from handlers.models import Mazda, Subaru, Daewoo, Acura, Datsun
+from handlers.models import Mazda, Subaru, Daewoo, Acura, Datsun, Genesis, Honda
 from handlers.power_keyboard import (pone2, pone, ptwo, pthree, pfive, pfour,
                                      psix, pseven, peight, pnine, pzero, pseven2,
                                      pfive2, pfour2, pthree2, ptwo2,
@@ -163,6 +163,8 @@ def main() -> None:
                 CallbackQueryHandler(acura, pattern="^" + str(RoutesBrand.acura) + "$"),
                 CallbackQueryHandler(daewoo, pattern="^" + str(RoutesBrand.daewoo) + "$"),
                 CallbackQueryHandler(datsun, pattern="^" + str(RoutesBrand.datsun) + "$"),
+                CallbackQueryHandler(genesis, pattern="^" + str(RoutesBrand.genesis) + "$"),
+                CallbackQueryHandler(honda, pattern="^" + str(RoutesBrand.honda) + "$"),
                 CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
                 CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
@@ -193,6 +195,30 @@ def main() -> None:
 
                 CallbackQueryHandler(Datsun.mi_do, pattern="^" + str(RoutesModel.mi_do) + "$"),
                 CallbackQueryHandler(Datsun.on_do, pattern="^" + str(RoutesModel.on_do) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
+
+            StartEndRoutes.model_genesis: [
+
+                CallbackQueryHandler(Genesis.g70, pattern="^" + str(RoutesModel.g70) + "$"),
+                CallbackQueryHandler(Genesis.g80, pattern="^" + str(RoutesModel.g80) + "$"),
+                CallbackQueryHandler(Genesis.g90, pattern="^" + str(RoutesModel.g90) + "$"),
+                CallbackQueryHandler(Genesis.gv70, pattern="^" + str(RoutesModel.gv70) + "$"),
+                CallbackQueryHandler(Genesis.gv80, pattern="^" + str(RoutesModel.gv80) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
+
+            StartEndRoutes.model_honda: [
+
+                CallbackQueryHandler(Honda.fit, pattern="^" + str(RoutesModel.fit) + "$"),
+                CallbackQueryHandler(Honda.cr_v, pattern="^" + str(RoutesModel.cr_v) + "$"),
+                CallbackQueryHandler(Honda.freed, pattern="^" + str(RoutesModel.freed) + "$"),
+                CallbackQueryHandler(Honda.vezel, pattern="^" + str(RoutesModel.vezel) + "$"),
+                CallbackQueryHandler(Honda.accord, pattern="^" + str(RoutesModel.accord) + "$"),
 
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 

@@ -3,7 +3,8 @@ class StartEndRoutes:
      start_route,
      brand,
      hand_drive,
-
+     budget,
+     budget2,
      year,
      model,
      model_acura,
@@ -11,15 +12,16 @@ class StartEndRoutes:
      model_subaru,
      model_daewoo,
      model_datsun,
+     model_genesis,
+     model_honda,
      power,
      power2,
      engine,
      drive,
-     budget,
-     budget2,
+
      fuel_type,
      tax) \
-     = range(19)
+     = range(21)
 
 
 # class StartSpecialRoutes:
@@ -61,9 +63,11 @@ class RoutesBrand:
   daewoo,
   subaru,
   mazda,
-  datsun
+  datsun,
+  genesis,
+  honda
   ) \
-  = range(5)
+  = range(7)
 
 
 class RoutesModel:
@@ -80,10 +84,20 @@ class RoutesModel:
   lanos,
   winstorm,
   mi_do,
-  on_do
+  on_do,
+  g70,
+  g80,
+  g90,
+  gv70,
+  gv80,
+  fit,
+  freed,
+  cr_v,
+  accord,
+  vezel
 
   ) \
-  = range(14)
+  = range(24)
 
 
 class RoutesYear:

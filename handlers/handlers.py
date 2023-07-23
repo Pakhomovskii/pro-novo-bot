@@ -231,6 +231,12 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "model_datsun":
         await query.edit_message_text(text="Модели Datsun", reply_markup=reply_markup)
         return StartEndRoutes.model_datsun
+    if text == "model_genesis":
+        await query.edit_message_text(text="Модели Genesis", reply_markup=reply_markup)
+        return StartEndRoutes.model_genesis
+    if text == "model_honda":
+        await query.edit_message_text(text="Модели Honda", reply_markup=reply_markup)
+        return StartEndRoutes.model_honda
     if text == "hand_drive":
         await query.edit_message_text(text="Руль", reply_markup=reply_markup)
         return StartEndRoutes.hand_drive
@@ -376,6 +382,10 @@ async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
         return await show_specific_keyboard(update, context, "model_daewoo", Keyboard.MODEL_KEYBOARD_DAEWOO)
     if brand_user[0][0] == "Datsun":
         return await show_specific_keyboard(update, context, "model_datsun", Keyboard.MODEL_KEYBOARD_DATSUN)
+    if brand_user[0][0] == "Genesis":
+        return await show_specific_keyboard(update, context, "model_genesis", Keyboard.MODEL_KEYBOARD_GENESIS)
+    if brand_user[0][0] == "Honda":
+        return await show_specific_keyboard(update, context, "model_honda", Keyboard.MODEL_KEYBOARD_HONDA)
     if brand_user[0][0] == "Mazda":
         return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
     if brand_user[0][0] == "Subaru":

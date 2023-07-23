@@ -63,9 +63,12 @@ class Keyboard:
     BRAND_KEYBOARD = [
         [
             InlineKeyboardButton("Acura", callback_data=str(RoutesBrand.acura))],
+        [InlineKeyboardButton("Daewoo", callback_data=str(RoutesBrand.daewoo))],
+        [InlineKeyboardButton("Datsun", callback_data=str(RoutesBrand.datsun))],
+        [InlineKeyboardButton("Genesis", callback_data=str(RoutesBrand.genesis))],
+        [InlineKeyboardButton("Honda", callback_data=str(RoutesBrand.honda))],
         [InlineKeyboardButton("Mazda", callback_data=str(RoutesBrand.mazda))],
         [InlineKeyboardButton("Subaru", callback_data=str(RoutesBrand.subaru))],
-        [InlineKeyboardButton("Datsun", callback_data=str(RoutesBrand.datsun))],
         [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back))
          ]
     ]
@@ -91,6 +94,23 @@ class Keyboard:
     MODEL_KEYBOARD_DATSUN = [
         [InlineKeyboardButton("mi_do", callback_data=str(RoutesModel.mi_do)), ],
         [InlineKeyboardButton("on_do", callback_data=str(RoutesModel.on_do)), ],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
+    ]
+
+    MODEL_KEYBOARD_GENESIS = [
+        [InlineKeyboardButton("G70", callback_data=str(RoutesModel.g70)), ],
+        [InlineKeyboardButton("G80", callback_data=str(RoutesModel.g80)), ],
+        [InlineKeyboardButton("G90", callback_data=str(RoutesModel.g90)), ],
+        [InlineKeyboardButton("GV70", callback_data=str(RoutesModel.gv70)), ],
+        [InlineKeyboardButton("GV90", callback_data=str(RoutesModel.gv80)), ],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
+    ]
+    MODEL_KEYBOARD_HONDA = [
+        [InlineKeyboardButton("fit", callback_data=str(RoutesModel.fit)), ],
+        [InlineKeyboardButton("freed", callback_data=str(RoutesModel.freed)), ],
+        [InlineKeyboardButton("cr_v", callback_data=str(RoutesModel.cr_v)), ],
+        [InlineKeyboardButton("accord", callback_data=str(RoutesModel.accord)), ],
+        [InlineKeyboardButton("vezel", callback_data=str(RoutesModel.vezel)), ],
         [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
     ]
 
