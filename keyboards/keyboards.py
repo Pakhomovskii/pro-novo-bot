@@ -32,13 +32,41 @@ class Keyboard:
          ],
     ]
 
+    MAIN_KEYBOARD2 = [
+        [
+            InlineKeyboardButton("Марка", callback_data=str(Routes.brand)),
+            InlineKeyboardButton("Модель", callback_data=str(Routes.model)),
+        ],
+        [
+            InlineKeyboardButton("Руль", callback_data=str(Routes.hand_drive)),
+            InlineKeyboardButton("Мощность ДВС", callback_data=str(Routes.power)),
+        ],
+        [
+            InlineKeyboardButton("Привод", callback_data=str(Routes.drive)),
+            InlineKeyboardButton("Объем ДВС", callback_data=str(Routes.engine)),
+        ],
+        [
+            InlineKeyboardButton("Возраст Авто", callback_data=str(Routes.year)),
+            InlineKeyboardButton("Тип топлива", callback_data=str(Routes.fuel_type)),
+        ],
+        [InlineKeyboardButton("Бюджет", callback_data=str(Routes.budget)),
+
+         InlineKeyboardButton("Обнулить анкету", callback_data=str(Routes.delete))
+         ],
+
+        [
+            InlineKeyboardButton("Отправить авто нам для подбора", callback_data=str(Routes.send)), ],
+        [InlineKeyboardButton("Расчет всех платежей", callback_data=str(Routes.tax)),
+         ],
+    ]
+
     BRAND_KEYBOARD = [
         [
             InlineKeyboardButton("Acura", callback_data=str(RoutesBrand.acura))],
-        [InlineKeyboardButton("Daewoo", callback_data=str(RoutesBrand.daewoo))],
         [InlineKeyboardButton("Mazda", callback_data=str(RoutesBrand.mazda))],
         [InlineKeyboardButton("Subaru", callback_data=str(RoutesBrand.subaru))],
-        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+        [InlineKeyboardButton("Datsun", callback_data=str(RoutesBrand.datsun))],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back))
          ]
     ]
 
@@ -57,6 +85,12 @@ class Keyboard:
         [InlineKeyboardButton("gentra", callback_data=str(RoutesModel.gentra)), ],
         [InlineKeyboardButton("lanos", callback_data=str(RoutesModel.lanos)), ],
         [InlineKeyboardButton("winstorm", callback_data=str(RoutesModel.winstorm)), ],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
+    ]
+
+    MODEL_KEYBOARD_DATSUN = [
+        [InlineKeyboardButton("mi_do", callback_data=str(RoutesModel.mi_do)), ],
+        [InlineKeyboardButton("on_do", callback_data=str(RoutesModel.on_do)), ],
         [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)), ]
     ]
 

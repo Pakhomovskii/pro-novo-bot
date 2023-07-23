@@ -73,6 +73,10 @@ async def start_over(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Star
     return await show_specific_keyboard_to_change_order(update, context, "", "", Keyboard.MAIN_KEYBOARD)
 
 
+async def start_over2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
+    return await show_specific_keyboard_to_change_order(update, context, "", "", Keyboard.MAIN_KEYBOARD2)
+
+
 async def show_specific_keyboard_to_change_order(update: Update, context: ContextTypes.DEFAULT_TYPE, key: str,
                                                  text: str,
                                                  keyboard: List[List[InlineKeyboardButton]]) -> StartEndRoutes:
@@ -99,8 +103,6 @@ async def show_specific_keyboard_to_change_order(update: Update, context: Contex
         await update_user_order_year(year=text, user_chat_id=user_chat_id)
     if key == "hand_drive":
         await update_user_order_hand_drive(hand_drive=text, user_chat_id=user_chat_id)
-    # if key == "power":
-    #     await update_user_order_power(power=text, user_chat_id=user_chat_id)
     if key == "drive":
         await update_user_order_drive(drive=text, user_chat_id=user_chat_id)
     if key == "fuel_type":
@@ -226,29 +228,27 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "model_mazda":
         await query.edit_message_text(text="Модели Mazda", reply_markup=reply_markup)
         return StartEndRoutes.model_mazda
+    if text == "model_datsun":
+        await query.edit_message_text(text="Модели Datsun", reply_markup=reply_markup)
+        return StartEndRoutes.model_datsun
     if text == "hand_drive":
         await query.edit_message_text(text="Руль", reply_markup=reply_markup)
         return StartEndRoutes.hand_drive
+    if text == "power":
+        await query.edit_message_text(text="0л.с.", reply_markup=reply_markup)
+        return StartEndRoutes.power2
+
     if text == "budget":
-        await query.edit_message_text(
-            text="0 euro",
-            reply_markup=reply_markup)
+        await query.edit_message_text(text="0euro", reply_markup=reply_markup)
         return StartEndRoutes.budget2
 
-    if text == "power":
-        await query.edit_message_text(
-            text="0л.с.",
-            reply_markup=reply_markup)
-        return StartEndRoutes.power2
     if text == "year":
         await query.edit_message_text(text="Возраст Авто", reply_markup=reply_markup)
         return StartEndRoutes.year
     if text == "engine":
         await query.edit_message_text(text="Объем ДВС в литрах", reply_markup=reply_markup)
         return StartEndRoutes.engine
-    # if text == "power":
-    #     await query.edit_message_text(text="Мощность ДВС", reply_markup=reply_markup)
-    #     return StartEndRoutes.power
+
     if text == "drive":
         await query.edit_message_text(text="Привод", reply_markup=reply_markup)
         return StartEndRoutes.drive
@@ -277,7 +277,7 @@ async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await query.edit_message_text(
         text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    if opa == " euro":
+    if opa == "euro":
         return StartEndRoutes.budget2
     else:
         return StartEndRoutes.power2
@@ -296,7 +296,7 @@ async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await query.edit_message_text(
         text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    if opa == " euro":
+    if opa == "euro":
         return StartEndRoutes.budget
     else:
         return StartEndRoutes.power
@@ -350,7 +350,7 @@ async def fuel_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Start
     return await show_specific_keyboard(update, context, "fuel_type", Keyboard.FUEL_KEYBOARD)
 
 
-async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.budget:
+async def budget(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes:
     return await show_specific_keyboard(update, context, "budget", Keyboard.BUDGET_KEYBOARD)
 
 
@@ -374,10 +374,13 @@ async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
         return await show_specific_keyboard(update, context, "model_acura", Keyboard.MODEL_KEYBOARD_ACURA)
     if brand_user[0][0] == "Daewoo":
         return await show_specific_keyboard(update, context, "model_daewoo", Keyboard.MODEL_KEYBOARD_DAEWOO)
+    if brand_user[0][0] == "Datsun":
+        return await show_specific_keyboard(update, context, "model_datsun", Keyboard.MODEL_KEYBOARD_DATSUN)
     if brand_user[0][0] == "Mazda":
         return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
     if brand_user[0][0] == "Subaru":
         return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
+
 
 
     else:

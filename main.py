@@ -5,7 +5,7 @@ from telegram import __version__ as TG_VER
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           ConversationHandler)
 
-from handlers.brands import mazda, subaru, acura, daewoo
+from handlers.brands import mazda, subaru, acura, daewoo, datsun
 from handlers.budget_keyboards import (eight, eight2, five, five2, four, four2,
                                        nine, nine2, one, one2, seven, seven2,
                                        six, six2, three, three2, two, two2,
@@ -21,10 +21,13 @@ from handlers.fuel import diesel, electro, hybrid, petrol
 from handlers.hand_drive import hand_drive_left, hand_drive_right
 from handlers.handlers import (aplay_new_budget, aplay_new_budget2, brand,
                                budget, drive, engine, hand_drive, model, power,
-                               send, start, start_over, year, fuel_type, delete, aplay_new_power, aplay_new_power2)
-from handlers.models import *
-from handlers.power_keyboard import pone2, pone, ptwo, pthree, pfive, pfour, psix, pseven, peight, pnine, pzero, \
-    pseven2, pfive2, pfour2, pthree2, ptwo2, psix2, peight2, pnine2, pzero2
+                               send, start, start_over, year, fuel_type, delete, aplay_new_power, aplay_new_power2,
+                               start_over2)
+from handlers.models import Mazda, Subaru, Daewoo, Acura, Datsun
+from handlers.power_keyboard import (pone2, pone, ptwo, pthree, pfive, pfour,
+                                     psix, pseven, peight, pnine, pzero, pseven2,
+                                     pfive2, pfour2, pthree2, ptwo2,
+                                     psix2, peight2, pnine2, pzero2)
 from handlers.tax import tax
 from handlers.year import year_3_5, year_5_7, year_less_3, year_more_7
 from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
@@ -58,12 +61,9 @@ if __version_info__ < (20, 0, 0, "alpha", 1):
 
 
 def main() -> None:
-    try:
-        with open('database/init-database.py', 'r') as file:
-            script_code = file.read()
-            exec(script_code)
-    except:
-        print("cannot create db")
+    with open('database/init-database.py', 'r') as file:
+        script_code = file.read()
+        exec(script_code)
 
     application = Application.builder().token(TOKEN).build()
 
@@ -78,8 +78,7 @@ def main() -> None:
                 CallbackQueryHandler(drive, pattern="^" + str(Routes.drive) + "$"),
                 CallbackQueryHandler(year, pattern="^" + str(Routes.year) + "$"),
                 CallbackQueryHandler(fuel_type, pattern="^" + str(Routes.fuel_type) + "$"),
-                CallbackQueryHandler(engine, pattern="^" + str(Routes.engine) + "$"
-                                     ),
+                CallbackQueryHandler(engine, pattern="^" + str(Routes.engine) + "$"),
                 CallbackQueryHandler(budget, pattern="^" + str(Routes.budget) + "$"),
                 CallbackQueryHandler(delete, pattern="^" + str(Routes.delete) + "$"),
 
@@ -115,7 +114,7 @@ def main() -> None:
                 CallbackQueryHandler(nine2, pattern="^" + str(RoutesBudgetKeyboard2.nine2) + "$"),
                 CallbackQueryHandler(zero2, pattern="^" + str(RoutesBudgetKeyboard2.zero2) + "$"),
                 CallbackQueryHandler(aplay_new_budget2, pattern="^" + str(Routes.aplay_new_budget2) + "$"),
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+                CallbackQueryHandler(start_over2, pattern="^" + str(Routes.back2) + "$"),
 
             ],
 
@@ -147,22 +146,23 @@ def main() -> None:
                 CallbackQueryHandler(pnine2, pattern="^" + str(RoutesPowerKeyboard2.pnine2) + "$"),
                 CallbackQueryHandler(pzero2, pattern="^" + str(RoutesPowerKeyboard2.pzero2) + "$"),
                 CallbackQueryHandler(aplay_new_power2, pattern="^" + str(Routes.aplay_new_power2) + "$"),
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+                CallbackQueryHandler(start_over2, pattern="^" + str(Routes.back2) + "$"),
 
             ],
 
             Routes.delete: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+                CallbackQueryHandler(start_over2, pattern="^" + str(Routes.back2) + "$"),
             ],
 
             StartEndRoutes.end_route: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back2) + "$"),
+                CallbackQueryHandler(start_over2, pattern="^" + str(Routes.back2) + "$"),
             ],
             StartEndRoutes.brand: [
                 CallbackQueryHandler(acura, pattern="^" + str(RoutesBrand.acura) + "$"),
                 CallbackQueryHandler(daewoo, pattern="^" + str(RoutesBrand.daewoo) + "$"),
+                CallbackQueryHandler(datsun, pattern="^" + str(RoutesBrand.datsun) + "$"),
                 CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
                 CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
@@ -185,6 +185,14 @@ def main() -> None:
                 CallbackQueryHandler(Daewoo.gentra, pattern="^" + str(RoutesModel.gentra) + "$"),
                 CallbackQueryHandler(Daewoo.lanos, pattern="^" + str(RoutesModel.lanos) + "$"),
                 CallbackQueryHandler(Daewoo.winstorm, pattern="^" + str(RoutesModel.winstorm) + "$"),
+
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
+            StartEndRoutes.model_datsun: [
+
+                CallbackQueryHandler(Datsun.mi_do, pattern="^" + str(RoutesModel.mi_do) + "$"),
+                CallbackQueryHandler(Datsun.on_do, pattern="^" + str(RoutesModel.on_do) + "$"),
 
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
@@ -270,19 +278,7 @@ def main() -> None:
                 CallbackQueryHandler(hand_drive_left, pattern="^" + str(RoutesHandDrive.hand_drive_left) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
             ],
-            # StartEndRoutes.power: [
-            #
-            #     CallbackQueryHandler(v_50_100, pattern="^" + str(RoutesPower.v_50_100) + "$"),
-            #     CallbackQueryHandler(v_101_150, pattern="^" + str(RoutesPower.v_101_150) + "$"),
-            #     CallbackQueryHandler(v_151_200, pattern="^" + str(RoutesPower.v_151_200) + "$"),
-            #     CallbackQueryHandler(v_201_250, pattern="^" + str(RoutesPower.v_201_250) + "$"),
-            #     CallbackQueryHandler(v_251_300, pattern="^" + str(RoutesPower.v_251_300) + "$"),
-            #     CallbackQueryHandler(v_301_350, pattern="^" + str(RoutesPower.v_301_350) + "$"),
-            #     CallbackQueryHandler(v_351_400, pattern="^" + str(RoutesPower.v_351_400) + "$"),
-            #
-            #     CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-            #
-            # ],
+
             StartEndRoutes.drive: [
 
                 CallbackQueryHandler(rear, pattern="^" + str(RoutesDrive.rear) + "$"),

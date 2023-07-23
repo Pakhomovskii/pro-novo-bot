@@ -331,23 +331,16 @@ async def delete_user_model(user_chat_id=None):
 
 
 async def delete_user_temporary_budget(user_chat_id):
-    if DEBUG == "1":
-        conn2 = await aiosqlite.connect('database.db')
-    else:
-        conn2 = await aiosqlite.connect('/data/mydatabase.db')
-
-    cursor2 = await conn2.cursor()
-
     try:
-        await conn2.execute('BEGIN')
-        await cursor2.execute('''
+        conn.execute('BEGIN')
+        cursor.execute('''
             UPDATE temporary_budget
             SET budget=?
             WHERE user_id = ? and budget <> '';
         ''', ('', user_chat_id))
-        await conn2.commit()
+        conn.commit()
     except sqlite3.Error:
-        await conn2.rollback()
+        conn.rollback()
 
 
 async def show_temporary_budget(user_chat_id):

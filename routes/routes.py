@@ -3,59 +3,67 @@ class StartEndRoutes:
      start_route,
      brand,
      hand_drive,
+
      year,
      model,
      model_acura,
      model_mazda,
      model_subaru,
      model_daewoo,
+     model_datsun,
      power,
      power2,
-     budget,
-     budget2,
      engine,
      drive,
+     budget,
+     budget2,
      fuel_type,
-     tax,
-     ) \
-     = range(18)
+     tax) \
+     = range(19)
+
+
+# class StartSpecialRoutes:
+#  (power,
+#  power2) \
+#          = range(2)
 
 
 class Routes:
-    (brand,
-     model,
-     hand_drive,
-     power,
-     power2,
-     drive,
-     year,
-     engine,
-     fuel_type,
-     budget,
-     budget2,
-     send,
-     tax,
-     delete,
-     back,
-     back2,
-     start_over,
-     start_over2,
-     update_user_order,
-     aplay_new_budget,
-     aplay_new_budget2,
-     aplay_new_power,
-     aplay_new_power2
-     ) \
-     = range(23)
+ (brand,
+  model,
+  hand_drive,
+  power,
+  power2,
+  drive,
+  year,
+  engine,
+  fuel_type,
+  budget,
+  budget2,
+  send,
+  tax,
+  delete,
+  back,
+  back2,
+  start_over,
+  start_over2,
+  update_user_order,
+  aplay_new_budget,
+  aplay_new_budget2,
+  aplay_new_power,
+  aplay_new_power2
+  ) \
+  = range(23)
 
 
 class RoutesBrand:
  (acura,
   daewoo,
   subaru,
-  mazda
+  mazda,
+  datsun
   ) \
-  = range(4)
+  = range(5)
 
 
 class RoutesModel:
@@ -70,10 +78,12 @@ class RoutesModel:
   matiz,
   gentra,
   lanos,
-  winstorm
+  winstorm,
+  mi_do,
+  on_do
 
   ) \
-  = range(12)
+  = range(14)
 
 
 class RoutesYear:
@@ -170,11 +180,11 @@ class RoutesHandDrive:
   = range(2)
 
 
-class RoutesBudget:
- (keyboard1,
-  keyboard2
-  ) \
-  = range(2)
+# class RoutesBudget:
+#     (keyboard1,
+#      keyboard2
+#      ) \
+#         = range(2)
 
 
 class RoutesBudgetKeyboard1:

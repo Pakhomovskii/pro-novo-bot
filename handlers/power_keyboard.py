@@ -46,7 +46,6 @@ async def pzero(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def pone2(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("22222dddd")
     return await show_keyboard2(update, context, Keyboard.POWER_POWER_KEYBOARD2, text="1", opa="л.с.")
 
 
