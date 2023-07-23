@@ -141,10 +141,8 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                 customs_clearance = 3100
             else:
                 customs_clearance = 8530
-
             if fuel_type[0][0] != "Электро":
                 utilization = 5200
-
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
                                                              f"Таможенные сборы {round(float(user_tax), 2)} руб.\n"
@@ -156,7 +154,6 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                                                         show_alert=True)
             else:
                 utilization = 122000
-
                 posh = float(user_budget[0][0]) * 0.15
                 user_power = await get_user_power(user_chat_id)
 
@@ -164,9 +161,7 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
                     akciz = 55 * int(user_power[0][0])
                 else:
                     akciz = 0
-
                 nds = (utilization + posh + akciz) * 0.2
-
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
                                                              f"Пошлина (15%) {round(posh, 2)} руб.\n"
@@ -182,17 +177,14 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
             await context.bot.answer_callback_query(callback_query_id=query.id,
                                                     text=f"Не хватает данных для расчета таможенных сборов",
                                                     show_alert=True)
-
     if text == "send":
         user_chat_id = update.callback_query.from_user.id
         user_tg_name = await get_user_contact(user_chat_id)
-
         if user_tg_name[0][0] is not None:
             reply_text = ""
             for row in await get_user_order(update.callback_query.from_user.id):
                 reply_text += REPLAY_TEXT_TO_SEND.format(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],
                                                          row[8])
-
             if reply_text:
                 text = "Новый заказ:\n\n" + reply_text + f"@{user_tg_name[0][0]}"
                 await context.bot.send_message(chat_id=557195190, text=text)
@@ -245,18 +237,15 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "power":
         await query.edit_message_text(text="0л.с.", reply_markup=reply_markup)
         return StartEndRoutes.power2
-
     if text == "budget":
         await query.edit_message_text(text="0руб", reply_markup=reply_markup)
         return StartEndRoutes.budget2
-
     if text == "year":
         await query.edit_message_text(text="Возраст Авто", reply_markup=reply_markup)
         return StartEndRoutes.year
     if text == "engine":
         await query.edit_message_text(text="Объем ДВС в литрах", reply_markup=reply_markup)
         return StartEndRoutes.engine
-
     if text == "drive":
         await query.edit_message_text(text="Привод", reply_markup=reply_markup)
         return StartEndRoutes.drive
@@ -268,8 +257,8 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
                                       reply_markup=reply_markup)
         user_chat_id = update.callback_query.from_user.id
         await delete_user_order(user_chat_id=user_chat_id)
-        await delete_user_order(user_chat_id=user_chat_id)
-        return Routes.delete
+
+        return Routes.start_over
     return None
 
 
@@ -395,10 +384,6 @@ async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
         return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
     if brand_user[0][0] == "Toyota":
         return await show_specific_keyboard(update, context, "model_toyota", Keyboard.MODEL_KEYBOARD_TOYOTA)
-
-
-
-
     else:
         query = update.callback_query
         await context.bot.answer_callback_query(callback_query_id=query.id,

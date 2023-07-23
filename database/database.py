@@ -3,11 +3,6 @@ import sqlite3
 
 import aiosqlite
 
-# try:
-#     DEBUG = os.environ.get('DEBUG')
-# except:
-#     DEBUG = "0"
-
 if os.environ.get('DEBUG') == "1":
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -16,7 +11,7 @@ else:
     cursor = conn.cursor()
 
 
-async def get_user_id_from_db(user_chat_id) -> bool:
+async def get_user_id_from_db(user_chat_id):
     if os.environ.get('DEBUG') == "1":
         conn2 = await aiosqlite.connect('database.db')
     else:

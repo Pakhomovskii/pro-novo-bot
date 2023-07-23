@@ -35,11 +35,6 @@ from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
                            RoutesFuel, RoutesHandDrive, RoutesModel,
                            RoutesYear, StartEndRoutes, RoutesPowerKeyboard1, RoutesPowerKeyboard2)
 
-# try:
-#     DEBUG = os.environ.get('DEBUG')
-# except:
-#     DEBUG = "0"
-
 if os.environ.get('DEBUG') == "1":
     load_dotenv()
     TOKEN = os.getenv("TOKEN_DEBUG")
@@ -152,7 +147,7 @@ def main() -> None:
 
             Routes.delete: [
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
-                CallbackQueryHandler(start_over2, pattern="^" + str(Routes.back2) + "$"),
+                # CallbackQueryHandler(start_over2, pattern="^" + str(Routes.back2) + "$"),
             ],
 
             StartEndRoutes.end_route: [
