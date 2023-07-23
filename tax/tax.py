@@ -84,10 +84,12 @@ class CarTaxCalculator:
 
 
 async def calculate_sum(user_chat_id=None):
+
     cost = await get_user_budget(user_chat_id)
     age = await get_user_car_age(user_chat_id)
     capacity = await get_user_car_engine_capacity(user_chat_id)
-    cost_int = int(cost[0][0])
+    get_euro_rate = await get_euro()
+    cost_float = float(cost[0][0]) / get_euro_rate
 
     if age[0][0] == "меньше 3-х лет":
         age_int = 2
@@ -101,11 +103,7 @@ async def calculate_sum(user_chat_id=None):
     #     age_int = None
 
     capacity_int = int(float(capacity[0][0]) * 1000)
-    print(capacity_int)
-    tax_for_new_car = CarTaxCalculator(cost=cost_int, age=age_int, power=0, capacity=capacity_int)
-    # rate = Euro(1)
-    print(int(await tax_for_new_car.calculate_tax()))
-
+    tax_for_new_car = CarTaxCalculator(cost=cost_float, age=age_int, power=0, capacity=capacity_int)
     tax = int(await tax_for_new_car.calculate_tax())
 
     return tax

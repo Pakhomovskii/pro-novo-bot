@@ -30,7 +30,7 @@ MAIN_REPLAY_TEXT = emoji.emojize(
     "🔹Объем ДВС*:            {} л.\n"
     "🔹Возраст авто*:         {}\n"
     "🔹Тип топлива*:          {}\n"
-    "🔹Стоимость*:             {} euro\n\n"
+    "🔹Стоимость*:             {} руб\n\n"
     "*Обязательные поля для расчета таможенных платежей\n\n"
     "Если бот не реагирует нажмите /start")
 REPLAY_TEXT_TO_SEND = (
@@ -132,13 +132,12 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
             fuel_type = await get_user_fuel_type(user_chat_id)
             user_budget = await get_user_budget(user_chat_id)
             eur_rub = await get_euro()
-            print(type(eur_rub))
 
-            if int(user_budget[0][0]) * eur_rub <= 200000:
+            if int(user_budget[0][0]) / eur_rub <= 200000:
                 customs_clearance = 755
-            elif 200000 < int(user_budget[0][0]) * eur_rub <= 450000:
+            elif 200000 < int(user_budget[0][0]) / eur_rub <= 450000:
                 customs_clearance = 1550
-            elif 450000 < int(user_budget[0][0]) * eur_rub <= 1200000:
+            elif 450000 < int(user_budget[0][0]) / eur_rub <= 1200000:
                 customs_clearance = 3100
             else:
                 customs_clearance = 8530
@@ -148,9 +147,9 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
 
                 await context.bot.answer_callback_query(callback_query_id=query.id,
                                                         text=f"Утилизационный сбор {utilization} руб.\n"
-                                                             f"Таможенные сборы {round(float(user_tax) * eur_rub, 2)} руб.\n"
+                                                             f"Таможенные сборы {round(float(user_tax), 2)} руб.\n"
                                                              f"Таможенное оформление {round(customs_clearance, 2)} руб.\n\n"
-                                                             f"Все таможенные расходы {round(utilization + float(user_tax) * eur_rub + customs_clearance, 2)} руб.\n\n"
+                                                             f"Все таможенные расходы {round(utilization + float(user_tax) + customs_clearance, 2)} руб.\n\n"
 
                                                              f"Курс EUR {round(eur_rub, 2)} руб."
                                                         ,
@@ -158,7 +157,7 @@ async def show_pop_up(update: Update, context: ContextTypes.DEFAULT_TYPE, text=N
             else:
                 utilization = 122000
 
-                posh = float(user_budget[0][0]) * eur_rub * 0.15
+                posh = float(user_budget[0][0]) * 0.15
                 user_power = await get_user_power(user_chat_id)
 
                 if int(user_power[0][0]) > 90:
@@ -248,7 +247,7 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
         return StartEndRoutes.power2
 
     if text == "budget":
-        await query.edit_message_text(text="0euro", reply_markup=reply_markup)
+        await query.edit_message_text(text="0руб", reply_markup=reply_markup)
         return StartEndRoutes.budget2
 
     if text == "year":
@@ -269,6 +268,7 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
                                       reply_markup=reply_markup)
         user_chat_id = update.callback_query.from_user.id
         await delete_user_order(user_chat_id=user_chat_id)
+        await delete_user_order(user_chat_id=user_chat_id)
         return Routes.delete
     return None
 
@@ -286,7 +286,7 @@ async def show_keyboard1(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await query.edit_message_text(
         text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    if opa == "euro":
+    if opa == "руб":
         return StartEndRoutes.budget2
     else:
         return StartEndRoutes.power2
@@ -305,7 +305,7 @@ async def show_keyboard2(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await query.edit_message_text(
         text=new_value[0][0] + opa, reply_markup=reply_markup
     )
-    if opa == "euro":
+    if opa == "руб":
         return StartEndRoutes.budget
     else:
         return StartEndRoutes.power

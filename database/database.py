@@ -313,7 +313,6 @@ async def delete_user_order(brand='', model='', hand_drive='', power='',
               user_chat_id))
         conn.commit()
     except sqlite3.Error:
-        print(sqlite3.Error)
         conn.rollback()
 
 
