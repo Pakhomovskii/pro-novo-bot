@@ -71,9 +71,7 @@ class RoutesBrand:
 
 
 class RoutesModel:
- (impreza,
-  cx_8,
-  MDX,
+ (MDX,
   ZDX,
   ILX,
   RDX,
@@ -94,10 +92,21 @@ class RoutesModel:
   freed,
   cr_v,
   accord,
-  vezel
+  vezel,
+  forester,
+  impreza,
+  levorg,
+  legacy,
+  outback,
+  mazda3,
+  mazda6,
+  cx_5,
+  cx_8,
+  demio,
+  axela
 
   ) \
-  = range(24)
+  = range(33)
 
 
 class RoutesYear:

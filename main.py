@@ -225,13 +225,23 @@ def main() -> None:
             ],
             StartEndRoutes.model_mazda: [
 
+                CallbackQueryHandler(Mazda.mazda3, pattern="^" + str(RoutesModel.mazda3) + "$"),
+                CallbackQueryHandler(Mazda.mazda6, pattern="^" + str(RoutesModel.mazda6) + "$"),
+                CallbackQueryHandler(Mazda.cx_5, pattern="^" + str(RoutesModel.cx_5) + "$"),
                 CallbackQueryHandler(Mazda.cx_8, pattern="^" + str(RoutesModel.cx_8) + "$"),
+                CallbackQueryHandler(Mazda.axela, pattern="^" + str(RoutesModel.axela) + "$"),
+                CallbackQueryHandler(Mazda.demio, pattern="^" + str(RoutesModel.demio) + "$"),
+
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
             ],
             StartEndRoutes.model_subaru: [
 
+                CallbackQueryHandler(Subaru.forester, pattern="^" + str(RoutesModel.forester) + "$"),
                 CallbackQueryHandler(Subaru.impreza, pattern="^" + str(RoutesModel.impreza) + "$"),
+                CallbackQueryHandler(Subaru.legacy, pattern="^" + str(RoutesModel.legacy) + "$"),
+                CallbackQueryHandler(Subaru.levorg, pattern="^" + str(RoutesModel.levorg) + "$"),
+                CallbackQueryHandler(Subaru.outback, pattern="^" + str(RoutesModel.outback) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
             ],

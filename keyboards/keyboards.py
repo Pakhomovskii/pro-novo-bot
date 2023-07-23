@@ -116,16 +116,25 @@ class Keyboard:
 
     MODEL_KEYBOARD_MAZDA = [
         [
-            InlineKeyboardButton("CX-8", callback_data=str(RoutesModel.cx_8)),
-            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
-        ]
+            InlineKeyboardButton("Mazda3", callback_data=str(RoutesModel.mazda3))],
+        [InlineKeyboardButton("Mazda6", callback_data=str(RoutesModel.mazda6))],
+        [InlineKeyboardButton("CX-5", callback_data=str(RoutesModel.cx_5))],
+        [InlineKeyboardButton("CX-8", callback_data=str(RoutesModel.cx_8))],
+        [InlineKeyboardButton("Demio", callback_data=str(RoutesModel.demio))],
+        [InlineKeyboardButton("Axela", callback_data=str(RoutesModel.axela))],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+         ]
     ]
 
     MODEL_KEYBOARD_SUBARU = [
         [
-            InlineKeyboardButton("Impreza", callback_data=str(RoutesModel.impreza)),
-            InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
-        ]
+            InlineKeyboardButton("Forester", callback_data=str(RoutesModel.forester))],
+        [InlineKeyboardButton("Impreza", callback_data=str(RoutesModel.impreza))],
+        [InlineKeyboardButton("Levorg", callback_data=str(RoutesModel.levorg))],
+        [InlineKeyboardButton("Legacy", callback_data=str(RoutesModel.legacy))],
+        [InlineKeyboardButton("Outback", callback_data=str(RoutesModel.outback))],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+         ]
     ]
 
     YEAR_KEYBOARD = [

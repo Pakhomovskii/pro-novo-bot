@@ -126,8 +126,28 @@ class Lexus:
 
 
 class Mazda:
+    async def mazda3(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "mazda3",
+                                                            Keyboard.MODEL_KEYBOARD_MAZDA)
+
+    async def mazda6(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "mazda6",
+                                                            Keyboard.MODEL_KEYBOARD_MAZDA)
+
+    async def cx_5(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "CX-5",
+                                                            Keyboard.MODEL_KEYBOARD_MAZDA)
+
     async def cx_8(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
         return await show_specific_keyboard_to_change_order(update, context, "model", "CX-8",
+                                                            Keyboard.MODEL_KEYBOARD_MAZDA)
+
+    async def demio(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "demio",
+                                                            Keyboard.MODEL_KEYBOARD_MAZDA)
+
+    async def axela(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "axela",
                                                             Keyboard.MODEL_KEYBOARD_MAZDA)
 
 
@@ -140,8 +160,24 @@ class SsangYong:
 
 
 class Subaru:
+    async def forester(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Forester",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
     async def impreza(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
         return await show_specific_keyboard_to_change_order(update, context, "model", "Impreza",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
+    async def levorg(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Levorg",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
+    async def legacy(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Legacy",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
+    async def outback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Outback",
                                                             Keyboard.MODEL_KEYBOARD_SUBARU)
 
 
