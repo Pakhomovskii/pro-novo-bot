@@ -62,13 +62,14 @@ class Keyboard:
 
     BRAND_KEYBOARD = [
         [
-            InlineKeyboardButton("Acura", callback_data=str(RoutesBrand.acura))],
-        [InlineKeyboardButton("Daewoo", callback_data=str(RoutesBrand.daewoo))],
-        [InlineKeyboardButton("Datsun", callback_data=str(RoutesBrand.datsun))],
-        [InlineKeyboardButton("Genesis", callback_data=str(RoutesBrand.genesis))],
-        [InlineKeyboardButton("Honda", callback_data=str(RoutesBrand.honda))],
-        [InlineKeyboardButton("Mazda", callback_data=str(RoutesBrand.mazda))],
-        [InlineKeyboardButton("Subaru", callback_data=str(RoutesBrand.subaru))],
+            InlineKeyboardButton("Acura", callback_data=str(RoutesBrand.acura)),
+            InlineKeyboardButton("Daewoo", callback_data=str(RoutesBrand.daewoo)),
+            InlineKeyboardButton("Datsun", callback_data=str(RoutesBrand.datsun))],
+        [InlineKeyboardButton("Genesis", callback_data=str(RoutesBrand.genesis)),
+         InlineKeyboardButton("Honda", callback_data=str(RoutesBrand.honda)),
+         InlineKeyboardButton("Mazda", callback_data=str(RoutesBrand.mazda))],
+        [InlineKeyboardButton("Subaru", callback_data=str(RoutesBrand.subaru)),
+         InlineKeyboardButton("Toyota", callback_data=str(RoutesBrand.toyota))],
         [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back))
          ]
     ]
@@ -133,6 +134,17 @@ class Keyboard:
         [InlineKeyboardButton("Levorg", callback_data=str(RoutesModel.levorg))],
         [InlineKeyboardButton("Legacy", callback_data=str(RoutesModel.legacy))],
         [InlineKeyboardButton("Outback", callback_data=str(RoutesModel.outback))],
+        [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
+         ]
+    ]
+
+    MODEL_KEYBOARD_TOYOTA = [
+        [
+            InlineKeyboardButton("Camry", callback_data=str(RoutesModel.camry))],
+        [InlineKeyboardButton("Corolla", callback_data=str(RoutesModel.corolla))],
+        [InlineKeyboardButton("Land Cruiser Prado", callback_data=str(RoutesModel.prado))],
+        [InlineKeyboardButton("RAV4", callback_data=str(RoutesModel.rav4))],
+        [InlineKeyboardButton("Land Cruiser", callback_data=str(RoutesModel.land_cruiser))],
         [InlineKeyboardButton("<---Назад", callback_data=str(Routes.back)),
          ]
     ]

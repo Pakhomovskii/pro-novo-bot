@@ -14,20 +14,14 @@ class StartEndRoutes:
      model_datsun,
      model_genesis,
      model_honda,
+     model_toyota,
      power,
      power2,
      engine,
      drive,
-
      fuel_type,
      tax) \
-     = range(21)
-
-
-# class StartSpecialRoutes:
-#  (power,
-#  power2) \
-#          = range(2)
+        = range(22)
 
 
 class Routes:
@@ -59,15 +53,16 @@ class Routes:
 
 
 class RoutesBrand:
- (acura,
-  daewoo,
-  subaru,
-  mazda,
-  datsun,
-  genesis,
-  honda
-  ) \
-  = range(7)
+    (acura,
+     daewoo,
+     subaru,
+     mazda,
+     datsun,
+     genesis,
+     honda,
+     toyota
+     ) \
+        = range(8)
 
 
 class RoutesModel:
@@ -103,10 +98,15 @@ class RoutesModel:
   cx_5,
   cx_8,
   demio,
-  axela
+  axela,
+  camry,
+  corolla,
+  prado,
+  rav4,
+  land_cruiser
 
   ) \
-  = range(33)
+     = range(38)
 
 
 class RoutesYear:
@@ -201,13 +201,6 @@ class RoutesHandDrive:
  (hand_drive_right,
   hand_drive_left) \
   = range(2)
-
-
-# class RoutesBudget:
-#     (keyboard1,
-#      keyboard2
-#      ) \
-#         = range(2)
 
 
 class RoutesBudgetKeyboard1:

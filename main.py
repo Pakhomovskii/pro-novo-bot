@@ -5,7 +5,7 @@ from telegram import __version__ as TG_VER
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           ConversationHandler)
 
-from handlers.brands import mazda, subaru, acura, daewoo, datsun, genesis, honda
+from handlers.brands import mazda, subaru, acura, daewoo, datsun, genesis, honda, toyota
 from handlers.budget_keyboards import (eight, eight2, five, five2, four, four2,
                                        nine, nine2, one, one2, seven, seven2,
                                        six, six2, three, three2, two, two2,
@@ -23,7 +23,7 @@ from handlers.handlers import (aplay_new_budget, aplay_new_budget2, brand,
                                budget, drive, engine, hand_drive, model, power,
                                send, start, start_over, year, fuel_type, delete, aplay_new_power, aplay_new_power2,
                                start_over2)
-from handlers.models import Mazda, Subaru, Daewoo, Acura, Datsun, Genesis, Honda
+from handlers.models import Mazda, Subaru, Daewoo, Acura, Datsun, Genesis, Honda, Toyota
 from handlers.power_keyboard import (pone2, pone, ptwo, pthree, pfive, pfour,
                                      psix, pseven, peight, pnine, pzero, pseven2,
                                      pfive2, pfour2, pthree2, ptwo2,
@@ -35,12 +35,12 @@ from routes.routes import (Routes, RoutesBrand, RoutesBudgetKeyboard1,
                            RoutesFuel, RoutesHandDrive, RoutesModel,
                            RoutesYear, StartEndRoutes, RoutesPowerKeyboard1, RoutesPowerKeyboard2)
 
-try:
-    DEBUG = os.environ.get('DEBUG')
-except:
-    DEBUG = "0"
+# try:
+#     DEBUG = os.environ.get('DEBUG')
+# except:
+#     DEBUG = "0"
 
-if DEBUG == "1":
+if os.environ.get('DEBUG') == "1":
     load_dotenv()
     TOKEN = os.getenv("TOKEN_DEBUG")
 else:
@@ -167,6 +167,7 @@ def main() -> None:
                 CallbackQueryHandler(honda, pattern="^" + str(RoutesBrand.honda) + "$"),
                 CallbackQueryHandler(mazda, pattern="^" + str(RoutesBrand.mazda) + "$"),
                 CallbackQueryHandler(subaru, pattern="^" + str(RoutesBrand.subaru) + "$"),
+                CallbackQueryHandler(toyota, pattern="^" + str(RoutesBrand.toyota) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
             ],
             StartEndRoutes.model_acura: [
@@ -242,6 +243,17 @@ def main() -> None:
                 CallbackQueryHandler(Subaru.legacy, pattern="^" + str(RoutesModel.legacy) + "$"),
                 CallbackQueryHandler(Subaru.levorg, pattern="^" + str(RoutesModel.levorg) + "$"),
                 CallbackQueryHandler(Subaru.outback, pattern="^" + str(RoutesModel.outback) + "$"),
+                CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
+
+            ],
+
+            StartEndRoutes.model_toyota: [
+
+                CallbackQueryHandler(Toyota.camry, pattern="^" + str(RoutesModel.camry) + "$"),
+                CallbackQueryHandler(Toyota.corolla, pattern="^" + str(RoutesModel.corolla) + "$"),
+                CallbackQueryHandler(Toyota.prado, pattern="^" + str(RoutesModel.prado) + "$"),
+                CallbackQueryHandler(Toyota.rav4, pattern="^" + str(RoutesModel.rav4) + "$"),
+                CallbackQueryHandler(Toyota.land_cruiser, pattern="^" + str(RoutesModel.land_cruiser) + "$"),
                 CallbackQueryHandler(start_over, pattern="^" + str(Routes.back) + "$"),
 
             ],

@@ -237,6 +237,9 @@ async def show_specific_keyboard(update: Update, context: ContextTypes.DEFAULT_T
     if text == "model_honda":
         await query.edit_message_text(text="Модели Honda", reply_markup=reply_markup)
         return StartEndRoutes.model_honda
+    if text == "model_toyota":
+        await query.edit_message_text(text="Модели Toyota", reply_markup=reply_markup)
+        return StartEndRoutes.model_toyota
     if text == "hand_drive":
         await query.edit_message_text(text="Руль", reply_markup=reply_markup)
         return StartEndRoutes.hand_drive
@@ -390,6 +393,9 @@ async def model(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndR
         return await show_specific_keyboard(update, context, "model_mazda", Keyboard.MODEL_KEYBOARD_MAZDA)
     if brand_user[0][0] == "Subaru":
         return await show_specific_keyboard(update, context, "model_subaru", Keyboard.MODEL_KEYBOARD_SUBARU)
+    if brand_user[0][0] == "Toyota":
+        return await show_specific_keyboard(update, context, "model_toyota", Keyboard.MODEL_KEYBOARD_TOYOTA)
+
 
 
 

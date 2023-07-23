@@ -186,4 +186,22 @@ class Suzuki:
 
 
 class Toyota:
-    pass
+    async def camry(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Camry",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
+    async def corolla(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Corolla",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
+    async def prado(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Land Cruiser Prado",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
+    async def rav4(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "RAV4",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)
+
+    async def land_cruiser(update: Update, context: ContextTypes.DEFAULT_TYPE) -> StartEndRoutes.model:
+        return await show_specific_keyboard_to_change_order(update, context, "model", "Land Cruiser",
+                                                            Keyboard.MODEL_KEYBOARD_SUBARU)

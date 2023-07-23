@@ -1,12 +1,12 @@
 import os
 import sqlite3
 
-try:
-    DEBUG = os.environ.get('DEBUG')
-except:
-    DEBUG = "0"
+# try:
+#     DEBUG = os.environ.get('DEBUG')
+# except:
+#     DEBUG = "0"
 
-if DEBUG == "1":
+if os.environ.get('DEBUG') == "1":
     conn = sqlite3.connect('database.db')
 else:
     conn = sqlite3.connect('/data/mydatabase.db')
