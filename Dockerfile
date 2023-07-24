@@ -6,8 +6,8 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN sudo pip  pip install install python-dev-tools
-RUN sudo pip install --no-cache-dir -r requirements.txt
+RUN pip install install python-dev-tools
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
