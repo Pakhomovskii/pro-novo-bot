@@ -14,4 +14,4 @@ What is planned for the future:
 
 - Dynamic analysis of car auctions and changing keyboards based on the current list of cars at the auction.
 
-try it here https://t.me/pro_novo_auto_bot
+
